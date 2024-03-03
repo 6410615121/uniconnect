@@ -29,14 +29,16 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Main" component={BottomTabNavigator} options={({ navigation }) => ({
-        headerTitle: () => <View></View>,
-        headerLeft: () => <Button title='Profile' onPress={() => navigation.navigate('ProfileStack')} />,
-        headerRight: () => 
-          <View style={{flexDirection:'row'}}>
-            <Button title='Bell' onPress={() => navigation.navigate('NotificationsStack')}/>
-            <Button title='Settings' onPress={() => navigation.navigate('SettingsStack')}/>
-          </View>
+        <Stack.Screen name="Main" 
+        component={BottomTabNavigator} 
+        options={({ navigation }) => ({
+          headerTitle: () => <View></View>,
+          headerLeft: () => <Button title='Profile' onPress={() => navigation.navigate('ProfileStack')} />,
+          headerRight: () => 
+            <View style={{flexDirection:'row'}}>
+              <Button title='Bell' onPress={() => navigation.navigate('NotificationsStack')}/>
+              <Button title='Settings' onPress={() => navigation.navigate('SettingsStack')}/>
+            </View>
       })}/>
         <Stack.Screen name="ProfileStack" component={ProfileScreen}/>
         <Stack.Screen name="NotificationsStack" component={NotificationsScreen} />
