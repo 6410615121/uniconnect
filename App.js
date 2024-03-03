@@ -1,16 +1,18 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
-import HomeScreen from './components/HomeScreen';
-import ProfileScreen from './components/ProfileScreen';
-import NotificationsScreen from './components/NotificationsScreen';
-import SettingsScreen from './components/SettingsScreen';
-import CoursesScreen from './components/CoursesScreen';
-import ForumsScreen from './components/ForumsScreen';
+import { Button, Text, View } from 'react-native';
 
-
+import {
+  CoursesScreen, 
+  ForumsScreen, 
+  HomeScreen, 
+  NotificationsScreen, 
+  ProfileScreen, 
+  SettingsScreen
+} from './components/Screens/Screens.js'
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -27,8 +29,16 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Main" component={BottomTabNavigator} />
-        <Stack.Screen name="ProfileStack" component={ProfileScreen} />
+        <Stack.Screen name="Main" component={BottomTabNavigator} options={({ navigation }) => ({
+        headerTitle: () => <View></View>,
+        headerLeft: () => <Button title='Profile' onPress={() => navigation.navigate('ProfileStack')} />,
+        headerRight: () => 
+          <View style={{flexDirection:'row'}}>
+            <Button title='Bell' onPress={() => navigation.navigate('NotificationsStack')}/>
+            <Button title='Settings' onPress={() => navigation.navigate('SettingsStack')}/>
+          </View>
+      })}/>
+        <Stack.Screen name="ProfileStack" component={ProfileScreen}/>
         <Stack.Screen name="NotificationsStack" component={NotificationsScreen} />
         <Stack.Screen name="SettingsStack" component={SettingsScreen} />
       </Stack.Navigator>
