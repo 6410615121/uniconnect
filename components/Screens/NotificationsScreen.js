@@ -5,6 +5,6 @@ export default function NotificationsScreen() {
   return (
     <View>
       <Text>NotificationsScreen</Text>
-    </View>
+    </View>  
   )
 }
