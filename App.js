@@ -2,9 +2,8 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-
-import { Button, Text, View } from 'react-native';
-
+import { Button, Text, View, TouchableOpacity, Image} from 'react-native';
+import {icons} from './style/icon.js'
 import {
   CoursesScreen, 
   ForumsScreen, 
@@ -19,9 +18,15 @@ const BottomTab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => (
   <BottomTab.Navigator screenOptions={{headerShown: false}}>
-    <BottomTab.Screen name="Home" component={HomeScreen} />
-    <BottomTab.Screen name="Courses" component={CoursesScreen} />
-    <BottomTab.Screen name="Forums" component={ForumsScreen} />
+    <BottomTab.Screen name="Home" component={HomeScreen} options={{tabBarIcon: () => (
+            <Image source={require('./icon/home-icon.png')}/>
+          ),}}/>
+    <BottomTab.Screen name="Courses" component={CoursesScreen} options={{tabBarIcon: () => (
+            <Image source={require('./icon/course-icon.png')}/>
+          ),}}/>
+    <BottomTab.Screen name="Forums" component={ForumsScreen} options={{tabBarIcon: () => (
+            <Image source={require('./icon/forum-icon.png')}/>
+          ),}}/>
   </BottomTab.Navigator>
 );
 
@@ -33,11 +38,26 @@ export default function App() {
         component={BottomTabNavigator} 
         options={({ navigation }) => ({
           headerTitle: () => <View></View>,
-          headerLeft: () => <Button title='Profile' onPress={() => navigation.navigate('ProfileStack')} />,
+          headerLeft: () => <TouchableOpacity  onPress={() => navigation.navigate('ProfileStack')}>
+            <Image
+                  source={require('./icon/default-profile-icon.png')} // path to image
+                  style={icons.profile_icon}
+            />  
+          </TouchableOpacity>,
           headerRight: () => 
             <View style={{flexDirection:'row'}}>
-              <Button title='Bell' onPress={() => navigation.navigate('NotificationsStack')}/>
-              <Button title='Settings' onPress={() => navigation.navigate('SettingsStack')}/>
+              <TouchableOpacity  onPress={() => navigation.navigate('NotificationsStack')}>
+                <Image
+                  source={require('./icon/bell-icon.png')} // path to image
+                  style={icons.bell_icon}
+                />  
+              </TouchableOpacity>
+              <TouchableOpacity  onPress={() => navigation.navigate('SettingsStack')}>
+                <Image
+                  source={require('./icon/setting-icon.png')} // path to image
+                  style={icons.setting_icon}
+                />  
+              </TouchableOpacity>
             </View>
       })}/>
         <Stack.Screen name="ProfileStack" component={ProfileScreen}/>
@@ -47,3 +67,5 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+export {BottomTabNavigator}
