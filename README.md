@@ -1,2 +1,2 @@
-1. npm install or npx expo install
+1. npm install
 2. npm run android
