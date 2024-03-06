@@ -1,14 +1,13 @@
 import React from "react";
-import { Dimensions, Text, View } from 'react-native';
+import { Dimensions, SafeAreaView, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 
 
-
-export default function HomeScreen() {
+function CarouselNews(){
   const width = Dimensions.get('window').width*0.8;
 
   return (
-      <View style={{ flex: 1 , alignItems: 'center'}}>
+      <View style={{alignItems: 'center'}}>
           <Carousel
               loop
               width={width}
@@ -33,3 +32,29 @@ export default function HomeScreen() {
       </View>
   );
 }
+
+function Feeds(){
+  return( 
+    <View style={{backgroundColor:'gray',width: '80%', height: 300, alignSelf: 'center', marginBottom:30}}>
+      <Text></Text>
+    </View>
+  );
+}
+
+
+export default function HomeScreen() {
+  return(
+    <View style={{flex: 1, flexDirection: "column", justifyContent: "space-between", padding: '1%'}}>
+      <View>
+        <Text>News</Text>
+        <CarouselNews />
+      </View>
+      
+      <View>
+        <Text>Popular</Text>
+        <Feeds/>
+      </View>
+    </View>
+  );
+}
+
