@@ -23,7 +23,8 @@
     "react-native-screens": "~3.22.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@wixc3/react-board": "^2.4.0"
   },
   "private": true
 }

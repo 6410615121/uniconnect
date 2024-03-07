@@ -11,7 +11,8 @@ import {
   HomeScreen, 
   NotificationsScreen, 
   ProfileScreen, 
-  SettingsScreen
+  SettingsScreen,
+  CourseDetailScreen
 } from './components/Screens/Screens.js'
 
 const Stack = createStackNavigator();
@@ -64,6 +65,7 @@ export default function App() {
         <Stack.Screen name="ProfileStack" component={ProfileScreen}/>
         <Stack.Screen name="NotificationsStack" component={NotificationsScreen} />
         <Stack.Screen name="SettingsStack" component={SettingsScreen} />
+        <Stack.Screen name="CourseDetail" component={CourseDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
