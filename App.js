@@ -2,11 +2,9 @@ import 'react-native-gesture-handler'
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { Button, Text, View, TouchableOpacity, Image} from 'react-native';
 import {icons} from './style/icon.js'
 import { NavigationContainer} from '@react-navigation/native';
-import { Button, Text, View } from 'react-native';
+import { Button, Text, View,TouchableOpacity,Image} from 'react-native';
 import {
   CoursesScreen, 
   ForumsScreen, 
