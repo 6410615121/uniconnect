@@ -1,15 +1,19 @@
-# Prerequisite
-1. node.js
-2. emulator(Android Studio is recommended)
+# Prerequisites
+1. [node.js](https://nodejs.org/)
+2. Emulator (Android Studio is recommended)
 
 # Setup
-1. clone this repo
-2. change directory to directory that has App.js
-3. run command `npm install`
-4. open your emulator
-5. run command `npm run android`
+1. Clone this repository.
+2. Navigate to the directory containing `App.js`.
+3. Run the following command to install dependencies:
+    ```
+    npm install
+    ```
+4. Open your emulator.
+5. Run the following command to start the Android app:
+    ```
+    npm run android
+    ```
 
-After running `npm run android` you should see the mobile and the app appears in your desktop screen.
-If mobile app doesn't show up, Navigate to 'Expo Go' in the emulator and enter path to app shown on command line
-after you run the command `npm run android`.
+After running `npm run android`, the mobile app should appear on your desktop screen. If the app doesn't show up, navigate to 'Expo Go' in the emulator and enter the path to the app as shown in the command line output.
 
