@@ -17,6 +17,6 @@
 
 After running `npm run android`, the mobile app should appear on your desktop screen. If the app doesn't show up, navigate to 'Expo Go' in the emulator and enter the path to the app as shown in the command line output.
 
-visit [Setting up the development environment](https://reactnative.dev/docs/environment-setup) for more information
-which you may need to install Android studio
+visit [Setting up the development environment](https://reactnative.dev/docs/environment-setup) for more information.
+It also include the instructions for installing Android Studio.
 
