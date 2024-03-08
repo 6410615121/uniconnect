@@ -4,12 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 import coursesData from '../../test.json'; // Import the JSON data directly for testing fetch json from api
 import { styles } from '../../style/styles_course.js';
 
-const Courses = () => {
+const Courses = (props) => {
   const navigation = useNavigation(); // Use useNavigation hook to get the navigation object
 
   const handleCoursePress = (course) => {
     // Navigate to the CourseDetailScreen and pass the course object as a parameter
-    navigation.navigate('CourseDetail', { course });
+    props.navigation.navigate('CourseDetail', { course });
   };
 
   return (

@@ -1,49 +1,64 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { styles } from '../../style/styles_coursedetail.js';
+
+const Reviews = ({ course }) => {
+  return(
+    <View style={styles.container}>
+      <Text style={styles.title}>reviews {course.title}</Text>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.label}>Description:</Text>
+        <Text style={styles.value}>{course.description}</Text>
+      </View>
+    </View>
+  );
+}
+
+const Sheets = ({ course }) => {
+  return(
+    <View style={styles.container}>
+      <Text style={styles.title}>sheets {course.title}</Text>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.label}>Description:</Text>
+        <Text style={styles.value}>{course.description}</Text>
+      </View>
+    </View>
+  );
+}
+
+const Exam = ({ course }) => {
+  return(
+    <View style={styles.container}>
+      <Text style={styles.title}>exam {course.title}</Text>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.label}>Description:</Text>
+        <Text style={styles.value}>{course.description}</Text>
+      </View>
+    </View>
+  );
+}
 
 const CourseDetailScreen = ({ route }) => {
   // Extract the course details from the route params
   const { course } = route.params;
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{course.title}</Text>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.label}>Description:</Text>
-        <Text style={styles.value}>{course.description}</Text>
-      </View>
-      {/* Add more details as needed */}
-    </View>
-  );
+  // Now you can access the course object
+  
+  if(route.name == "reviews"){
+    return (
+      <Reviews course={course} />
+    );
+  }else if (route.name == "sheets"){
+    return (
+      <Sheets course={course} />
+    );
+  }else{
+    return (
+      <Exam course={course} />
+    );
+  }
+
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#f5f5f5', // Light gray background color
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333', // Dark gray text color
-  },
-  detailsContainer: {
-    flexDirection: 'row',
-    marginBottom: 10,
-  },
-  label: {
-    fontWeight: 'bold',
-    marginRight: 5,
-    color: '#666', // Medium gray text color
-  },
-  value: {
-    flex: 1,
-    color: '#444', // Dark gray text color
-  },
-});
 
 export default CourseDetailScreen;

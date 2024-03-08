@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler'
 import React from 'react';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import {icons} from './style/icon.js'
@@ -17,7 +18,7 @@ import {
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
-
+const TopTab = createMaterialTopTabNavigator();
 const BottomTabNavigator = () => (
   <BottomTab.Navigator screenOptions={{headerShown: false}}>
     <BottomTab.Screen name="Home" component={HomeScreen} options={{tabBarIcon: () => (
@@ -31,6 +32,19 @@ const BottomTabNavigator = () => (
           ),}}/>
   </BottomTab.Navigator>
 );
+
+const TopTabcourse = ({ route }) => {
+  const { course } = route.params;
+  return(
+  <TopTab.Navigator screenOptions={{headerShown: false}}>
+    <TopTab.Screen name="reviews" component={CourseDetailScreen} initialParams={{ course }} />
+    <TopTab.Screen name="sheets" component={CourseDetailScreen} initialParams={{ course }} />
+    <TopTab.Screen name="exam" component={CourseDetailScreen} initialParams={{ course }} />
+  </TopTab.Navigator>
+  );
+  };
+
+
 
 export default function App() {
   return (
@@ -65,7 +79,8 @@ export default function App() {
         <Stack.Screen name="ProfileStack" component={ProfileScreen}/>
         <Stack.Screen name="NotificationsStack" component={NotificationsScreen} />
         <Stack.Screen name="SettingsStack" component={SettingsScreen} />
-        <Stack.Screen name="CourseDetail" component={CourseDetailScreen} />
+        <Stack.Screen name="CourseDetail" component={TopTabcourse} options={({ navigation }) => ({
+          headerTitle: () => <View></View>})}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
