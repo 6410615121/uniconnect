@@ -3,77 +3,227 @@
     {
       "id": 1,
       "title": "Course 1",
-      "description": "Description of Course 1"
+      "description": "Description of Course 1",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 2,
       "title": "Course 2",
-      "description": "Description of Course 2"
+      "description": "Description of Course 2",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 3,
       "title": "Course 3",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 4,
       "title": "Course 4",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 5,
       "title": "Course 5",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 6,
       "title": "Course 6",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 7,
       "title": "Course 7",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 8,
       "title": "Course 8",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 9,
       "title": "Course 9",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 10,
       "title": "Course 10",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 11,
       "title": "Course 11",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 12,
       "title": "Course 12",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 13,
       "title": "Course 13",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 14,
       "title": "Course 14",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     },
     {
       "id": 15,
       "title": "Course 15",
-      "description": "Description of Course 3"
+      "description": "Description of Course 3",
+      "sheets": [
+          "sheets1.pdf",
+          "sheets2.pdf",
+          "sheets3.pdf"
+      ],
+      "exam": [
+        "exam1.pdf",
+        "exam2.pdf",
+        "exam3.pdf"
+      ]
     }
   ]
 }  

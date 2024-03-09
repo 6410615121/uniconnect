@@ -18,22 +18,25 @@ const Sheets = ({ course }) => {
   return(
     <View style={styles.container}>
       <Text style={styles.title}>sheets {course.title}</Text>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.label}>Description:</Text>
-        <Text style={styles.value}>{course.description}</Text>
-      </View>
+      {course.sheets.map((sheetfile,index) => (
+        <View style={styles.filebox}>
+          <Text key={`${course.id}_${index}`} style={styles.label}>{sheetfile}:</Text>
+        </View>
+      ))}
     </View>
   );
 }
 
 const Exam = ({ course }) => {
+  console.log(course);
   return(
     <View style={styles.container}>
       <Text style={styles.title}>exam {course.title}</Text>
-      <View style={styles.detailsContainer}>
-        <Text style={styles.label}>Description:</Text>
-        <Text style={styles.value}>{course.description}</Text>
-      </View>
+      {course.exam.map((examfile,index) => (
+        <View style={styles.filebox}>
+          <Text key={`${course.id}_${index}`} style={styles.label}>{examfile}:</Text>
+        </View>
+      ))}
     </View>
   );
 }
@@ -41,7 +44,6 @@ const Exam = ({ course }) => {
 const CourseDetailScreen = ({ route }) => {
   // Extract the course details from the route params
   const { course } = route.params;
-
   // Now you can access the course object
   
   if(route.name == "reviews"){

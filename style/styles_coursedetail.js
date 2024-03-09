@@ -18,6 +18,17 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       marginBottom: 10,
     },
+    filebox: {
+      marginBottom: 20,
+      borderWidth: 2,
+      borderColor: '#ccc',
+      borderRadius: 20,
+      padding: 10,
+      marginLeft:10,
+      width:"100%",
+      height:80,
+      backgroundColor:'#FFF'
+    },
     label: {
       fontWeight: 'bold',
       marginRight: 5,
