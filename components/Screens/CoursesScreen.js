@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import coursesData from '../../test.json'; // Import the JSON data directly for testing fetch json from api
 import { styles } from '../../style/styles_course.js';
@@ -13,15 +13,21 @@ const Courses = (props) => {
   };
 
   return (
-    <View style={styles.container}>
-      {coursesData.course.map((course) => (
-        <TouchableOpacity key={course.id} onPress={() => handleCoursePress(course)}>
-          <View style={styles.course}>
-            <Text style={styles.title}>Title: {course.title}</Text>
-            <Text style={styles.description}>Description: {course.description}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+    <View >
+      <FlatList style={styles.container}
+        data={coursesData.course}
+        numColumns={2}
+        renderItem={({item})=>{
+          return(
+            <TouchableOpacity key={item.id} onPress={() => handleCoursePress(item)}>
+              <View style={styles.course}>
+                <Text style={styles.title}>Title: {item.title}</Text>
+                <Text style={styles.description}>Description: {item.description}</Text>
+              </View>
+            </TouchableOpacity>
+          )
+        }}
+      />
     </View>
   );
 };
