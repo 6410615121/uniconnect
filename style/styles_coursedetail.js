@@ -2,9 +2,6 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
       padding: 20,
       backgroundColor: '#f5f5f5', // Light gray background color
     },
@@ -18,8 +15,20 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       marginBottom: 10,
     },
+    filebox: {
+      marginTop: 20,
+      borderWidth: 2,
+      borderColor: '#ccc',
+      borderRadius: 20,
+      padding: 10,
+      width:"auto",
+      height:"auto",
+      backgroundColor:'#FFF',
+    },
     label: {
       fontWeight: 'bold',
+      fontSize: 17,
+      marginTop: 15,
       marginRight: 5,
       color: '#666', // Medium gray text color
     },

@@ -9,7 +9,7 @@ const Courses = (props) => {
 
   const handleCoursePress = (course) => {
     // Navigate to the CourseDetailScreen and pass the course object as a parameter
-    props.navigation.navigate('CourseDetail', { course });
+    navigation.navigate('CourseDetail', { course });
   };
 
   return (
