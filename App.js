@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {icons} from './style/icon.js'
 import { NavigationContainer} from '@react-navigation/native';
 import { Button, Text, View,TouchableOpacity,Image} from 'react-native';
+import { TransitionPresets } from '@react-navigation/stack'; //https://reactnavigation.org/docs/stack-navigator/#transparent-modals
 import {
   CoursesScreen, 
   ForumsScreen, 
@@ -13,7 +14,8 @@ import {
   NotificationsScreen, 
   ProfileScreen, 
   SettingsScreen,
-  CourseDetailScreen
+  CourseDetailScreen,
+  FileDetailScreen
 } from './components/Screens/Screens.js'
 
 const Stack = createStackNavigator();
@@ -78,9 +80,10 @@ export default function App() {
       })}/>
         <Stack.Screen name="ProfileStack" component={ProfileScreen}/>
         <Stack.Screen name="NotificationsStack" component={NotificationsScreen} />
-        <Stack.Screen name="SettingsStack" component={SettingsScreen} />
+        <Stack.Screen name="SettingsStack"  component={SettingsScreen} />
         <Stack.Screen name="CourseDetail" component={TopTabcourse} options={({ navigation }) => ({
           headerTitle: () => <View></View>})}/>
+        <Stack.Screen name="FileDetail" options={{ ...TransitionPresets.ModalPresentationIOS,}} component={FileDetailScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
