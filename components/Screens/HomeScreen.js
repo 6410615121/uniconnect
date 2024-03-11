@@ -1,7 +1,8 @@
 import React from "react";
 import { Dimensions, SafeAreaView, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
-
+import { FlatList} from 'react-native';
+import { styles } from '../../style/styles_home.js';
 
 function CarouselNews(){
   const width = Dimensions.get('window').width*0.8;
@@ -34,9 +35,21 @@ function CarouselNews(){
 }
 
 function Feeds(){
+  const data = new Array(50).fill("popular");//test
   return( 
-    <View style={{backgroundColor:'gray',width: '80%', height: 300, alignSelf: 'center', marginBottom:30}}>
-      <Text></Text>
+    <View style={styles.container}>
+      <View>
+      <FlatList 
+        data = {data}
+        renderItem= {({item}) => {return(
+          <View style ={styles.popularpostbox}>
+            <Text>
+              {item}
+            </Text>
+          </View>
+        )}}
+      />
+      </View>
     </View>
   );
 }
