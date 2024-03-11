@@ -6,3 +6,4 @@ export { default as CoursesScreen } from "./CoursesScreen";
 export { default as ForumsScreen } from "./ForumsScreen";
 export { default as CourseDetailScreen } from "./CourseDetailScreen";
 export { default as FileDetailScreen } from "./FileDetailScreen";
+export { default as PostDetailScreen } from "./PostScreen";
