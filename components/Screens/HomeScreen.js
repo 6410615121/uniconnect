@@ -1,7 +1,7 @@
 import React from "react";
 import { Dimensions, SafeAreaView, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
-import { FlatList} from 'react-native';
+import { FlatList, TouchableOpacity} from 'react-native';
 import { styles } from '../../style/styles_home.js';
 
 function CarouselNews(){
@@ -42,11 +42,11 @@ function Feeds(){
       <FlatList 
         data = {data}
         renderItem= {({item}) => {return(
-          <View style ={styles.popularpostbox}>
+          <TouchableOpacity style ={styles.popularpostbox} >
             <Text>
               {item}
             </Text>
-          </View>
+          </TouchableOpacity>
         )}}
       />
       </View>
@@ -70,4 +70,3 @@ export default function HomeScreen() {
     </View>
   );
 }
-
