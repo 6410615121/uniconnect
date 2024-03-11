@@ -15,7 +15,8 @@ import {
   ProfileScreen, 
   SettingsScreen,
   CourseDetailScreen,
-  FileDetailScreen
+  FileDetailScreen,
+  PostDetailScreen
 } from './components/Screens/Screens.js'
 
 const Stack = createStackNavigator();
@@ -84,6 +85,7 @@ export default function App() {
         <Stack.Screen name="CourseDetail" component={TopTabcourse} options={({ navigation }) => ({
           headerTitle: () => <View></View>})}/>
         <Stack.Screen name="FileDetail" options={{ ...TransitionPresets.ModalPresentationIOS,}} component={FileDetailScreen}/>
+        <Stack.Screen name="PostDetail" options={{ ...TransitionPresets.Modal,}} component={PostDetailScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
