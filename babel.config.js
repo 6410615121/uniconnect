@@ -3,7 +3,7 @@ module.exports = function (api) {
   return {
     presets: ["babel-preset-expo"],
     plugins: [
-      "module:react-native-dotenv",
+      ["module:react-native-dotenv",
       {
         envName: "APP_ENV",
         moduleName: "@env",
@@ -11,7 +11,7 @@ module.exports = function (api) {
         safe: false,
         allowUndefined: true,
         verbose: false,
-      },
+      }],
       [
         "module-resolver",
         {
