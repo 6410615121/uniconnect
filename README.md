@@ -9,7 +9,7 @@
     ```
     npm install
     ```
-4. Open your emulator.
+4. Open your emulator and run the command below.
 
 ## Emulator Configuration
 Before running the Android app, it's recommended to configure your emulator for optimal performance. Follow these steps:
@@ -26,14 +26,26 @@ Before running the Android app, it's recommended to configure your emulator for 
 10. **VM Heap**: Increase the VM heap size for improved memory management.
 11. **Internal Storage**: Allocate sufficient internal storage space for app installation.
 
-# Running the App
+## Running the App
 Once the emulator is configured, you can run the Android app with the following command:
    ```
    npm run android
    ```
 
-
 After running `npm run android`, the mobile app should appear on your desktop screen. If the app doesn't show up, navigate to 'Expo Go' in the emulator and enter the path to the app as shown in the command line output.
+
+5. check the repo https://github.com/6410685173/BackendUniconnect/ and make sure it has running on the background. This will be the backend server side.
+6. make sure you have .env file in the same directory as App.js this is the template for .env
+    ```
+    API_host = "10.0.2.2"
+    API_port = "3000"
+    ```
+where API_host is the host of your backend. for Android studio Emulator, It is `10.0.2.2` this is Special alias to your host loopback interface (127.0.0.1 on your development machine). visit [Set up Android Emulator networking](https://developer.android.com/studio/run/emulator-networking) for more.
+
+API_port is simply port of the backend server side.
+
+## note
+Sometime when you config the .env file, The metro bundle might not be updated due to caching, To fix this run `npx expo start --android --reset-cache` after that the variables in .env file should be updated.
 
 Visit [Setting up the development environment](https://reactnative.dev/docs/environment-setup) for more information.
 It also includes instructions for installing Android Studio.
