@@ -49,11 +49,12 @@ const Exam = ( props ) => {
   const course = props.course
   const navigation = useNavigation();
   return(
-    <View >
+    <View style={{flex:1}}>
       <Text style={styles.title}>exam {course.title}</Text>
       <FlatList style={styles.container}
         data={props.course.exams}
         numColumns={1}
+        contentContainerStyle={{ paddingBottom: 50 }}
         renderItem={(examfile)=>{
           //console.log(examfile)
           //console.log(examfile.item)
