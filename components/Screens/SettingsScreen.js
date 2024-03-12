@@ -1,10 +1,13 @@
-import { View, Text } from 'react-native'
+import { View, Text, Button } from 'react-native'
 import React from 'react'
 
-export default function SettingsScreen() {
+export default function SettingsScreen({setLoggedOut}) {
   return (
     <View>
-      <Text>SettingsScreen</Text>
+      <Button 
+        title='Logout'
+        onPress={setLoggedOut}
+      />
     </View>
   )
 }
