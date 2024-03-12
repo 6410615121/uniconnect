@@ -21,11 +21,11 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
         "password": password,
       })
       .then((response) => {
-        console.log(response)
+        console.log(response.data)
         setLoggedIn();
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err.response.data)
         setLoginStatus("wrong username or password")
       });
   }
