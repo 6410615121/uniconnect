@@ -19,6 +19,7 @@ import {
   FileDetailScreen,
   PostDetailScreen,
   LoginScreen,
+  RegisterScreen,
 } from "./components/Screens/Screens.js";
 
 const Stack = createStackNavigator();
@@ -91,6 +92,9 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="Login">
             {(props) => <LoginScreen {...props} setLoggedIn={handleLogin} />}
+          </Stack.Screen>
+          <Stack.Screen name="register">
+            {(props) => <RegisterScreen {...props}/>}
           </Stack.Screen>
         </Stack.Navigator>
       ) : (
