@@ -83,7 +83,6 @@ export default function App() {
 
   const handleLogout = () => {
     setLoggedIn(false);
-    console.log('set logged out')
   };
 
   return (
