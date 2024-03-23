@@ -1,78 +1,27 @@
 import "react-native-gesture-handler";
 import React, { useState } from "react";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { icons } from "./style/icon.js";
 import { NavigationContainer } from "@react-navigation/native";
 import { Button, Text, View, TouchableOpacity, Image } from "react-native";
 import { TransitionPresets } from "@react-navigation/stack"; //https://reactnavigation.org/docs/stack-navigator/#transparent-modals
+import { icons } from "./style/icon.js";
 
 import {
-  CoursesScreen,
-  ForumsScreen,
-  HomeScreen,
   NotificationsScreen,
   ProfileScreen,
   SettingsScreen,
-  CourseDetailScreen,
   FileDetailScreen,
   PostDetailScreen,
   LoginScreen,
   RegisterScreen,
 } from "./components/Screens/Screens.js";
 
-const Stack = createStackNavigator();
-const BottomTab = createBottomTabNavigator();
-const TopTab = createMaterialTopTabNavigator();
-const BottomTabNavigator = () => (
-  <BottomTab.Navigator screenOptions={{ headerShown: false }}>
-    <BottomTab.Screen
-      name="Home"
-      component={HomeScreen}
-      options={{
-        tabBarIcon: () => <Image source={require("./icon/home-icon.png")} />,
-      }}
-    />
-    <BottomTab.Screen
-      name="Courses"
-      component={CoursesScreen}
-      options={{
-        tabBarIcon: () => <Image source={require("./icon/course-icon.png")} />,
-      }}
-    />
-    <BottomTab.Screen
-      name="Forums"
-      component={ForumsScreen}
-      options={{
-        tabBarIcon: () => <Image source={require("./icon/forum-icon.png")} />,
-      }}
-    />
-  </BottomTab.Navigator>
-);
+import {
+  BottomTabNavigator,
+  TopTabcourse,
+} from "./components/navigation/navigation.js";
 
-const TopTabcourse = ({ route }) => {
-  const { course } = route.params;
-  return (
-    <TopTab.Navigator screenOptions={{ headerShown: false }}>
-      <TopTab.Screen
-        name="reviews"
-        component={CourseDetailScreen}
-        initialParams={{ course }}
-      />
-      <TopTab.Screen
-        name="sheets"
-        component={CourseDetailScreen}
-        initialParams={{ course }}
-      />
-      <TopTab.Screen
-        name="exam"
-        component={CourseDetailScreen}
-        initialParams={{ course }}
-      />
-    </TopTab.Navigator>
-  );
-};
+const Stack = createStackNavigator();
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -93,7 +42,7 @@ export default function App() {
             {(props) => <LoginScreen {...props} setLoggedIn={handleLogin} />}
           </Stack.Screen>
           <Stack.Screen name="register">
-            {(props) => <RegisterScreen {...props}/>}
+            {(props) => <RegisterScreen {...props} />}
           </Stack.Screen>
         </Stack.Navigator>
       ) : (
@@ -135,13 +84,18 @@ export default function App() {
               ),
             })}
           />
+
           <Stack.Screen name="ProfileStack" component={ProfileScreen} />
+
           <Stack.Screen
             name="NotificationsStack"
             component={NotificationsScreen}
           />
+
           <Stack.Screen name="SettingsStack">
-            {(props) => <SettingsScreen {...props} setLoggedOut= {handleLogout}/>}
+            {(props) => (
+              <SettingsScreen {...props} setLoggedOut={handleLogout} />
+            )}
           </Stack.Screen>
 
           <Stack.Screen
@@ -151,11 +105,13 @@ export default function App() {
               headerTitle: () => <View></View>,
             })}
           />
+
           <Stack.Screen
             name="FileDetail"
             options={{ ...TransitionPresets.ModalPresentationIOS }}
             component={FileDetailScreen}
           />
+
           <Stack.Screen
             name="PostDetail"
             options={{ ...TransitionPresets.Modal }}
@@ -167,4 +123,4 @@ export default function App() {
   );
 }
 
-export { BottomTabNavigator };
+
