@@ -19,18 +19,32 @@ export default function RegisterScreen({ navigation }) {
     }
 
     axios
-      .post(`http://${API_host}:${API_port}/auth/register`, {
-        "username": username,
-        "password": password,
-        "confirmPassword": confirmPassword
-      })
+      .post(
+        `http://${API_host}:${API_port}/auth/register`,
+        {
+          username: username,
+          password: password,
+          confirmPassword: confirmPassword,
+        },
+        { timeout: 5000 }
+      )
       .then((response) => {
         console.log(response.data);
         setRegisterMessage("register sucessfully");
       })
       .catch((err) => {
-        console.log(err.response.data);
-        setRegisterMessage("something wrong! maybe the username is taken!");
+        if (err.code === "ECONNABORTED") {
+          console.log("Request timed out");
+          setRegisterMessage("timeout");
+          return;
+        }
+
+        if (err.response.status === 400) {
+          setRegisterMessage("This username was already taken.");
+        } else if (err.response.status === 500) {
+          console.log(err.response.data);
+          setRegisterMessage("500 internal server error");
+        }
       });
   }
 

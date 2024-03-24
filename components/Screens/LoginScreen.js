@@ -16,17 +16,31 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
     }
 
     axios
-      .post(`http://${API_host}:${API_port}/auth/login`, {
-        "username": username,
-        "password": password,
-      })
+      .post(
+        `http://${API_host}:${API_port}/auth/login`,
+        {
+          username: username,
+          password: password,
+        },
+        { timeout: 5000 }
+      )
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         setLoggedIn();
       })
       .catch((err) => {
-        console.log(err.response.data)
-        setLoginStatus("wrong username or password")
+        if (err.code === "ECONNABORTED") {
+          console.log("Request timed out");
+          setLoginStatus("timeout");
+          return;
+        }
+
+        console.log(err.response.data);
+        if (err.response.status === 401)
+          setLoginStatus("Wrong username or password.");
+        else if (err.response.status === 500) {
+          setLoginStatus("500 internal server error");
+        }
       });
   }
 
@@ -46,7 +60,7 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
         onChangeText={(text) => setPassword(text)}
         secureTextEntry={true}
       />
-      {loginStatus? <Text>{loginStatus}</Text>:null}
+      {loginStatus ? <Text>{loginStatus}</Text> : null}
       <Button title="Login" onPress={handleLogin} />
 
       <Button
