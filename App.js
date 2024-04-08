@@ -19,7 +19,7 @@ import {
 } from "./components/Screens/Screens.js";
 
 // firebase config
-import { addUser } from "./firebaseConfig"
+// import { addUser } from "./firebase/firestoreCourses";
 
 // navigation
 import {
