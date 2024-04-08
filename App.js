@@ -1,3 +1,4 @@
+// modules
 import "react-native-gesture-handler";
 import React, { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -6,6 +7,7 @@ import { Button, Text, View, TouchableOpacity, Image } from "react-native";
 import { TransitionPresets } from "@react-navigation/stack"; //https://reactnavigation.org/docs/stack-navigator/#transparent-modals
 import { icons } from "./style/icon.js";
 
+// screens
 import {
   NotificationsScreen,
   ProfileScreen,
@@ -16,6 +18,7 @@ import {
   RegisterScreen,
 } from "./components/Screens/Screens.js";
 
+// navigation
 import {
   BottomTabNavigator,
   TopTabcourse,
@@ -37,14 +40,7 @@ export default function App() {
   return (
     <NavigationContainer>
       {!loggedIn ? (
-        <Stack.Navigator>
-          <Stack.Screen name="Login">
-            {(props) => <LoginScreen {...props} setLoggedIn={handleLogin} />}
-          </Stack.Screen>
-          <Stack.Screen name="register">
-            {(props) => <RegisterScreen {...props} />}
-          </Stack.Screen>
-        </Stack.Navigator>
+        <RegisterAndLoginScreen />
       ) : (
         <Stack.Navigator>
           <Stack.Screen
@@ -121,6 +117,17 @@ export default function App() {
       )}
     </NavigationContainer>
   );
+}
+
+const RegisterAndLoginScreen= () => {
+  <Stack.Navigator>
+    <Stack.Screen name="Login">
+      {(props) => <LoginScreen {...props} setLoggedIn={handleLogin} />}
+    </Stack.Screen>
+    <Stack.Screen name="register">
+      {(props) => <RegisterScreen {...props} />}
+    </Stack.Screen>
+  </Stack.Navigator>  
 }
 
 
