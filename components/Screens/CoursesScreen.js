@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import coursesData from '../../test.json'; // Import the JSON data directly for testing fetch json from api
-import { styles } from '../../style/styles_course.js';
+import { styles } from '../../assets/styles/styles_course.js';
 
 const Courses = (props) => {
   const navigation = useNavigation(); // Use useNavigation hook to get the navigation object

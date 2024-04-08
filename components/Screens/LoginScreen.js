@@ -10,38 +10,39 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
   const [loginStatus, setLoginStatus] = useState("");
 
   function handleLogin() {
-    if (!username || !password) {
-      setLoginStatus("All field is required!");
-      return;
-    }
+    setLoggedIn(); // for development only
+    // if (!username || !password) {
+    //   setLoginStatus("All field is required!");
+    //   return;
+    // }
 
-    axios
-      .post(
-        `http://${API_host}:${API_port}/auth/login`,
-        {
-          username: username,
-          password: password,
-        },
-        { timeout: 5000 }
-      )
-      .then((response) => {
-        console.log(response.data);
-        setLoggedIn();
-      })
-      .catch((err) => {
-        if (err.code === "ECONNABORTED") {
-          console.log("Request timed out");
-          setLoginStatus("timeout");
-          return;
-        }
+    // axios
+    //   .post(
+    //     `http://${API_host}:${API_port}/auth/login`,
+    //     {
+    //       username: username,
+    //       password: password,
+    //     },
+    //     { timeout: 5000 }
+    //   )
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     setLoggedIn();
+    //   })
+    //   .catch((err) => {
+    //     if (err.code === "ECONNABORTED") {
+    //       console.log("Request timed out");
+    //       setLoginStatus("timeout");
+    //       return;
+    //     }
 
-        console.log(err.response.data);
-        if (err.response.status === 401)
-          setLoginStatus("Wrong username or password.");
-        else if (err.response.status === 500) {
-          setLoginStatus("500 internal server error");
-        }
-      });
+    //     console.log(err.response.data);
+    //     if (err.response.status === 401)
+    //       setLoginStatus("Wrong username or password.");
+    //     else if (err.response.status === 500) {
+    //       setLoginStatus("500 internal server error");
+    //     }
+    //   });
   }
 
   return (

@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { Button, Text, View, TouchableOpacity, Image } from "react-native";
 import { TransitionPresets } from "@react-navigation/stack"; //https://reactnavigation.org/docs/stack-navigator/#transparent-modals
-import { icons } from "./style/icon.js";
+import { icons } from "./assets/styles/icon.js";
 
 // screens
 import {
@@ -17,6 +17,9 @@ import {
   LoginScreen,
   RegisterScreen,
 } from "./components/Screens/Screens.js";
+
+// firebase config
+import { addUser } from "./firebaseConfig"
 
 // navigation
 import {
@@ -41,6 +44,7 @@ export default function App() {
     <NavigationContainer>
       {!loggedIn ? (
         <RegisterAndLoginStack handleLogin={handleLogin} />
+        // <Test />
       ) : (
         <MainApp handleLogout={handleLogout} />
       )}
@@ -74,7 +78,7 @@ const MainApp = ({ handleLogout }) => {
               onPress={() => navigation.navigate("ProfileStack")}
             >
               <Image
-                source={require("./icon/default-profile-icon.png")} // path to image
+                source={require("./assets/icons/default-profile-icon.png")} // path to image
                 style={icons.profile_icon}
               />
             </TouchableOpacity>
@@ -85,7 +89,7 @@ const MainApp = ({ handleLogout }) => {
                 onPress={() => navigation.navigate("NotificationsStack")}
               >
                 <Image
-                  source={require("./icon/bell-icon.png")} // path to image
+                  source={require("./assets/icons/bell-icon.png")} // path to image
                   style={icons.bell_icon}
                 />
               </TouchableOpacity>
@@ -93,7 +97,7 @@ const MainApp = ({ handleLogout }) => {
                 onPress={() => navigation.navigate("SettingsStack")}
               >
                 <Image
-                  source={require("./icon/setting-icon.png")} // path to image
+                  source={require("./assets/icons/setting-icon.png")} // path to image
                   style={icons.setting_icon}
                 />
               </TouchableOpacity>
@@ -132,3 +136,12 @@ const MainApp = ({ handleLogout }) => {
     </Stack.Navigator>
   );
 };
+
+//test
+const Test = () =>{
+  return(
+    <View style={{alignItems:"center", justifyContent: "center", flex:1}}>
+      <Button title="test" onPress={() => addUser()}/>
+    </View>
+  );
+}

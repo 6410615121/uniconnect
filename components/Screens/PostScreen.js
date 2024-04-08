@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { styles } from '../../style/styles_post.js';
+import { styles } from '../../assets/styles//styles_post.js';
 import { FlatList} from 'react-native';
 
 const PostDetailScreen = (navigation) => {
