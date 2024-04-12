@@ -1,11 +1,12 @@
 // modules
 import "react-native-gesture-handler";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { Button, Text, View, TouchableOpacity, Image } from "react-native";
 import { TransitionPresets } from "@react-navigation/stack"; //https://reactnavigation.org/docs/stack-navigator/#transparent-modals
 import { icons } from "./assets/styles/icon.js";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // screens
 import {
@@ -44,7 +45,6 @@ export default function App() {
     <NavigationContainer>
       {!loggedIn ? (
         <RegisterAndLoginStack handleLogin={handleLogin} />
-        // <Test />
       ) : (
         <MainApp handleLogout={handleLogout} />
       )}
@@ -66,6 +66,25 @@ const RegisterAndLoginStack = ({ handleLogin }) => {
 };
 
 const MainApp = ({ handleLogout }) => {
+  const [name, setName] = useState('');
+
+  // fetch name from AsyncStorage
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const storedName = await AsyncStorage.getItem('name');
+        if (storedName) {
+          setName(storedName);
+        }
+      } catch (error) {
+        console.error('Error fetching username:', error);
+      }
+    }
+
+    fetchUserName();
+    
+    }, []);
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -74,13 +93,14 @@ const MainApp = ({ handleLogout }) => {
         options={({ navigation }) => ({
           headerTitle: () => <View></View>,
           headerLeft: () => (
-            <TouchableOpacity
+            <TouchableOpacity style={{flexDirection:"row"}}
               onPress={() => navigation.navigate("ProfileStack")}
             >
               <Image
                 source={require("./assets/icons/default-profile-icon.png")} // path to image
                 style={icons.profile_icon}
               />
+              <Text>{name}</Text>
             </TouchableOpacity>
           ),
           headerRight: () => (
@@ -137,7 +157,7 @@ const MainApp = ({ handleLogout }) => {
   );
 };
 
-//test
+// test
 const Test = () =>{
   return(
     <View style={{alignItems:"center", justifyContent: "center", flex:1}}>

@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { API_host, API_port } from "@env";
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function LoginScreen({ navigation, setLoggedIn }) {
   const [username, setUsername] = useState("");
@@ -11,6 +13,9 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
 
   function handleLogin() {
     setLoggedIn(); // for development only
+    AsyncStorage.setItem('name', 'Somsak Rakthai');
+
+
     // if (!username || !password) {
     //   setLoginStatus("All field is required!");
     //   return;
