@@ -17,6 +17,21 @@ const getAllCourses = async () => {
   }
 };
 
+const createCourse = async (courseID, title, description, exams, sheets) => {
+  try {
+    const docRef = await addDoc(collection(firestore, "courses"), {
+      courseID,
+      title,
+      description,
+      exams: ["exam1.pdf", "exam2.pdf"],
+      sheets: ["sheet1.pdf", "sheet2.pdf"]
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
 const testCreateCourse = async () => {
   try {
     const docRef = await addDoc(collection(firestore, "courses"), {
@@ -34,4 +49,4 @@ const testCreateCourse = async () => {
 }
 
 
-export { getAllCourses, testCreateCourse };
+export { getAllCourses, testCreateCourse, createCourse };
