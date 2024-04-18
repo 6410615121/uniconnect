@@ -17,12 +17,13 @@ const getAllCourses = async () => {
   }
 };
 
-const createCourse = async (courseID, title, description, exams, sheets) => {
+const createCourse = async (courseID, title, description) => {
   try {
     const docRef = await addDoc(collection(firestore, "courses"), {
       courseID,
       title,
       description,
+      likeCount: 0,
       exams: ["exam1.pdf", "exam2.pdf"],
       sheets: ["sheet1.pdf", "sheet2.pdf"]
     });
