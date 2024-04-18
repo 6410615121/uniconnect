@@ -13,7 +13,7 @@ export const BottomTabNavigator = () => (
       component={HomeScreen}
       options={{
         tabBarIcon: () => (
-          <Image source={require("../../icon/home-icon.png")} />
+          <Image source={require("../../assets/icons/home-icon.png")} />
         ),
       }}
     />
@@ -22,7 +22,7 @@ export const BottomTabNavigator = () => (
       component={CoursesScreen}
       options={{
         tabBarIcon: () => (
-          <Image source={require("../../icon/course-icon.png")} />
+          <Image source={require("../../assets/icons/course-icon.png")} />
         ),
       }}
     />
@@ -31,7 +31,7 @@ export const BottomTabNavigator = () => (
       component={ForumsScreen}
       options={{
         tabBarIcon: () => (
-          <Image source={require("../../icon/forum-icon.png")} />
+          <Image source={require("../../assets/icons/forum-icon.png")} />
         ),
       }}
     />

@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { styles } from '../../style/styles_coursedetail.js';
+import { styles } from '../../assets/styles/styles_coursedetail.js';
 import { TouchableOpacity,Image,FlatList} from 'react-native';
-import {icons} from '../../style/icon.js'
+import {icons} from '../../assets/styles/icon.js'
 
 const Reviews = ({ course }) => {
   return(
@@ -32,7 +32,7 @@ const Sheets = ( props ) => {
                 <Text style={styles.label}>{sheetfile.item}</Text>  
                 <View >
                   <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
-                  <Image source={require('../../icon/download-icon.png')} 
+                  <Image source={require('../../assets/icons/download-icon.png')} 
                       style={icons.download_icon}
                     /> 
                   </TouchableOpacity>
@@ -63,7 +63,7 @@ const Exam = ( props ) => {
                 <Text style={styles.label}>{examfile.item}</Text>
                 <View >
                   <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
-                    <Image source={require('../../icon/download-icon.png')} 
+                    <Image source={require('../../assets/icons/download-icon.png')} 
                       style={icons.download_icon}
                     /> 
                   </TouchableOpacity>

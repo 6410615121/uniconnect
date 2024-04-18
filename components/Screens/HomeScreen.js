@@ -2,7 +2,7 @@ import React from "react";
 import { Dimensions, SafeAreaView, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { FlatList, TouchableOpacity} from 'react-native';
-import { styles } from '../../style/styles_home.js';
+import { styles } from '../../assets/styles/styles_home.js';
 
 function CarouselNews(){
   const width = Dimensions.get('window').width*0.8;
