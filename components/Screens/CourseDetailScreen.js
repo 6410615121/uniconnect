@@ -1,18 +1,44 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet,Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../../assets/styles/styles_coursedetail.js';
 import { TouchableOpacity,Image,FlatList} from 'react-native';
 import {icons} from '../../assets/styles/icon.js'
 
-const Reviews = ({ course }) => {
+import {
+  getAllReviews,
+
+} from "../../firebase/firestoreCourseDetail.js";
+
+
+const Reviews = ({ course,reviews}) => {
+  const navigation = useNavigation();
   return(
-    <View style={styles.container}>
-      <Text style={styles.title}>reviews {course.title}</Text>
+    <View >
+      {/* <Text style={styles.title}>reviews {course.title}</Text>
       <View style={styles.detailsContainer}>
         <Text style={styles.label}>Description:</Text>
         <Text style={styles.value}>{course.description}</Text>
+      </View> */}
+      <View style={{ flexDirection: 'row'}}>
+        <Button
+          title="Review"
+          onPress={() => navigation.navigate("createReview", { course})}
+        />
       </View>
+      
+      <FlatList style={styles.container}
+        data={reviews}
+        numColumns={1}
+        renderItem={({item})=>{ 
+          console.log(item);
+          return(
+              <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
+                <Text style={styles.label}>{item.Description}</Text>  
+            </TouchableOpacity>
+            )
+        }}
+      />
     </View>
   );
 }
@@ -27,10 +53,11 @@ const Sheets = ( props ) => {
         data={props.course.sheets}
         numColumns={1}
         renderItem={(sheetfile)=>{ 
+          //console.log(sheetfile)
           return(
-              <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('FileDetail');  console.log("test download sucessfully")}}>
+            <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('FileDetail');  console.log("test download sucessfully")}}>
                 <Text style={styles.label}>{sheetfile.item}</Text>  
-                <View >
+                <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
                   <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
                   <Image source={require('../../assets/icons/download-icon.png')} 
                       style={icons.download_icon}
@@ -61,7 +88,7 @@ const Exam = ( props ) => {
           return(
               <TouchableOpacity style={styles.filebox} onPress={() => {navigation.navigate('FileDetail'); console.log("pop up detail file")}}>
                 <Text style={styles.label}>{examfile.item}</Text>
-                <View >
+                <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
                   <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
                     <Image source={require('../../assets/icons/download-icon.png')} 
                       style={icons.download_icon}
@@ -77,14 +104,32 @@ const Exam = ( props ) => {
   );
 }
 
+
 const CourseDetailScreen = ({ route }) => {
   // Extract the course details from the route params
   const { course } = route.params;
   // Now you can access the course object
+  const [reviews, setreviews] = useState([]);
+
+  const fetchReviews = async () => {
+    try {
+      const review = await getAllReviews(course.courseID);
+      setreviews(review);
+      console.log(review)
+      console.log(review.length)
   
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+    
+  useEffect(() => {
+      fetchReviews(); // Call the fetchCourses function when component mounts
+  }, [course.courseID]);
+
   if(route.name == "reviews"){
     return (
-      <Reviews course={course} />
+      <Reviews course={course} reviews={reviews}/>
     );
   }else if (route.name == "sheets"){
     return (
@@ -97,6 +142,7 @@ const CourseDetailScreen = ({ route }) => {
   }
 
 };
+
 
 
 export default CourseDetailScreen;

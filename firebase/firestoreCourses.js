@@ -6,7 +6,9 @@ const getAllCourses = async () => {
     // console.log(firestore);
     
     const courseDocs = await getDocs(collection(firestore, "courses"));
+    //console.log(courseDocs.docs);
     const coursesData = courseDocs.docs.map((doc) => doc.data());
+    console.log(coursesData);
     return coursesData;
 
     // courseDocs.forEach((doc) => {
@@ -24,10 +26,18 @@ const createCourse = async (courseID, title, description) => {
       title,
       description,
       likeCount: 0,
-      exams: ["exam1.pdf", "exam2.pdf"],
-      sheets: ["sheet1.pdf", "sheet2.pdf"]
+      exams: [],
+      sheets: []
     });
     console.log("Document written with ID: ", docRef.id);
+
+    // create subcollection reviews (store object reviews when create course)
+    addDoc(collection(docRef, "reviews"),{
+      courseID, //Fk 
+      //Author,
+      description,
+      likeCount: 0,
+    });
   } catch (e) {
     console.error("Error adding document: ", e);
   }

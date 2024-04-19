@@ -17,6 +17,8 @@ import {
   PostDetailScreen,
   LoginScreen,
   RegisterScreen,
+  ReviewDetailScreen,
+  CreateReviewScreen,
 } from "./components/Screens/Screens.js";
 
 // firebase config
@@ -152,6 +154,18 @@ const MainApp = ({ handleLogout }) => {
         name="PostDetail"
         options={{ ...TransitionPresets.Modal }}
         component={PostDetailScreen}
+      />
+
+      <Stack.Screen
+        name="ReviewDetail"
+        options={{ ...TransitionPresets.Modal }}
+        component={ReviewDetailScreen}
+      />
+
+      <Stack.Screen
+        name="createReview"
+        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        component={CreateReviewScreen}
       />
     </Stack.Navigator>
   );

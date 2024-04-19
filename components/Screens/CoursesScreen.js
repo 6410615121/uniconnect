@@ -130,6 +130,7 @@ const MainScreen = ({handleCoursePress}) => {
       const courses = await getAllCourses();
       setCourses(courses);
       console.log("fetched!")
+      //console.log(courses)
       console.log(courses.length)
 
     } catch (error) {
@@ -173,15 +174,22 @@ const MainScreen = ({handleCoursePress}) => {
           onChangeText={(text) => setSearchText(text)}
         />
 
+
         <Button title="search" onPress={handleSearchSubmit}/>
+        {/* check later isAdmin? */}
+        <Button
+          title="create"
+          onPress={() => navigation.navigate("createCourseScreen", {fetchCourses})}
+        />
       </View>
 
       <FlatList
         style={styles.container}
-        data={courses}
+        data={courses}        
         contentContainerStyle={{ paddingBottom: 40 }}
         numColumns={2}
         renderItem={({ item }) => {
+          
           return (
             <TouchableOpacity
               key={item.id}
@@ -199,11 +207,6 @@ const MainScreen = ({handleCoursePress}) => {
         }}
       />
 
-      {/* check later isAdmin? */}
-      <Button
-        title="create"
-        onPress={() => navigation.navigate("createCourseScreen", {fetchCourses})}
-      />
     </View>
   );
 };
