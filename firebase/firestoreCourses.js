@@ -8,7 +8,7 @@ const getAllCourses = async () => {
     const courseDocs = await getDocs(collection(firestore, "courses"));
     //console.log(courseDocs.docs);
     const coursesData = courseDocs.docs.map((doc) => doc.data());
-    console.log(coursesData);
+    // console.log(coursesData);
     return coursesData;
 
     // courseDocs.forEach((doc) => {
