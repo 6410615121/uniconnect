@@ -11,3 +11,5 @@ export { default as LoginScreen} from "./LoginScreen";
 export { default as RegisterScreen} from "./RegisterScreen";
 export { default as ReviewDetailScreen} from "./ReviewDetailScreen";
 export { default as CreateReviewScreen} from "./CreateReviewScreen";
+export { default as UploadsheetScreen} from "./UploadSheets";
+export { default as UploadexamScreen} from "./UploadExams";

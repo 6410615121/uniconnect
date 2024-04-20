@@ -8,7 +8,8 @@ import {icons} from '../../assets/styles/icon.js';
 
 import {
   getAllReviews,
-
+  getAllSheets,
+  getAllExams,
 } from "../../firebase/firestoreCourseDetail.js";
 
 
@@ -21,7 +22,7 @@ const Reviews = ({ course,reviews}) => {
         <Text style={styles.label}>Description:</Text>
         <Text style={styles.value}>{course.description}</Text>
       </View> */}
-      <View style={{ flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row',marginTop:10, marginLeft:10}}>
         <Button
           title="Review"
           onPress={() => navigation.navigate("createReview", { course})}
@@ -46,18 +47,25 @@ const Reviews = ({ course,reviews}) => {
 
 const Sheets = ( props ) => {
   const course = props.course
+  const sheets = props.sheets
   const navigation = useNavigation();
   return(
     <View >
-      <Text style={styles.title}>sheets{course.title}</Text>
+      {/* <Text style={styles.title}>sheets{course.title}</Text> */}
+      <View style={{ flexDirection: 'row',marginTop:10, marginLeft:10}}>
+        <Button
+          title="upload"
+          onPress={() => navigation.navigate("uploadsheet", { course})}
+        />
+      </View>
       <FlatList style={styles.container}
-        data={props.course.sheets}
+        data={sheets}
         numColumns={1}
-        renderItem={(sheetfile)=>{ 
+        renderItem={({item})=>{ 
           //console.log(sheetfile)
           return(
-            <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('FileDetail');  console.log("test download sucessfully")}}>
-                <Text style={styles.label}>{sheetfile.item}</Text>  
+            <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('FileDetail', {item});}}>
+                <Text style={styles.label}>{item.Filename}</Text>  
                 <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
                   <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
                   <Image source={require('../../assets/icons/download-icon.png')} 
@@ -75,19 +83,26 @@ const Sheets = ( props ) => {
 
 const Exam = ( props ) => {
   const course = props.course
+  const exams = props.exams
   const navigation = useNavigation();
   return(
     <View style={{flex:1}}>
-      <Text style={styles.title}>exam {course.title}</Text>
+      {/* <Text style={styles.title}>exam {course.title}</Text> */}
+      <View style={{ flexDirection: 'row',marginTop:10, marginLeft:10}}>
+        <Button
+          title="upload"
+          onPress={() => navigation.navigate("uploadexam", { course})}
+        />
+      </View>
       <FlatList style={styles.container}
-        data={props.course.exams}
+        data={exams}
         numColumns={1}
         contentContainerStyle={{ paddingBottom: 50 }}
-        renderItem={(examfile)=>{
+        renderItem={({item})=>{
 
           return(
-              <TouchableOpacity style={styles.filebox} onPress={() => {navigation.navigate('FileDetail'); console.log("pop up detail file")}}>
-                <Text style={styles.label}>{examfile.item}</Text>
+              <TouchableOpacity style={styles.filebox} onPress={() => {navigation.navigate('FileDetail', {item});}}>
+                <Text style={styles.label}>{item.Filename}</Text>
                 <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
                   <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
                     <Image source={require('../../assets/icons/download-icon.png')} 
@@ -114,19 +129,45 @@ const fetchReviews = async (courseID) => {
   }
 };
 
+const fetchSheets = async (courseID) => {
+  try {
+    const sheet = await getAllSheets(courseID);
+    return sheet;
+  } catch (error) {
+    console.error("Error fetching sheets:", error);
+    return [];
+  }
+};
+
+const fetchExams = async (courseID) => {
+  try {
+    const sheet = await getAllExams(courseID);
+    return sheet;
+  } catch (error) {
+    console.error("Error fetching sheets:", error);
+    return [];
+  }
+};
+
 const CourseDetailScreen = ({ route }) => {
   // Extract the course details from the route params
   const { course } = route.params;
   // Now you can access the course object
   const [reviews, setreviews] = useState([]);
+  const [sheets, setsheets] = useState([]);
+  const [exams, setexams] = useState([]);
   
   useEffect(() => {
-    const fetchReviewsAndUpdateState = async () => {
+    const fetchAndUpdateState = async () => {
       const reviewsData = await fetchReviews(course.courseID);
+      const sheetsData = await fetchSheets(course.courseID);
+      const examsData = await fetchExams(course.courseID);
       setreviews(reviewsData);
+      setsheets(sheetsData);
+      setexams(examsData);
     };
-    fetchReviewsAndUpdateState();
-  },);
+    fetchAndUpdateState();
+  },[]);
 
   if(route.name == "reviews"){
     return (
@@ -134,11 +175,11 @@ const CourseDetailScreen = ({ route }) => {
     );
   }else if (route.name == "sheets"){
     return (
-      <Sheets course={course} />
+      <Sheets course={course} sheets={sheets} />
     );
   }else{
     return (
-      <Exam course={course} />
+      <Exam course={course} exams={exams}/>
     );
   }
 
