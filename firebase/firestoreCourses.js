@@ -25,6 +25,7 @@ const createCourse = async (courseID, title, description) => {
       courseID,
       title,
       description,
+      reviewcounts:0,
       likeCount: 0,
       exams: [],
       sheets: []
@@ -32,12 +33,12 @@ const createCourse = async (courseID, title, description) => {
     console.log("Document written with ID: ", docRef.id);
 
     // create subcollection reviews (store object reviews when create course)
-    addDoc(collection(docRef, "reviews"),{
+    /* addDoc(collection(docRef, "reviews"),{
       courseID, //Fk 
       //Author,
       description,
       likeCount: 0,
-    });
+    }); */
   } catch (e) {
     console.error("Error adding document: ", e);
   }
