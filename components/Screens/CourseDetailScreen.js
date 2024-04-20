@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { View, Text, StyleSheet,Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../../assets/styles/styles_coursedetail.js';
 import { TouchableOpacity,Image,FlatList} from 'react-native';
-import {icons} from '../../assets/styles/icon.js'
+import {icons} from '../../assets/styles/icon.js';
+
 
 import {
   getAllReviews,
@@ -31,7 +32,7 @@ const Reviews = ({ course,reviews}) => {
         data={reviews}
         numColumns={1}
         renderItem={({item})=>{ 
-          console.log(item);
+          
           return(
               <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
                 <Text style={styles.label}>{item.Description}</Text>  
@@ -83,8 +84,7 @@ const Exam = ( props ) => {
         numColumns={1}
         contentContainerStyle={{ paddingBottom: 50 }}
         renderItem={(examfile)=>{
-          //console.log(examfile)
-          //console.log(examfile.item)
+
           return(
               <TouchableOpacity style={styles.filebox} onPress={() => {navigation.navigate('FileDetail'); console.log("pop up detail file")}}>
                 <Text style={styles.label}>{examfile.item}</Text>
@@ -104,28 +104,29 @@ const Exam = ( props ) => {
   );
 }
 
+const fetchReviews = async (courseID) => {
+  try {
+    const review = await getAllReviews(courseID);
+    return review;
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    return [];
+  }
+};
 
 const CourseDetailScreen = ({ route }) => {
   // Extract the course details from the route params
   const { course } = route.params;
   // Now you can access the course object
   const [reviews, setreviews] = useState([]);
-
-  const fetchReviews = async () => {
-    try {
-      const review = await getAllReviews(course.courseID);
-      setreviews(review);
-      console.log(review)
-      console.log(review.length)
   
-    } catch (error) {
-      console.error("Error fetching reviews:", error);
-    }
-  };
-    
   useEffect(() => {
-      fetchReviews(); // Call the fetchCourses function when component mounts
-  }, [course.courseID]);
+    const fetchReviewsAndUpdateState = async () => {
+      const reviewsData = await fetchReviews(course.courseID);
+      setreviews(reviewsData);
+    };
+    fetchReviewsAndUpdateState();
+  },);
 
   if(route.name == "reviews"){
     return (
@@ -143,18 +144,6 @@ const CourseDetailScreen = ({ route }) => {
 
 };
 
-
-
 export default CourseDetailScreen;
+export { fetchReviews };
 
-/*{course((examfile,index) => (
-  <TouchableOpacity key={`${course.id}_${index}`} style={styles.filebox} onPress={() => {console.log("test download sucessfully")}}>
-  <View >
-    <Text  style={styles.label}>{examfile}</Text>
-    <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
-    <Text>download</Text>
-  </TouchableOpacity>
-  </View>
-</TouchableOpacity>
-)
-}*/
