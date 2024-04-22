@@ -19,6 +19,8 @@ import {
   RegisterScreen,
   ReviewDetailScreen,
   CreateReviewScreen,
+  UploadsheetScreen,
+  UploadexamScreen,
 } from "./components/Screens/Screens.js";
 
 // firebase config
@@ -166,6 +168,18 @@ const MainApp = ({ handleLogout }) => {
         name="createReview"
         options={{ ...TransitionPresets.ModalPresentationIOS }}
         component={CreateReviewScreen}
+      />
+
+      <Stack.Screen
+        name="uploadsheet"
+        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        component={UploadsheetScreen}
+      />
+
+      <Stack.Screen
+        name="uploadexam"
+        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        component={UploadexamScreen}
       />
     </Stack.Navigator>
   );

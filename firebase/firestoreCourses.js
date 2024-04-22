@@ -27,8 +27,7 @@ const createCourse = async (courseID, title, description) => {
       description,
       reviewcounts:0,
       likeCount: 0,
-      exams: [],
-      sheets: []
+
     });
     console.log("Document written with ID: ", docRef.id);
 
