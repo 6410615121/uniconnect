@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     width:160,
     height:150,
     backgroundColor:'#FFF',
-    overflow:'hidden'
+    overflow:'hidden',
   },
   course_header: {
     width:'100%', 

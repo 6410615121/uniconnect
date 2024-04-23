@@ -21,11 +21,11 @@ const getAllCourses = async () => {
 
 const createCourse = async (courseID, title, description) => {
   const Colors = [
-    '#FF0000', // Red
-    '#FFA500', // Orange
-    '#009200', // Green
-    '#0000FF', // Blue
-    '#4B0082', // Indigo
+    '#FF8C8C', // Red
+    '#EBB757', // Orange
+    '#7ECF7E', // Green
+    '#9A9AD6', // Blue
+    '#BC9FD1', // Indigo
   ];
 
   const randomColor = Colors[Math.floor(Math.random() * Colors.length)];

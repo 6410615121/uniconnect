@@ -188,6 +188,7 @@ const MainScreen = ({ handleCoursePress }) => {
                   style={[
                     styles.course_header,
                     { backgroundColor: item.color },
+                    // { backgroundColor: "#BC9FD1" }
                   ]}
                 >
                   <Text style={styles.courseID}>{item.courseID}</Text>
