@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, FlatList, Button } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, Button, TouchableHighlight, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 // import coursesData from "../../test.json"; // Import the JSON data directly for testing fetch json from api
 import { styles } from "../../assets/styles/styles_course.js";
@@ -151,25 +151,36 @@ const MainScreen = ({ handleCoursePress }) => {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
-      <View style={{ flexDirection: "row" }}>
+    <View style={{ flex: 1, alignItems: "center"}}>
+      <View style={{ flexDirection: "row", backgroundColor:"white", width:'100%', justifyContent:'space-evenly' }}>
         <TextInput
           style={{
-            backgroundColor: "#C7C7C7",
-            padding: 5,
-            width: 200,
-            marginEnd: 5,
+            backgroundColor: "#ffffff",
+            padding: 8,
+            paddingLeft:15,
+            width: 250,
+
+            borderColor:'#e9e9e9',
+            borderWidth: 3,
+            borderRadius: 8
           }}
           placeholder="search by id"
           onChangeText={(text) => setSearchText(text)}
         />
+        <TouchableOpacity onPress={handleSearchSubmit} style={{justifyContent: "center"}}>
+          <Image source={require("../../assets/icons/search_FILL0_wght400_GRAD0_opsz24.png")} />
+        </TouchableOpacity>
 
-        <Button title="search" onPress={handleSearchSubmit} />
-        {/* check later isAdmin? */}
-        <Button
+        <TouchableOpacity onPress={handleSearchSubmit} style={{justifyContent: "center"}}>
+          <Image style={{height:32, marginBottom:2}} source={require("../../assets/icons/add_FILL0_wght400_GRAD0_opsz24.png")} />
+        </TouchableOpacity>
+
+        {/* <Button title="search" onPress={handleSearchSubmit} />
+        check later isAdmin? */}
+        {/* <Button
           title="create"
           onPress={() => navigation.navigate("createCourseScreen")}
-        />
+        /> */}
       </View>
 
       <FlatList
