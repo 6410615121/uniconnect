@@ -20,6 +20,16 @@ const getAllCourses = async () => {
 };
 
 const createCourse = async (courseID, title, description) => {
+  const Colors = [
+    '#FF0000', // Red
+    '#FFA500', // Orange
+    '#009200', // Green
+    '#0000FF', // Blue
+    '#4B0082', // Indigo
+  ];
+
+  const randomColor = Colors[Math.floor(Math.random() * Colors.length)];
+
   try {
     const docRef = await addDoc(collection(firestore, "courses"), {
       courseID,
@@ -27,6 +37,7 @@ const createCourse = async (courseID, title, description) => {
       description,
       reviewcounts:0,
       likeCount: 0,
+      color: randomColor
 
     });
     console.log("Document written with ID: ", docRef.id);

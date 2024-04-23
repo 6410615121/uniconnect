@@ -28,10 +28,7 @@ const Courses = (props) => {
     <Stack.Navigator>
       <Stack.Screen name="main" options={{ headerShown: false }}>
         {(screenProps) => (
-          <MainScreen
-            {...screenProps}
-            handleCoursePress={handleCoursePress}
-          />
+          <MainScreen {...screenProps} handleCoursePress={handleCoursePress} />
         )}
       </Stack.Screen>
 
@@ -108,7 +105,7 @@ const MainScreen = ({ handleCoursePress }) => {
     try {
       const courses = await getAllCourses();
       setCourses(courses);
-      console.log("fetched!")
+      console.log("fetched!");
       // console.log(courses)
       // console.log(courses.length)
     } catch (error) {
@@ -171,9 +168,7 @@ const MainScreen = ({ handleCoursePress }) => {
         {/* check later isAdmin? */}
         <Button
           title="create"
-          onPress={() =>
-            navigation.navigate("createCourseScreen")
-          }
+          onPress={() => navigation.navigate("createCourseScreen")}
         />
       </View>
 
@@ -188,9 +183,28 @@ const MainScreen = ({ handleCoursePress }) => {
               key={item.id}
               onPress={() => handleCoursePress(item)}
             >
-              <View style={styles.course}>
-                <Text style={styles.title}>id: {item.courseID}</Text>
-                <Text style={styles.title}>Title: {item.title}</Text>
+              <View style={styles.course_container}>
+                <View
+                  style={[
+                    styles.course_header,
+                    { backgroundColor: item.color },
+                  ]}
+                >
+                  <Text style={styles.courseID}>{item.courseID}</Text>
+                </View>
+
+                <View
+                  style={
+                    styles.course_text_box
+                  }
+                >
+                  <Text style={styles.title}>{item.title}</Text>
+                  <Text style={styles.description}>{item.description}</Text>
+                </View>
+
+                {/* <Text style={styles.courseID}>{item.courseID}</Text>
+                <Text style={styles.title}>{item.title}</Text> */}
+
                 {/* <Text style={styles.description}>
                   Description: {item.description}
                 </Text> */}
