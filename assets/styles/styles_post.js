@@ -4,7 +4,6 @@ const styles = StyleSheet.create({
     container: {
       padding: 20,
       alignItems:"center",
-      backgroundColor: '#f5f5f5', // Light gray background color
     },
     title: {
       fontSize: 24,
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 20,
         padding: 20,
-        width:"95%",
+        width:"100%",
         height:"auto",
         backgroundColor:'#FFF',
     }

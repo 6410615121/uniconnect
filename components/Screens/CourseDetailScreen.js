@@ -15,6 +15,15 @@ import {
 
 const Reviews = ({ course,reviews}) => {
   const navigation = useNavigation();
+  const extractedReviews = reviews.map((review) => ({
+    reviewID: review.id,
+    Author: review.data.Author,
+    CourseID: review.data.CourseID,
+    Description: review.data.Description,
+    likeCount: review.data.likeCount,
+  }));
+  
+
   return(
     <View >
       {/* <Text style={styles.title}>reviews {course.title}</Text>
@@ -30,13 +39,15 @@ const Reviews = ({ course,reviews}) => {
       </View>
       
       <FlatList style={styles.container}
-        data={reviews}
+        data={extractedReviews}
         numColumns={1}
         renderItem={({item})=>{ 
           
           return(
               <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
+                <Text style={styles.label}>{item.Author}</Text> 
                 <Text style={styles.label}>{item.Description}</Text>  
+                <Text style={styles.label}>like {item.likeCount}</Text>  
             </TouchableOpacity>
             )
         }}

@@ -5,47 +5,35 @@ import { TextInput } from "react-native-gesture-handler";
 import { styles } from '../../assets/styles//styles_post.js';
 import { Alert } from 'react-native';
 
-
 import {
-    uploadexam,
-  
+    Createcomment,
   } from "../../firebase/firestoreCourseDetail.js";
 
-const UploadexamScreen = ({ route }) => {
 
-    const { course } = route.params;
-    const [Filename, setFilename] = useState("");
+const CreateCommentReviewScreen = ({ route }) => {
+
+    data = route.params.item;
     const [description, setDescription] = useState("");
     const navigation = useNavigation();
   
-    const Post = async () => {
-      if (!Filename.trim()) {
-        Alert.alert('Filename cannot be empty');
-        return;
-      }else{
-        await uploadexam(Filename,course.courseID, description)
+    const comment = async () => {
       
-        navigation.goBack();
-      }
+      await Createcomment(data.CourseID, data.reviewID, description)
+      
+      navigation.goBack();
+      
     }; 
   
     return (
       <View>
         <View style={{ flexDirection: 'row',justifyContent: 'flex-end',marginRight:20,marginTop:10}}>
-            <Button title="Upload" onPress={Post} />
+            <Button title="comment" onPress={comment} />
         </View>
-        <TextInput
-          style={{backgroundColor: "#C7C7C7", padding: 5, width: "100%" ,}}
-          
-          placeholder="Enter Filename"
-          onChangeText={(text) => {
-            setFilename(text);
-          }}
-        />
+        
 
         <TextInput
           style={{ padding: 5, width: "100%" ,height:"50%"}}
-          placeholder="Enter Description"
+          placeholder="Enter comment"
           onChangeText={(text) => {
             setDescription(text);
           }}
@@ -56,4 +44,4 @@ const UploadexamScreen = ({ route }) => {
     );
   };
   
-export default UploadexamScreen;
+export default CreateCommentReviewScreen;
