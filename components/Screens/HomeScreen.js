@@ -8,7 +8,7 @@ function CarouselNews(){
   const width = Dimensions.get('window').width*0.8;
 
   return (
-      <View style={{alignItems: 'center'}}>
+      <View>
           <Carousel
               loop
               width={width}
@@ -37,19 +37,17 @@ function CarouselNews(){
 function Feeds(){
   const data = new Array(50).fill("popular");//test
   return( 
-    <View style={styles.container}>
-      <View>
-      <FlatList 
-        data = {data}
-        renderItem= {({item}) => {return(
-          <TouchableOpacity style ={styles.popularpostbox} >
-            <Text>
-              {item}
-            </Text>
-          </TouchableOpacity>
-        )}}
-      />
-      </View>
+    <View>
+        <FlatList 
+          data = {data}
+          renderItem= {({item}) => {return(
+            <TouchableOpacity>
+              <Text>
+                {item}
+              </Text>
+            </TouchableOpacity>
+          )}}
+        />
     </View>
   );
 }
@@ -57,13 +55,13 @@ function Feeds(){
 
 export default function HomeScreen() {
   return(
-    <View style={{flex: 1, flexDirection: "column", justifyContent: "space-between", padding: '1%'}}>
-      <View>
+    <View style={{flexDirection: "column", height:'100%', backgroundColor:'gray', justifyContent:'space-evenly', alignItems:'center'}}>
+      <View style={{backgroundColor: 'blue'}}>
         <Text>News</Text>
         <CarouselNews />
       </View>
       
-      <View>
+      <View style={{backgroundColor:'red', height:'50%',width:'80%', overflow:'hidden'}}>
         <Text>Popular</Text>
         <Feeds/>
       </View>
