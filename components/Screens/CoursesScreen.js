@@ -171,7 +171,7 @@ const MainScreen = ({ handleCoursePress }) => {
           <Image source={require("../../assets/icons/search_FILL0_wght400_GRAD0_opsz24.png")} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleSearchSubmit} style={{justifyContent: "center"}}>
+        <TouchableOpacity onPress={() => navigation.navigate("createCourseScreen")} style={{justifyContent: "center"}}>
           <Image style={{height:32, marginBottom:2}} source={require("../../assets/icons/add_FILL0_wght400_GRAD0_opsz24.png")} />
         </TouchableOpacity>
 
