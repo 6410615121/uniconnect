@@ -57,7 +57,7 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
       <Text>Login Screen</Text>
       <TextInput
         style={{ backgroundColor: "#C7C7C7", padding: 5, width: 200 }}
-        placeholder="Enter Username Here"
+        placeholder="Enter Email Here"
         onChangeText={(text) => setUsername(text)}
       />
       <TextInput
