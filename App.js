@@ -21,6 +21,9 @@ import {
   CreateReviewScreen,
   UploadsheetScreen,
   UploadexamScreen,
+  CreateForumScreen,
+  CreateCommentReviewScreen,
+  CreateCommentForumScreen,
 } from "./components/Screens/Screens.js";
 
 // firebase config
@@ -187,6 +190,24 @@ const MainApp = ({ handleLogout }) => {
         name="uploadexam"
         options={{ ...TransitionPresets.ModalPresentationIOS }}
         component={UploadexamScreen}
+      />
+
+      <Stack.Screen
+        name="createForum"
+        options={{ ...TransitionPresets.Modal }}
+        component={CreateForumScreen}
+      />
+
+      <Stack.Screen
+        name="CommentReview"
+        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        component={CreateCommentReviewScreen}
+      />
+
+      <Stack.Screen
+        name="ForumReview"
+        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        component={CreateCommentForumScreen}
       />
     </Stack.Navigator>
   );
