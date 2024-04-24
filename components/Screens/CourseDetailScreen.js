@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { styles } from '../../assets/styles/styles_coursedetail.js';
 import { TouchableOpacity,Image,FlatList} from 'react-native';
 import {icons} from '../../assets/styles/icon.js';
-
+import { useIsFocused } from '@react-navigation/native';
 
 import {
   getAllReviews,
@@ -15,6 +15,15 @@ import {
 
 const Reviews = ({ course,reviews}) => {
   const navigation = useNavigation();
+  const extractedReviews = reviews.map((review) => ({
+    reviewID: review.id,
+    Author: review.data.Author,
+    CourseID: review.data.CourseID,
+    Description: review.data.Description,
+    likeCount: review.data.likeCount,
+  }));
+  
+
   return(
     <View >
       {/* <Text style={styles.title}>reviews {course.title}</Text>
@@ -30,13 +39,15 @@ const Reviews = ({ course,reviews}) => {
       </View>
       
       <FlatList style={styles.container}
-        data={reviews}
+        data={extractedReviews}
         numColumns={1}
         renderItem={({item})=>{ 
           
           return(
               <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
+                <Text style={styles.label}>{item.Author}</Text> 
                 <Text style={styles.label}>{item.Description}</Text>  
+                <Text style={styles.label}>like {item.likeCount}</Text>  
             </TouchableOpacity>
             )
         }}
@@ -153,6 +164,7 @@ const CourseDetailScreen = ({ route }) => {
   // Extract the course details from the route params
   const { course } = route.params;
   // Now you can access the course object
+  const isFocused = useIsFocused();
   const [reviews, setreviews] = useState([]);
   const [sheets, setsheets] = useState([]);
   const [exams, setexams] = useState([]);
@@ -166,8 +178,10 @@ const CourseDetailScreen = ({ route }) => {
       setsheets(sheetsData);
       setexams(examsData);
     };
-    fetchAndUpdateState();
-  },[]);
+    if (isFocused) {
+      fetchAndUpdateState();
+    }
+  },[isFocused]);
 
   if(route.name == "reviews"){
     return (
