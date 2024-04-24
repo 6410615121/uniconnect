@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, FlatList, Button } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, Button, TouchableHighlight, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 // import coursesData from "../../test.json"; // Import the JSON data directly for testing fetch json from api
 import { styles } from "../../assets/styles/styles_course.js";
@@ -15,25 +15,9 @@ import { TextInput } from "react-native-gesture-handler";
 
 const Stack = createStackNavigator();
 
-// export default
+/* ---------------------------- export default --------------------------- */
 const Courses = (props) => {
-  // const [courses, setCourses] = useState([]);
   const navigation = useNavigation(); // Use useNavigation hook to get the navigation object
-
-  // // fetching
-  // const fetchCourses = async () => {
-  //   try {
-  //     const courses = await getAllCourses();
-  //     setCourses(courses);
-  //   } catch (error) {
-  //     console.error("Error fetching courses:", error);
-  //   }
-  // };
-  
-  // useEffect(() => {
-  //   fetchCourses(); // Call the fetchCourses function when component mounts
-  // }, []);
-
 
   const handleCoursePress = (course) => {
     // Navigate to the CourseDetailScreen and pass the course object as a parameter
@@ -44,15 +28,7 @@ const Courses = (props) => {
     <Stack.Navigator>
       <Stack.Screen name="main" options={{ headerShown: false }}>
         {(screenProps) => (
-          <MainScreen
-            {...screenProps}
-            // courses={courses}
-            handleCoursePress={handleCoursePress}
-            // setCourses={setCourses}
-            // course={courses}
-            // fetchCourses={fetchCourses}
-            // allCourses={courses}
-          />
+          <MainScreen {...screenProps} handleCoursePress={handleCoursePress} />
         )}
       </Stack.Screen>
 
@@ -60,27 +36,26 @@ const Courses = (props) => {
         name="createCourseScreen"
         options={{ headerTitle: "Course Creation" }}
       >
-        {(screenProps) => (
-          <CreateCourseScreen {...screenProps}/>
-        )}
+        {(screenProps) => <CreateCourseScreen {...screenProps} />}
       </Stack.Screen>
     </Stack.Navigator>
   );
 };
+/* -------------------------------------------------------------------------- */
 
-// Create Course Screen
+/* -------------------------  Create Course Screen -------------------------- */
 const CreateCourseScreen = ({ route }) => {
   const [courseID, setCourseID] = useState("courseID");
   const [title, setTitle] = useState("title");
   const [description, setDescription] = useState("description");
 
-  const { fetchCourses } = route.params;
+  // const { fetchCourses } = route.params;
 
   const navigation = useNavigation();
 
   const handleSubmitPress = async () => {
     await createCourse(courseID, title, description);
-    await fetchCourses();
+    // await fetchCourses();
     navigation.goBack();
   };
 
@@ -116,9 +91,10 @@ const CreateCourseScreen = ({ route }) => {
     </View>
   );
 };
+/* -------------------------------------------------------------------------- */
 
-// Main section in CourseScreen
-const MainScreen = ({handleCoursePress}) => {
+/* ---------------------- Main section in CourseScreen ---------------------- */
+const MainScreen = ({ handleCoursePress }) => {
   const [searchText, setSearchText] = useState("");
   const [courses, setCourses] = useState([]);
 
@@ -129,51 +105,82 @@ const MainScreen = ({handleCoursePress}) => {
     try {
       const courses = await getAllCourses();
       setCourses(courses);
-      console.log("fetched!")
-      console.log(courses.length)
-
+      console.log("fetched!");
+      // console.log(courses)
+      // console.log(courses.length)
     } catch (error) {
       console.error("Error fetching courses:", error);
     }
   };
-    
-    useEffect(() => {
-      fetchCourses(); // Call the fetchCourses function when component mounts
-    }, []);
 
-    const handleSearchSubmit = async () => {
-      if (searchText.trim().length > 0) {
-        try {
-          const fetchedCourses = await getAllCourses(); // Fetch courses
-    
-          const filteredCourses = fetchedCourses.filter((course) =>
-            course.courseID.includes(searchText)
-          );
-    
-          setCourses(filteredCourses); 
-        } catch (error) {
-          console.error("Error fetching and filtering courses:", error);
-        }
-      } else {
-        try {
-          const fetchedCourses = await getAllCourses(); 
-          setCourses(fetchedCourses); 
-        } catch (error) {
-          console.error("Error fetching courses:", error);
-        }
+  useEffect(() => {
+    fetchCourses(); // Call the fetchCourses function when component mounts
+  }, []);
+
+  // refresh when main become focus again
+  useEffect(() => {
+    const refresh = navigation.addListener("focus", () => {
+      fetchCourses();
+    });
+
+    return refresh;
+  }, [navigation]);
+
+  // handle when pressing search submit button
+  const handleSearchSubmit = async () => {
+    if (searchText.trim().length > 0) {
+      try {
+        const fetchedCourses = await getAllCourses(); // Fetch courses
+
+        const filteredCourses = fetchedCourses.filter((course) =>
+          course.courseID.includes(searchText)
+        );
+
+        setCourses(filteredCourses);
+      } catch (error) {
+        console.error("Error fetching and filtering courses:", error);
       }
-    };
+    } else {
+      try {
+        const fetchedCourses = await getAllCourses();
+        setCourses(fetchedCourses);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    }
+  };
 
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
-      <View style={{ flexDirection: 'row'}}>
+    <View style={{ flex: 1, alignItems: "center"}}>
+      <View style={{ flexDirection: "row", backgroundColor:"white", width:'100%', justifyContent:'space-evenly' }}>
         <TextInput
-          style={{ backgroundColor: "#C7C7C7", padding: 5, width: 200 , marginEnd: 5}}
+          style={{
+            backgroundColor: "#ffffff",
+            padding: 8,
+            paddingLeft:15,
+            width: 250,
+
+            borderColor:'#e9e9e9',
+            borderWidth: 3,
+            borderRadius: 8
+          }}
           placeholder="search by id"
           onChangeText={(text) => setSearchText(text)}
         />
+        <TouchableOpacity onPress={handleSearchSubmit} style={{justifyContent: "center"}}>
+          <Image source={require("../../assets/icons/search_FILL0_wght400_GRAD0_opsz24.png")} />
+        </TouchableOpacity>
 
-        <Button title="search" onPress={handleSearchSubmit}/>
+        <TouchableOpacity onPress={() => navigation.navigate("createCourseScreen")} style={{justifyContent: "center"}}>
+          <Image style={{height:32, marginBottom:2}} source={require("../../assets/icons/add_FILL0_wght400_GRAD0_opsz24.png")} />
+        </TouchableOpacity>
+
+        {/* <Button title="search" onPress={handleSearchSubmit} />
+        check later isAdmin? */}
+        {/* <Button
+          title="create"
+          onPress={() => navigation.navigate("createCourseScreen")}
+        /> */}
       </View>
 
       <FlatList
@@ -187,9 +194,29 @@ const MainScreen = ({handleCoursePress}) => {
               key={item.id}
               onPress={() => handleCoursePress(item)}
             >
-              <View style={styles.course}>
-                <Text style={styles.title}>id: {item.courseID}</Text>
-                <Text style={styles.title}>Title: {item.title}</Text>
+              <View style={styles.course_container}>
+                <View
+                  style={[
+                    styles.course_header,
+                    { backgroundColor: item.color },
+                    // { backgroundColor: "#BC9FD1" }
+                  ]}
+                >
+                  <Text style={styles.courseID}>{item.courseID}</Text>
+                </View>
+
+                <View
+                  style={
+                    styles.course_text_box
+                  }
+                >
+                  <Text style={styles.title}>{item.title}</Text>
+                  <Text style={styles.description}>{item.description}</Text>
+                </View>
+
+                {/* <Text style={styles.courseID}>{item.courseID}</Text>
+                <Text style={styles.title}>{item.title}</Text> */}
+
                 {/* <Text style={styles.description}>
                   Description: {item.description}
                 </Text> */}
@@ -198,23 +225,9 @@ const MainScreen = ({handleCoursePress}) => {
           );
         }}
       />
-
-      {/* check later isAdmin? */}
-      <Button
-        title="create"
-        onPress={() => navigation.navigate("createCourseScreen", {fetchCourses})}
-      />
     </View>
   );
 };
-
-// const TestButton = ({handleTestCreateCourse}) => {
-//   return (
-//     <Button
-//      title="test create course"
-//      onPress={handleTestCreateCourse}
-//     />
-//   );
-// }
+/* -------------------------------------------------------------------------- */
 
 export default Courses;

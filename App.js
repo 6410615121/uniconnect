@@ -17,6 +17,10 @@ import {
   PostDetailScreen,
   LoginScreen,
   RegisterScreen,
+  ReviewDetailScreen,
+  CreateReviewScreen,
+  UploadsheetScreen,
+  UploadexamScreen,
 } from "./components/Screens/Screens.js";
 
 // firebase config
@@ -126,7 +130,14 @@ const MainApp = ({ handleLogout }) => {
         })}
       />
 
-      <Stack.Screen name="ProfileStack" component={ProfileScreen} />
+      <Stack.Screen name="ProfileStack" component={ProfileScreen} 
+      options={{headerTitle: '',
+       headerStyle:{
+        backgroundColor:'#0C2D57', 
+        borderWidth:0,
+        shadowColor:'#0C2D57'
+
+        }}}/>
 
       <Stack.Screen name="NotificationsStack" component={NotificationsScreen} />
 
@@ -152,6 +163,30 @@ const MainApp = ({ handleLogout }) => {
         name="PostDetail"
         options={{ ...TransitionPresets.Modal }}
         component={PostDetailScreen}
+      />
+
+      <Stack.Screen
+        name="ReviewDetail"
+        options={{ ...TransitionPresets.Modal }}
+        component={ReviewDetailScreen}
+      />
+
+      <Stack.Screen
+        name="createReview"
+        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        component={CreateReviewScreen}
+      />
+
+      <Stack.Screen
+        name="uploadsheet"
+        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        component={UploadsheetScreen}
+      />
+
+      <Stack.Screen
+        name="uploadexam"
+        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        component={UploadexamScreen}
       />
     </Stack.Navigator>
   );
