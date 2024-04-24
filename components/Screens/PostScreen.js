@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { FlatList} from 'react-native';
 import { useEffect, useState } from "react";
+import { useIsFocused } from '@react-navigation/native';
 import { styles } from '../../assets/styles//styles_post.js';
 import { TextInput } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
@@ -21,8 +22,9 @@ const fetchComments = async (IDPost) => {
 };
 
 const PostDetailScreen = ({ route }) => {
+  const isFocused = useIsFocused();
   const {post} = route.params;
-  console.log(post)
+  
   post_data = post.field;
   const [comment, setcomment] = useState("");
   const [comobject, setcomobject] = useState([]);
@@ -31,9 +33,10 @@ const PostDetailScreen = ({ route }) => {
       const commentdata = await fetchComments(post.id);
       setcomobject(commentdata);
     };
+    if (isFocused) {
     fetchAndUpdateState();
-      
-  },[]);
+    }
+  },[isFocused]);
   const navigation = useNavigation();
   
   const handleTextInputPress = () => {

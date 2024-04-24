@@ -15,7 +15,7 @@ const CreateCommentForumScreen = ({ route }) => {
     IDPost = route.params;
     const [description, setDescription] = useState("");
     const navigation = useNavigation();
-    console.log(route);
+    
     const comment = async () => {
       
       await Createcomment(IDPost, description)

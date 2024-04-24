@@ -4,6 +4,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import { FlatList, TouchableOpacity} from 'react-native';
 import { styles } from '../../assets/styles/styles_home.js';
 import { useNavigation } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
 import {
   getAllForums, 
@@ -74,6 +75,7 @@ function Feeds({feeds}){
 
 export default function HomeScreen() {
   const [data, setData] = useState([]);
+  const isFocused = useIsFocused();
   const fetchData = async () => {
     try {
       const forumsData = await getAllForums();
@@ -83,9 +85,10 @@ export default function HomeScreen() {
     }
   };
   useEffect(() => {
-
-    fetchData();
-  }, []);
+    if (isFocused){
+      fetchData();
+    }
+  }, [isFocused]);
   
   return(
     <View style={{flex: 1, flexDirection: "column", justifyContent: "space-between", padding: '1%'}}>

@@ -1,6 +1,6 @@
 import { View, Text, FlatList, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import {TextInput, Button, Modal } from 'react-native';
@@ -11,7 +11,7 @@ import {
 
 
 function Forum( {post} ){
-  console.log(post)
+  
   const navigation = useNavigation();
   const post_data = post.field
   
@@ -27,7 +27,7 @@ function Forum( {post} ){
 }
 
 export default function Forums() {
-
+  const isFocused = useIsFocused();
   const [data, setData] = useState([]);
   const navigation = useNavigation();
   const fetchData = async () => {
@@ -38,17 +38,18 @@ export default function Forums() {
       console.error("Error fetching forums:", error);
     }
   };
-  useEffect(() => {
 
-    fetchData();
-  }, []);
+  useEffect(() => {
+    if (isFocused) {
+      fetchData();
+    }
+  }, [isFocused]);
   
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   
   const handleTextInputPress = () => {
-    setIsPopupOpen(true);
+
     navigation.navigate('createForum');
-    fetchData();
   };
 
   return (
