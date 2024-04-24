@@ -130,7 +130,14 @@ const MainApp = ({ handleLogout }) => {
         })}
       />
 
-      <Stack.Screen name="ProfileStack" component={ProfileScreen} />
+      <Stack.Screen name="ProfileStack" component={ProfileScreen} 
+      options={{headerTitle: '',
+       headerStyle:{
+        backgroundColor:'#0C2D57', 
+        borderWidth:0,
+        shadowColor:'#0C2D57'
+
+        }}}/>
 
       <Stack.Screen name="NotificationsStack" component={NotificationsScreen} />
 
