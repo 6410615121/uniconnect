@@ -57,16 +57,18 @@ function Feeds({feeds}){
     <View>
       <FlatList 
         data = {extractedFeeds}
+        contentContainerStyle={{ paddingBottom: 50 }}
         renderItem= {({item}) => {return(
           <TouchableOpacity
           onPress={() => navigation.navigate('PostDetail',{post:{field:{author:item.author,Description:item.Description,likeCount:item.likeCount},id:item.reviewID}})}>
             <View style={{flexDirection:'row', padding:10, backgroundColor:"#EFECEC", alignSelf:'center', justifyContent: 'center', alignItems: 'center',borderBottomWidth:2, borderBlockColor:"#0C2D57"}}>
               <Image source={require("../../assets/icons/Vector.png")} style={{marginRight:10, height:42, width:42}}/>
-              <Text style={{backgroundColor:'#FFF8E3', marginLeft:"0.1%", padding:10, borderRadius: 15, width:"80%"}} >
-                {item.author}
-                {item.Description}
-                like {item.likeCount}
-              </Text>
+              <View style={{flexDirection:"column", flex:1, backgroundColor:'#FFF8E3', marginLeft:"0.1%", padding:10, borderRadius: 15, width:"80%"}} >
+                <Text>{item.author}</Text>
+                <Text>{item.Description}</Text>
+                <Text>like {item.likeCount}</Text>
+              </View>
+              <Text style={{backgroundColor:"#EFECEC"}}></Text>
 {/* 
               <Text style={{backgroundColor:'#FFF8E3', marginLeft:"0.1%", padding:10, borderRadius: 15, width:"80%"}} >
                 {item.Description}
