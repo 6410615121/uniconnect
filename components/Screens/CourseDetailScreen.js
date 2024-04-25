@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { styles } from '../../assets/styles/styles_coursedetail.js';
 import { TouchableOpacity,Image,FlatList} from 'react-native';
 import {icons} from '../../assets/styles/icon.js';
-
+import { useIsFocused } from '@react-navigation/native';
 
 import {
   getAllReviews,
@@ -15,8 +15,17 @@ import {
 
 const Reviews = ({ course,reviews}) => {
   const navigation = useNavigation();
-  return( 
-    <View style={{height:'100%',backgroundColor:'#EFECEC'}}>
+  const extractedReviews = reviews.map((review) => ({
+    reviewID: review.id,
+    Author: review.data.Author,
+    CourseID: review.data.CourseID,
+    Description: review.data.Description,
+    likeCount: review.data.likeCount,
+  }));
+  
+
+  return(
+    <View >
       {/* <Text style={styles.title}>reviews {course.title}</Text>
       <View style={styles.detailsContainer}>
         <Text style={styles.label}>Description:</Text>
@@ -45,24 +54,31 @@ const Reviews = ({ course,reviews}) => {
         /> */}
       </View>
       
-      <FlatList
-        data={reviews}
+      <FlatList style={styles.container}
+        data={extractedReviews}
         numColumns={1}
         contentContainerStyle={{ paddingBottom: 10 }}
         renderItem={({item})=>{ 
           
           return(
-            <TouchableOpacity
-                style={styles.postbox} 
-                onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
-                  <View style={{flexDirection:'row'}}>
-                    <Image source={require("../../assets/icons/profileBlue.png")}/>
-                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>Name Surname</Text>
-                  </View>
-                  <Text style={styles.label}>{item.Description}</Text>
-                  <View style={{alignSelf:'center',marginTop:20}}>  
-                    <Image source={require("../../assets/icons/likeComment.png")}/>
-                  </View>  
+// <<<<<<< HEAD
+//             <TouchableOpacity
+//                 style={styles.postbox} 
+//                 onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
+//                   <View style={{flexDirection:'row'}}>
+//                     <Image source={require("../../assets/icons/profileBlue.png")}/>
+//                     <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>Name Surname</Text>
+//                   </View>
+//                   <Text style={styles.label}>{item.Description}</Text>
+//                   <View style={{alignSelf:'center',marginTop:20}}>  
+//                     <Image source={require("../../assets/icons/likeComment.png")}/>
+//                   </View>  
+// =======
+              <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
+                <Text style={styles.label}>{item.Author}</Text> 
+                <Text style={styles.label}>{item.Description}</Text>  
+                <Text style={styles.label}>like {item.likeCount}</Text>  
+{/* >>>>>>> a1a576f7bb814251d89e83cf4b9595dd3e7b6bbc */}
             </TouchableOpacity>
             )
         }}
@@ -217,6 +233,7 @@ const CourseDetailScreen = ({ route }) => {
   // Extract the course details from the route params
   const { course } = route.params;
   // Now you can access the course object
+  const isFocused = useIsFocused();
   const [reviews, setreviews] = useState([]);
   const [sheets, setsheets] = useState([]);
   const [exams, setexams] = useState([]);
@@ -230,8 +247,10 @@ const CourseDetailScreen = ({ route }) => {
       setsheets(sheetsData);
       setexams(examsData);
     };
-    fetchAndUpdateState();
-  },[]);
+    if (isFocused) {
+      fetchAndUpdateState();
+    }
+  },[isFocused]);
 
   if(route.name == "reviews"){
     return (
