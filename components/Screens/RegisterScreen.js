@@ -22,6 +22,12 @@ export default function RegisterScreen({ navigation }) {
     register(email, password).then(
       (isSuccessful) => {
         console.log('Registration successful:', isSuccessful)
+
+        if(isSuccessful){
+          setRegisterMessage('sucessfully registered')
+        }else{
+          setRegisterMessage('registered failed')
+        }
       }
     ).catch((error) =>{
       console.error('Error during registration:', error);
