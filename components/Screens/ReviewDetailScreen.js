@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button ,Image} from 'react-native';
 import { useState } from "react";
 import { styles } from '../../assets/styles//styles_post.js';
 import { TextInput } from "react-native-gesture-handler";
@@ -16,7 +16,10 @@ const ReviewDetailScreen = ({ route }) => {
     return(
       <View style={styles.container}>
         <View style={styles.postbox}>
-          <Text>author</Text>
+          <View style={{flexDirection:'row'}}>
+            <Image source={require("../../assets/icons/profileBlue.png")} />
+            <Text style={{fontSize: 18,marginTop: 5,marginLeft:50,marginRight: 50, color: '#0C2D57',}}>author</Text>
+          </View>
           <Text>{item.Description}</Text>
         </View>
         <View style={{ flexDirection: 'row', marginTop:10}}>

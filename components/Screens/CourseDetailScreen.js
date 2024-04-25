@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from "react";
-import { View, Text, StyleSheet,Button } from 'react-native';
+import { View, Text, StyleSheet,Button,TouchableHighlight} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../../assets/styles/styles_coursedetail.js';
 import { TouchableOpacity,Image,FlatList} from 'react-native';
@@ -15,28 +15,54 @@ import {
 
 const Reviews = ({ course,reviews}) => {
   const navigation = useNavigation();
-  return(
-    <View >
+  return( 
+    <View style={{height:'100%',backgroundColor:'#EFECEC'}}>
       {/* <Text style={styles.title}>reviews {course.title}</Text>
       <View style={styles.detailsContainer}>
         <Text style={styles.label}>Description:</Text>
         <Text style={styles.value}>{course.description}</Text>
       </View> */}
-      <View style={{ flexDirection: 'row',marginTop:10, marginLeft:10}}>
-        <Button
+      <View style={{ flexDirection: 'row',marginTop:10, marginLeft:40,marginRight:40}}>
+        <TouchableOpacity onPress={() => navigation.navigate("createReview", { course})} style={{width:'50%'}} >
+          <View>
+            <Image 
+              source={require("../../assets/icons/postIcon.png")}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={{width:'50%'}}>
+        <View>
+            <Image 
+              source={require("../../assets/icons/filter.png")}
+              style={{marginTop:5,alignSelf:'flex-end'}}
+            />
+          </View>
+        </TouchableOpacity>
+        {/* <Button
           title="Review"
           onPress={() => navigation.navigate("createReview", { course})}
-        />
+
+        /> */}
       </View>
       
-      <FlatList style={styles.container}
+      <FlatList
         data={reviews}
         numColumns={1}
+        contentContainerStyle={{ paddingBottom: 10 }}
         renderItem={({item})=>{ 
           
           return(
-              <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
-                <Text style={styles.label}>{item.Description}</Text>  
+            <TouchableOpacity
+                style={styles.postbox} 
+                onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
+                  <View style={{flexDirection:'row'}}>
+                    <Image source={require("../../assets/icons/profileBlue.png")}/>
+                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>Name Surname</Text>
+                  </View>
+                  <Text style={styles.label}>{item.Description}</Text>
+                  <View style={{alignSelf:'center',marginTop:20}}>  
+                    <Image source={require("../../assets/icons/likeComment.png")}/>
+                  </View>  
             </TouchableOpacity>
             )
         }}
@@ -52,11 +78,26 @@ const Sheets = ( props ) => {
   return(
     <View >
       {/* <Text style={styles.title}>sheets{course.title}</Text> */}
-      <View style={{ flexDirection: 'row',marginTop:10, marginLeft:10}}>
-        <Button
+      <View style={{ flexDirection: 'row',marginTop:20, marginLeft:40,marginRight:40}}>
+      <TouchableOpacity onPress={() => navigation.navigate("uploadsheet", { course})} style={{width:'50%'}}>
+          <View>
+            <Image 
+              source={require("../../assets/icons/uploadfile.png")}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={{width:'50%'}}>
+        <View>
+            <Image 
+              source={require("../../assets/icons/filter.png")}
+              style={{marginTop:0,alignSelf:'flex-end'}}
+            />
+          </View>
+        </TouchableOpacity>
+        {/* <Button
           title="upload"
           onPress={() => navigation.navigate("uploadsheet", { course})}
-        />
+        /> */}
       </View>
       <FlatList style={styles.container}
         data={sheets}
@@ -65,14 +106,17 @@ const Sheets = ( props ) => {
           //console.log(sheetfile)
           return(
             <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('FileDetail', {item});}}>
+              <Image source={require('../../assets/icons/file.png')} style={{marginTop:10}}/>
+              <View style={{marginTop:-50}}>
                 <Text style={styles.label}>{item.Filename}</Text>  
                 <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
                   <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
-                  <Image source={require('../../assets/icons/download-icon.png')} 
+                  <Image source={require('../../assets/icons/dowsload.png')} 
                       style={icons.download_icon}
-                    /> 
+                  /> 
                   </TouchableOpacity>
                 </View>
+              </View>
             </TouchableOpacity>
             )
         }}
@@ -88,11 +132,28 @@ const Exam = ( props ) => {
   return(
     <View style={{flex:1}}>
       {/* <Text style={styles.title}>exam {course.title}</Text> */}
-      <View style={{ flexDirection: 'row',marginTop:10, marginLeft:10}}>
+      {/* <View style={{ flexDirection: 'row',marginTop:10, marginLeft:10}}>
         <Button
           title="upload"
           onPress={() => navigation.navigate("uploadexam", { course})}
         />
+      </View> */}
+      <View style={{ flexDirection: 'row',marginTop:20, marginLeft:40,marginRight:40}}>
+      <TouchableOpacity  onPress={() => navigation.navigate("uploadexam", { course})} style={{width:'50%'}}>
+          <View>
+            <Image 
+              source={require("../../assets/icons/uploadfile.png")}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={{width:'50%'}}>
+        <View>
+            <Image 
+              source={require("../../assets/icons/filter.png")}
+              style={{marginTop:0,alignSelf:'flex-end'}}
+            />
+          </View>
+        </TouchableOpacity>
       </View>
       <FlatList style={styles.container}
         data={exams}
@@ -102,13 +163,16 @@ const Exam = ( props ) => {
 
           return(
               <TouchableOpacity style={styles.filebox} onPress={() => {navigation.navigate('FileDetail', {item});}}>
-                <Text style={styles.label}>{item.Filename}</Text>
-                <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
-                  <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
-                    <Image source={require('../../assets/icons/download-icon.png')} 
-                      style={icons.download_icon}
-                    /> 
-                  </TouchableOpacity>
+                <Image source={require('../../assets/icons/file.png')} style={{marginTop:10}}/>
+                <View style={{marginTop:-50}}>
+                  <Text style={styles.label}>{item.Filename}</Text>
+                  <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
+                    <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
+                      <Image source={require('../../assets/icons/dowsload.png')} 
+                        style={icons.download_icon}
+                      /> 
+                    </TouchableOpacity>
+                  </View>
                 </View>
             </TouchableOpacity>
             )
