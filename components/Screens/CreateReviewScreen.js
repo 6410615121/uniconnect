@@ -26,21 +26,22 @@ const CreateReviewScreen = ({ route }) => {
   
     return (
       <View style={{backgroundColor:'#EFECEC',flexDirection:'column',height:'100%'}}>
-        <TextInput
-          
-          multiline
-          numberOfLines={10}
-          style={{ padding: 10, width: "100%",height:"80%",color:'#0C2D57'}}
-          placeholder="Enter Description"
-          onChangeText={(text) => {
-            setDescription(text);
-          }}
-        />
-        <View style={{ flexDirection: 'column',backgroundColor:'#FFB0B0',width:'90%',alignSelf:'center'}}>
-            <Button title="Post" onPress={Post} color={'#FFB0B0'} />
+        <View style={{height:'80%'}}>
+          <TextInput
+            multiline
+            numberOfLines={10}
+            style={{ padding: 10, width: "100%",color:'#0C2D57'}}
+            placeholder="Enter Description"
+            onChangeText={(text) => {
+              setDescription(text);
+            }}
+          />
         </View>
-  
-        
+        <View style={{height:'20%'}}>
+          <View style={{ flexDirection: 'column',backgroundColor:'#FFB0B0',width:'90%',alignSelf:'center'}}>
+              <Button title="Post" onPress={Post} color={'#FFB0B0'} />
+          </View>
+        </View>
       </View>
     );
   };

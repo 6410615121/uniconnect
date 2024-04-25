@@ -155,15 +155,19 @@ const MainApp = ({ handleLogout }) => {
         name="CourseDetail"
         component={TopTabcourse}
         options={({ navigation }) => ({
-          headerTitle: () => <View></View>,
-          headerStyle: {backgroundColor:'#0C2D57'}
+          title: "Course",
+          headerStyle: {backgroundColor:'#0C2D57'},
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}
         })}
         
       />
 
       <Stack.Screen
         name="FileDetail"
-        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        options={{ ...TransitionPresets.ModalPresentationIOS , 
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'FILE DETAIL',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={FileDetailScreen}
       />
 
@@ -195,13 +199,19 @@ const MainApp = ({ handleLogout }) => {
 
       <Stack.Screen
         name="uploadsheet"
-        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'UPLOADSHEET',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={UploadsheetScreen}
       />
 
       <Stack.Screen
         name="uploadexam"
-        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'UPLOADEXAM',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={UploadexamScreen}
       />
 
