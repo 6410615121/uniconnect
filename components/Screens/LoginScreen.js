@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { API_host, API_port } from "@env";
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { signIn } from "../../firebase/firebaseAuth";
 
 export default function LoginScreen({ navigation, setLoggedIn }) {
   const [username, setUsername] = useState("");
@@ -13,41 +13,24 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
 
   function handleLogin() {
     setLoggedIn(); // for development only
-    AsyncStorage.setItem('name', 'Somsak Rakthai');
-
-
+    
     // if (!username || !password) {
     //   setLoginStatus("All field is required!");
     //   return;
     // }
+    // signIn(username, password).then((isSuccessful) => {
+    //   if(isSuccessful){
+    //     setLoginStatus("Logged In!");
+    //     AsyncStorage.setItem("name", "Somsak Rakthai");
+    //     setLoggedIn(); 
+    //   }else{
+    //     setLoginStatus("Login Failed!");
+    //   }
+    // }).catch((error) =>{
+    //   console.login(error)
+    //   setLoginStatus("Login Error!");
+    // });
 
-    // axios
-    //   .post(
-    //     `http://${API_host}:${API_port}/auth/login`,
-    //     {
-    //       username: username,
-    //       password: password,
-    //     },
-    //     { timeout: 5000 }
-    //   )
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setLoggedIn();
-    //   })
-    //   .catch((err) => {
-    //     if (err.code === "ECONNABORTED") {
-    //       console.log("Request timed out");
-    //       setLoginStatus("timeout");
-    //       return;
-    //     }
-
-    //     console.log(err.response.data);
-    //     if (err.response.status === 401)
-    //       setLoginStatus("Wrong username or password.");
-    //     else if (err.response.status === 500) {
-    //       setLoginStatus("500 internal server error");
-    //     }
-    //   });
   }
 
   return (
@@ -57,7 +40,7 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
       <Text>Login Screen</Text>
       <TextInput
         style={{ backgroundColor: "#C7C7C7", padding: 5, width: 200 }}
-        placeholder="Enter Username Here"
+        placeholder="Enter Email Here"
         onChangeText={(text) => setUsername(text)}
       />
       <TextInput
