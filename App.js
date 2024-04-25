@@ -156,7 +156,9 @@ const MainApp = ({ handleLogout }) => {
         component={TopTabcourse}
         options={({ navigation }) => ({
           headerTitle: () => <View></View>,
+          headerStyle: {backgroundColor:'#0C2D57'}
         })}
+        
       />
 
       <Stack.Screen
@@ -173,14 +175,22 @@ const MainApp = ({ handleLogout }) => {
 
       <Stack.Screen
         name="ReviewDetail"
-        options={{ ...TransitionPresets.Modal }}
+        options={{ ...TransitionPresets.Modal , 
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'REVIEWS POST',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'},}}
         component={ReviewDetailScreen}
       />
 
       <Stack.Screen
         name="createReview"
-        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        options={{ ...TransitionPresets.ModalPresentationIOS, 
+        headerStyle:{backgroundColor:'#0C2D57'},
+        title : 'REVIEWS CREATE',
+        headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={CreateReviewScreen}
+      
+        
       />
 
       <Stack.Screen
@@ -203,7 +213,10 @@ const MainApp = ({ handleLogout }) => {
 
       <Stack.Screen
         name="CommentReview"
-        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'COMMENT REVIEWS',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={CreateCommentReviewScreen}
       />
 
