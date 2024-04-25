@@ -210,7 +210,10 @@ const MainApp = ({ handleLogout }) => {
 
       <Stack.Screen
         name="CommentReview"
-        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'COMMENT REVIEWS',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={CreateCommentReviewScreen}
       />
 

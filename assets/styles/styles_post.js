@@ -27,13 +27,12 @@ const styles = StyleSheet.create({
     },
     commentbox: {
         marginTop: 20,
-        borderWidth: 2,
-        borderColor: '#ccc',
         borderRadius: 20,
         padding: 20,
-        width:"100%",
+        width: 340,
         height:"auto",
-        backgroundColor:'#FFF',
+        backgroundColor:'#FFF8E3',
+        flexDirection:'row'
     }
     
   });

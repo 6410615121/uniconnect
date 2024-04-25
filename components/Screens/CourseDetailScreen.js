@@ -62,22 +62,22 @@ const Reviews = ({ course,reviews}) => {
           
           return(
 // <<<<<<< HEAD
-//             <TouchableOpacity
-//                 style={styles.postbox} 
-//                 onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
-//                   <View style={{flexDirection:'row'}}>
-//                     <Image source={require("../../assets/icons/profileBlue.png")}/>
-//                     <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>Name Surname</Text>
-//                   </View>
-//                   <Text style={styles.label}>{item.Description}</Text>
-//                   <View style={{alignSelf:'center',marginTop:20}}>  
-//                     <Image source={require("../../assets/icons/likeComment.png")}/>
-//                   </View>  
-// =======
-              <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
-                <Text style={styles.label}>{item.Author}</Text> 
-                <Text style={styles.label}>{item.Description}</Text>  
-                <Text style={styles.label}>like {item.likeCount}</Text>  
+            <TouchableOpacity
+                style={styles.postbox} 
+                onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
+                  <View style={{flexDirection:'row'}}>
+                    <Image source={require("../../assets/icons/profileBlue.png")}/>
+                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.Author}</Text>
+                  </View>
+                  <Text style={styles.label}>{item.Description}</Text>
+                  <View style={{alignSelf:'center',marginTop:20}}>  
+                    <Image source={require("../../assets/icons/likeComment.png")}/>
+                  </View>  
+{/* // =======
+              // <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
+              //   <Text style={styles.label}>{item.Author}</Text> 
+              //   <Text style={styles.label}>{item.Description}</Text>  
+              //   <Text style={styles.label}>like {item.likeCount}</Text>   */}
 {/* >>>>>>> a1a576f7bb814251d89e83cf4b9595dd3e7b6bbc */}
             </TouchableOpacity>
             )
