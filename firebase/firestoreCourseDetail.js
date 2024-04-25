@@ -19,7 +19,7 @@ const getAllReviews = async (IDCourse) => {
       const reviewsQuerySnapshot = await getDocs(reviewsCollectionRef);
 
       // Extract data from the query snapshot and push it to the array
-      const reviewsData = reviewsQuerySnapshot.docs.map((doc) => doc.data());
+      const reviewsData = reviewsQuerySnapshot.docs.map((doc) => {return {id:doc.id,data:doc.data()}});
       allReviews = reviewsData;
       
     } 
@@ -32,6 +32,31 @@ const getAllReviews = async (IDCourse) => {
   }
 };
 
+const getAllComment = async (IDCourse,reviewID) => {
+  try{
+    // Query all course documents
+    const filteredCourses = query(collection(firestore, "courses"), where("courseID", '==', IDCourse));
+    const courseQuerySnapshot = await getDocs(filteredCourses);
+    let allComments = [];
+    
+
+    if (!courseQuerySnapshot.empty) {
+      const courseDoc = courseQuerySnapshot.docs[0];
+      const commentCollectionRef = collection(courseDoc.ref, "reviews",reviewID,'comments')
+      const commentsQuerySnapshot = await getDocs(commentCollectionRef);
+      const commentsData = commentsQuerySnapshot.docs.map((doc) => doc.data());
+      allComments = commentsData;
+
+    } 
+
+    return allComments;
+
+  } catch (e) {
+    console.error("Error getting all comments: ", e);
+    return [];
+  }
+};
+
 
 const createReviews = async (CourseID,Description) => {
   try {
@@ -39,23 +64,20 @@ const createReviews = async (CourseID,Description) => {
     const filteredCourses = query(collection(firestore, "courses"), where("courseID", '==', CourseID));
     const courseQuerySnapshot = await getDocs(filteredCourses);
 
-    await runTransaction(firestore, async (transaction) => {
-      if (!courseQuerySnapshot.empty) {
-        let reviewID = courseQuerySnapshot.docs.map(doc => doc.data())[0].reviewcounts + 1;
-        transaction.update(courseQuerySnapshot.docs[0].ref, { reviewcounts: reviewID });
+    
+    if (!courseQuerySnapshot.empty) {
 
-      
-        const courseDoc = courseQuerySnapshot.docs[0];
-        const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
-        const docRef = await addDoc(reviewsCollectionRef, {
-          CourseID,
-          reviewID,
-          Description,
-          likeCount: 0,
-        });
+      const courseDoc = courseQuerySnapshot.docs[0];
+      const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
+      await addDoc(reviewsCollectionRef, {
+        Author:"Nawaphoom Nachai",
+        CourseID,
+        Description,
+        likeCount: 0,
+      });
 
-      } 
-    });
+    } 
+    
 
   } catch (e) {
     console.error("Error creating reviews: ", e);
@@ -74,14 +96,11 @@ const Createcomment = async (IDCourse, IDReview, comment) => {
 
     if (!courseQuerySnapshot.empty) {
       const courseDoc = courseQuerySnapshot.docs[0];
-      const reviewsCollectionRef = query(collection(courseDoc.ref, "reviews"), where("reviewID", '==', IDReview));
-      const reviewQuerySnapshot = await getDocs(reviewsCollectionRef);
+      const commentCollectionRef = collection(courseDoc.ref, "reviews",IDReview,'comments')
 
-      if (!reviewQuerySnapshot.empty) {
-        const reviewDoc = reviewQuerySnapshot.docs[0];
-        const commentCollectionRef = collection(reviewDoc.ref, "comments");
-        const docRef = await addDoc(commentCollectionRef, {
-          IDReview,
+      if (!commentCollectionRef.empty) {
+        await addDoc(commentCollectionRef, {
+          Author:"Nawaphoom Nachai",
           comment,
           likeCount: 0,
         });
@@ -223,4 +242,4 @@ const getAllExams = async (IDCourse) => {
 };
 /* -------------------------  exams -------------------------- */
 
-export { getAllReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam};
+export { getAllReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment};

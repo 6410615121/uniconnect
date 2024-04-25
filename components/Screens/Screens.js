@@ -13,3 +13,6 @@ export { default as ReviewDetailScreen} from "./ReviewDetailScreen";
 export { default as CreateReviewScreen} from "./CreateReviewScreen";
 export { default as UploadsheetScreen} from "./UploadSheets";
 export { default as UploadexamScreen} from "./UploadExams";
+export { default as CreateForumScreen} from "./CreateForumScreen";
+export { default as CreateCommentReviewScreen} from "./CreateCommentReviewScreen";
+export { default as CreateCommentForumScreen} from "./CreateCommentForumScreen";
