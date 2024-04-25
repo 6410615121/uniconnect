@@ -45,6 +45,7 @@ export default function App() {
   };
 
   const handleLogout = () => {
+    AsyncStorage.removeItem('name')
     setLoggedIn(false);
   };
 
@@ -82,6 +83,8 @@ const MainApp = ({ handleLogout }) => {
         const storedName = await AsyncStorage.getItem('name');
         if (storedName) {
           setName(storedName);
+        }else{
+          setName("ชื่อจริง มนุษย์");
         }
       } catch (error) {
         console.error('Error fetching username:', error);
