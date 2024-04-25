@@ -16,10 +16,7 @@ const icons = StyleSheet.create({
         width:35,
     },
     download_icon: { 
-        marginLeft: "auto",
-        marginBottom: 15,
-        height:23,
-        width:23,
+        marginTop:-30
     },
 
 });

@@ -2,8 +2,9 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-      padding: 20,
+      height:'100%',
       alignItems:"center",
+      backgroundColor: '#EFECEC',
     },
     title: {
       fontSize: 24,
@@ -17,23 +18,21 @@ const styles = StyleSheet.create({
     },
     postbox: {
       marginTop: 20,
-      borderWidth: 2,
-      borderColor: '#ccc',
-      borderRadius: 10,
-      padding: 20,
-      width:"100%",
-      height:"auto",
-      backgroundColor:'#FFF',
+      borderRadius: 15,
+      padding: 10,
+      width:'90%',
+      height:150,
+      backgroundColor:'#EFECEC',
+      alignSelf:'center'
     },
     commentbox: {
         marginTop: 20,
-        borderWidth: 2,
-        borderColor: '#ccc',
         borderRadius: 20,
         padding: 20,
-        width:"100%",
+        width: 340,
         height:"auto",
-        backgroundColor:'#FFF',
+        backgroundColor:'#FFF8E3',
+        flexDirection:'row'
     }
     
   });
