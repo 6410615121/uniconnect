@@ -1,7 +1,7 @@
 import  React,{ useState, useEffect }from "react";
 import { Dimensions, SafeAreaView, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
-import { FlatList, TouchableOpacity} from 'react-native';
+import { FlatList, TouchableOpacity, Image} from 'react-native';
 import { styles } from '../../assets/styles/styles_home.js';
 import { useNavigation } from '@react-navigation/native';
 import { useIsFocused } from '@react-navigation/native';
@@ -15,7 +15,7 @@ function CarouselNews(){
   const width = Dimensions.get('window').width*0.8;
 
   return (
-      <View style={{alignItems: 'center'}}>
+      <View style={{borderRadius: 20}}>
           <Carousel
               loop
               width={width}
@@ -27,8 +27,9 @@ function CarouselNews(){
                   <View
                       style={{
                           flex: 1,
-                          borderWidth: 1,
+                          borderRadius: 20,
                           justifyContent: 'center',
+                          backgroundColor: '#FFF8E3', //test color
                       }}
                   >
                       <Text style={{ textAlign: 'center', fontSize: 30 }}>
@@ -52,23 +53,34 @@ function Feeds({feeds}){
   const navigation = useNavigation();
 
   return( 
-    <View style={styles.container}>
-      <View>
+    
+    <View>
       <FlatList 
         data = {extractedFeeds}
-        renderItem= {({item}) => {
-
-          return(
-          <TouchableOpacity style ={styles.popularpostbox} 
+        renderItem= {({item}) => {return(
+          <TouchableOpacity
           onPress={() => navigation.navigate('PostDetail',{post:{field:{author:item.author,Description:item.Description,likeCount:item.likeCount},id:item.reviewID}})}>
-              <Text>{item.author}</Text>
-              <Text>{item.Description}</Text>
-              <Text>like {item.likeCount}</Text>
+            <View style={{flexDirection:'row', padding:10, backgroundColor:"#EFECEC", alignSelf:'center', justifyContent: 'center', alignItems: 'center',borderBottomWidth:2, borderBlockColor:"#0C2D57"}}>
+              <Image source={require("../../assets/icons/Vector.png")} style={{marginRight:10, height:42, width:42}}/>
+              <Text style={{backgroundColor:'#FFF8E3', marginLeft:"0.1%", padding:10, borderRadius: 15, width:"80%"}} >
+                {item.author}
+                {item.Description}
+                like {item.likeCount}
+              </Text>
+{/* 
+              <Text style={{backgroundColor:'#FFF8E3', marginLeft:"0.1%", padding:10, borderRadius: 15, width:"80%"}} >
+                {item.Description}
+              </Text>
+
+              <Text style={{backgroundColor:'#FFF8E3', marginLeft:"0.1%", padding:10, borderRadius: 15, width:"80%"}} >
+                like {item.likeCount}
+              </Text> */}
+            </View>
           </TouchableOpacity>
         )}}
       />
-      </View>
-    </View>
+      
+  </View>
   );
 }
 
@@ -91,14 +103,14 @@ export default function HomeScreen() {
   }, [isFocused]);
   
   return(
-    <View style={{flex: 1, flexDirection: "column", justifyContent: "space-between", padding: '1%'}}>
-      <View>
-        <Text>News</Text>
+    <View style={{flexDirection: "column", height:'100%', backgroundColor:'#EFECEC', justifyContent:'space-evenly' , alignItems:'center'}}>
+      <View style={{backgroundColor:"#EFECEC"}}>
+        <Text style={{fontWeight:"bold", fontSize:24, padding:"3%", marginLeft:"3%"}}>News</Text>
         <CarouselNews />
       </View>
       
-      <View>
-        <Text>Popular</Text>
+      <View style={{backgroundColor:'#EFECEC', height:'50%',width:'80%', overflow:'hidden'}}>
+        <Text style={{fontWeight:"bold", fontSize:24, padding:"3%", marginLeft:"3%"}}>Trending</Text>
         <Feeds feeds={data}/>
       </View>
     </View>
