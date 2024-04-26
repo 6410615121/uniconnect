@@ -4,18 +4,18 @@ import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 
 export default function ProfileScreen({setLoggedOut}) {
   const navigation = useNavigation()
   const Stack = createStackNavigator();
-
-  
 
   return (
     
     <Stack.Navigator initialRouteName="ProfileScreen"
       screenOptions={{headerShown: true, 
                       headerTitle:'',
+                      headerTitleStyle:{color:'#FC6735',fontSize:25},
                       headerStyle:{backgroundColor:'#002E57', shadowColor:'#002E57'},
                       headerLeft:()=> <View><CustomHeaderBackButton /></View>,
         }}
@@ -28,16 +28,19 @@ export default function ProfileScreen({setLoggedOut}) {
       <Stack.Screen 
         name='LikeScreen'
         component={LikeScreen}
+        options={{headerTitle:'Likes'}}
       />
 
       <Stack.Screen 
         name='PostScreen'
         component={PostScreen}
+        options={{headerTitle:'Posts'}}
       />
 
       <Stack.Screen 
         name='MyCourseScreen'
         component={MyCourseScreen}
+        options={{headerTitle:'My Courses'}}
       />
     </Stack.Navigator>
   )
@@ -173,22 +176,60 @@ const CustomHeaderBackButton = () => {
   );
 };
 
-const LikeScreen = ({route}) => {
-  return (
-    <View>
-      <Text>LikeScreen</Text>
-    </View>
-  )
-}
+/* -------------------------------------------------------------------------- */
 
+const LikeScreen = ({ route }) => {
+  const TopTabNavigator = createMaterialTopTabNavigator();
+  const ForumsScreen = () => {
+    return (
+      <View>
+        <Text>forums Like</Text>
+      </View>
+    );
+  };
+  
+  const ReviewScreen = () => {
+    return (
+      <View>
+        <Text>reviews Like</Text>
+      </View>
+    );
+  };
+
+  return (
+    <TopTabNavigator.Navigator>
+      <TopTabNavigator.Screen name='forums' component={ForumsScreen} />
+      <TopTabNavigator.Screen name='reviews' component={ReviewScreen} />
+    </TopTabNavigator.Navigator>
+  );
+};
+/* -------------------------------------------------------------------------- */
 const PostScreen = ({route}) => {
+  const TopTabNavigator = createMaterialTopTabNavigator();
+  const ForumsScreen = () => {
+    return (
+      <View>
+        <Text>forums Post</Text>
+      </View>
+    );
+  };
+  
+  const ReviewScreen = () => {
+    return (
+      <View>
+        <Text>reviews Post</Text>
+      </View>
+    );
+  };
+
   return (
-    <View>
-      <Text>PostScreen</Text>
-    </View>
+    <TopTabNavigator.Navigator>
+      <TopTabNavigator.Screen name="Forums" component={ForumsScreen}/>
+      <TopTabNavigator.Screen name="Reviews" component={ReviewScreen}/>
+    </TopTabNavigator.Navigator>
   )
 }
-
+/* -------------------------------------------------------------------------- */
 const MyCourseScreen = ({route}) => {
   return (
     <View>
@@ -196,3 +237,4 @@ const MyCourseScreen = ({route}) => {
     </View>
   )
 }
+/* -------------------------------------------------------------------------- */
