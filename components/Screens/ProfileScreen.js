@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
 import React, { useEffect } from "react";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { TouchableHighlight } from "react-native-gesture-handler";
@@ -51,7 +51,6 @@ export default function ProfileScreen({ setLoggedOut }) {
         component={ContactScreen}
         options={{ headerTitle: "Contact Us" }}
       />
-
     </Stack.Navigator>
   );
 }
@@ -368,14 +367,54 @@ const CustomHeaderBackButton = () => {
 };
 
 /* -------------------------------------------------------------------------- */
+import { styles } from "../../assets/styles/styles_coursedetail";
 
 const LikeScreen = ({ route }) => {
   const TopTabNavigator = createMaterialTopTabNavigator();
+  const navigation = useNavigation();
+
   const ForumsScreen = () => {
     return (
-      <View>
-        <Text>forums Like</Text>
-      </View>
+      <TouchableOpacity
+        style={[
+          styles.postbox,
+          // { backgroundColor: "#FFF8E3", height: "auto", paddingBottom: 20 },
+        ]}
+        // onPress={() => {
+        //   navigation.navigate("ReviewDetail", { item });
+        // }}
+      >
+        <View style={{ flexDirection: "row" }}>
+          <Image source={require("../../assets/icons/profileBlue.png")} />
+          <Text
+            style={{
+              color: "#0C2D57",
+              fontSize: 18,
+              fontWeight: "bold",
+              marginLeft: 10,
+              marginTop: 8,
+            }}
+          >
+            {/* {item.Author} */}
+            Author
+          </Text>
+        </View>
+        <Text style={styles.label}>Description</Text>
+        <Text
+          style={{
+            fontSize: 10,
+            color: "#FC6736",
+            textAlign: "right",
+            marginRight: 30,
+          }}
+        >
+          {/* {item.likeCount}  */}
+          Likes
+        </Text>
+        <View style={{ alignSelf: "center" }}>
+          <Image source={require("../../assets/icons/likeComment.png")} />
+        </View>
+      </TouchableOpacity>
     );
   };
 
@@ -480,8 +519,7 @@ const ContactScreen = ({ route }) => {
     <View>
       <Text>Contact us screen</Text>
     </View>
-  )
-}
-
+  );
+};
 
 /* -------------------------------------------------------------------------- */
