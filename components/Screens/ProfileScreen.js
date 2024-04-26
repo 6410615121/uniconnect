@@ -5,24 +5,26 @@ import { TouchableHighlight } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-export default function ProfileScreen() {
+export default function ProfileScreen({setLoggedOut}) {
   const navigation = useNavigation()
   const Stack = createStackNavigator();
 
   
 
   return (
+    
     <Stack.Navigator initialRouteName="ProfileScreen"
-    screenOptions={{headerShown: true, 
-                    headerTitle:'',
-                    headerStyle:{backgroundColor:'#002E57', shadowColor:'#002E57'},
-                    headerLeft:()=> <View><CustomHeaderBackButton /></View>,
-      }}
+      screenOptions={{headerShown: true, 
+                      headerTitle:'',
+                      headerStyle:{backgroundColor:'#002E57', shadowColor:'#002E57'},
+                      headerLeft:()=> <View><CustomHeaderBackButton /></View>,
+        }}
     >
       <Stack.Screen 
         name='ProfileScreen'
-        component={ProfileMain}
-      />
+      >
+        {(props) => <ProfileMain {...props} setLoggedOut= {setLoggedOut} /> }
+      </Stack.Screen>
       <Stack.Screen 
         name='LikeScreen'
         component={LikeScreen}
@@ -41,7 +43,7 @@ export default function ProfileScreen() {
   )
 }
 
-const ProfileMain = ({route}) => {
+const ProfileMain = ({route, setLoggedOut}) => {
   const navigation = useNavigation();
 
   const handleLikesPress = () => {
@@ -62,7 +64,7 @@ const ProfileMain = ({route}) => {
     <View style={{backgroundColor:'#0C2D57' ,height:'50%', borderBottomLeftRadius:40,borderBottomEndRadius:40, marginTop:0, alignItems:'center', width:'100%'}}>
       <Image source={require("../../assets/icons/profilePageicon.png")} style={{alignSelf:'center',marginTop:10}}/>
       <Text style={{color:'#FC6736', textAlign:'center',fontSize:24,fontWeight:'bold',marginTop:10}}>Somsak Rakthai</Text>
-      <Text style={{color:'#FFB0B0',textAlign:'center',fontSize:12,fontWeight:'light'}}>3rd Year Student | Faculty of Engineering</Text>
+      <Text style={{color:'#FFB0B0',textAlign:'center',fontSize:12,fontWeight:'light'}}>Welcome to the UniConnect Application!</Text>
       
       <View style={{flexDirection:'row',marginTop:10}}>
         <Image source={require("../../assets/icons/FBicon.png")} />
@@ -133,8 +135,8 @@ const ProfileMain = ({route}) => {
                                   onPress={alert} underlayColor='#FFDEA2'>
         <View style={{flexDirection:'row'}}>
           <View style={{flexDirection:'row', width:'50%'}}>
-            <Image source={require("../../assets/icons/settingIcon.png")} style={{height:30, width:30}}/>
-            <Text style={{fontSize:20, fontWeight:'bold', marginLeft:10, color:'#0C2D57'}}>Setting</Text>
+            <Image source={require("../../assets/icons/contactUs.png")} style={{height:30, width:30}}/>
+            <Text style={{fontSize:20, fontWeight:'bold', marginLeft:10, color:'#0C2D57'}}>Contact Us</Text>
           </View>
           <View style={{ width:'50%'}}>
             <Image source={require("../../assets/icons/cirAir.png")} style={{alignSelf:'flex-end'}}/>
@@ -144,7 +146,7 @@ const ProfileMain = ({route}) => {
       <TouchableHighlight style={{ backgroundColor: '#FFF8E3', height:60 ,width:'90%'
                                   ,alignSelf:'center',padding:20, paddingTop:15
                                   , borderBottomLeftRadius:15,borderBottomEndRadius:15}} 
-                                  onPress={alert} underlayColor='#FFDEA2'>
+                                  onPress={setLoggedOut} underlayColor='#FFDEA2'>
         <View style={{flexDirection:'row',alignSelf:'center'}}>
             <Image source={require("../../assets/icons/logout.png")} style={{height:30, width:30}}/>
             <Text style={{fontSize:20, fontWeight:'bold', marginLeft:10, color:'#FC6736'}}>Logout</Text>
@@ -164,7 +166,7 @@ const CustomHeaderBackButton = () => {
   return (
     <TouchableOpacity onPress={() => navigation.goBack()}>
       <Image
-        source={require("../../assets/icons/ph--arrow-left.png")} // path to image
+        source={require("../../assets/icons/fe_arrow-up.png")} // path to image
         style={{width:40,height:40,marginLeft:10}}
       />
     </TouchableOpacity>
