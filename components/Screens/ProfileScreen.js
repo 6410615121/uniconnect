@@ -64,7 +64,7 @@ const ProfileMain = ({route, setLoggedOut}) => {
     <View style={{backgroundColor:'#0C2D57' ,height:'50%', borderBottomLeftRadius:40,borderBottomEndRadius:40, marginTop:0, alignItems:'center', width:'100%'}}>
       <Image source={require("../../assets/icons/profilePageicon.png")} style={{alignSelf:'center',marginTop:10}}/>
       <Text style={{color:'#FC6736', textAlign:'center',fontSize:24,fontWeight:'bold',marginTop:10}}>Somsak Rakthai</Text>
-      <Text style={{color:'#FFB0B0',textAlign:'center',fontSize:12,fontWeight:'light'}}>3rd Year Student | Faculty of Engineering</Text>
+      <Text style={{color:'#FFB0B0',textAlign:'center',fontSize:12,fontWeight:'light'}}>Welcome to the UniConnect Application!</Text>
       
       <View style={{flexDirection:'row',marginTop:10}}>
         <Image source={require("../../assets/icons/FBicon.png")} />
@@ -135,8 +135,8 @@ const ProfileMain = ({route, setLoggedOut}) => {
                                   onPress={alert} underlayColor='#FFDEA2'>
         <View style={{flexDirection:'row'}}>
           <View style={{flexDirection:'row', width:'50%'}}>
-            <Image source={require("../../assets/icons/settingIcon.png")} style={{height:30, width:30}}/>
-            <Text style={{fontSize:20, fontWeight:'bold', marginLeft:10, color:'#0C2D57'}}>Setting</Text>
+            <Image source={require("../../assets/icons/contactUs.png")} style={{height:30, width:30}}/>
+            <Text style={{fontSize:20, fontWeight:'bold', marginLeft:10, color:'#0C2D57'}}>Contact Us</Text>
           </View>
           <View style={{ width:'50%'}}>
             <Image source={require("../../assets/icons/cirAir.png")} style={{alignSelf:'flex-end'}}/>
