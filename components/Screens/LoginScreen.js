@@ -4,32 +4,41 @@ import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { API_host, API_port } from "@env";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { signIn } from "../../firebase/firebaseAuth";
+import { signIn, getUserFromUserID } from "../../firebase/firebaseAuth";
 
 export default function LoginScreen({ navigation, setLoggedIn }) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
 
-  function handleLogin() {
-    setLoggedIn(); // for development only
+  async function handleLogin() {
+    // setLoggedIn(); // for development only
     
-    // if (!username || !password) {
-    //   setLoginStatus("All field is required!");
-    //   return;
-    // }
-    // signIn(username, password).then((isSuccessful) => {
-    //   if(isSuccessful){
-    //     setLoginStatus("Logged In!");
-    //     AsyncStorage.setItem("name", "Somsak Rakthai");
-    //     setLoggedIn(); 
-    //   }else{
-    //     setLoginStatus("Login Failed!");
-    //   }
-    // }).catch((error) =>{
-    //   console.login(error)
-    //   setLoginStatus("Login Error!");
-    // });
+    if (!email || !password) {
+      setLoginStatus("All field is required!");
+      return;
+    }
+
+    try{
+      const user = await signIn(email, password)
+
+      if(user){
+        setLoginStatus("Logged In!");
+        const userData = await getUserFromUserID(user.uid);
+
+        if (userData) {
+          const { name } = userData;
+          AsyncStorage.setItem("name", name); // set name for later use in app
+          setLoggedIn(); 
+        } else {
+          console.log("User data not found");
+          setLoginStatus("Login Error!");
+        }
+      }
+    }catch(error){
+      console.error("Login error:", error);
+      setLoginStatus("Login Error!");
+    }
 
   }
 
@@ -41,7 +50,7 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
       <TextInput
         style={{ backgroundColor: "#C7C7C7", padding: 5, width: 200 }}
         placeholder="Enter Email Here"
-        onChangeText={(text) => setUsername(text)}
+        onChangeText={(text) => setEmail(text)}
       />
       <TextInput
         style={{ backgroundColor: "#C7C7C7", padding: 5, width: 200 }}
