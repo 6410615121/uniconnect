@@ -2,7 +2,7 @@
 import "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { Button, Text, View, TouchableOpacity, Image } from "react-native";
 import { TransitionPresets } from "@react-navigation/stack"; //https://reactnavigation.org/docs/stack-navigator/#transparent-modals
 import { icons } from "./assets/styles/icon.js";
@@ -159,7 +159,8 @@ const MainApp = ({ handleLogout }) => {
         name="CourseDetail"
         component={TopTabcourse}
         options={({ navigation }) => ({
-          headerTintColor: '#FFB0B0',
+          // headerTintColor: '#FFB0B0',
+          headerLeft:() => <CustomHeaderBackButton />,
           title: "Course",
           headerStyle: {backgroundColor:'#0C2D57'},
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}
@@ -247,6 +248,19 @@ const MainApp = ({ handleLogout }) => {
         component={CreateCommentForumScreen}
       />
     </Stack.Navigator>
+  );
+};
+
+const CustomHeaderBackButton = () => {
+  const navigation = useNavigation();
+
+  return (
+    <TouchableOpacity onPress={() => navigation.goBack()}>
+      <Image
+        source={require("./assets/icons/fe_arrow-up.png")} // path to image
+        style={{width:40,height:40,marginLeft:10}}
+      />
+    </TouchableOpacity>
   );
 };
 
