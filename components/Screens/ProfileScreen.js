@@ -166,7 +166,7 @@ const CustomHeaderBackButton = () => {
   return (
     <TouchableOpacity onPress={() => navigation.goBack()}>
       <Image
-        source={require("../../assets/icons/ph--arrow-left.png")} // path to image
+        source={require("../../assets/icons/fe_arrow-up.png")} // path to image
         style={{width:40,height:40,marginLeft:10}}
       />
     </TouchableOpacity>

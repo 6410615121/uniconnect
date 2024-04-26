@@ -12,7 +12,7 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
   const [loginStatus, setLoginStatus] = useState("");
 
   async function handleLogin() {
-    // setLoggedIn(); // for development only
+    setLoggedIn(); // for development only
     
     if (!email || !password) {
       setLoginStatus("All field is required!");
