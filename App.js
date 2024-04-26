@@ -2,8 +2,8 @@
 import "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
-import { Button, Text, View, TouchableOpacity, Image } from "react-native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { Button, Text, View, TouchableOpacity, Image,Dimensions } from "react-native";
 import { TransitionPresets } from "@react-navigation/stack"; //https://reactnavigation.org/docs/stack-navigator/#transparent-modals
 import { icons } from "./assets/styles/icon.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -76,6 +76,8 @@ const RegisterAndLoginStack = ({ handleLogin }) => {
 const MainApp = ({ handleLogout }) => {
   const [name, setName] = useState('');
 
+  const screenHeight = Dimensions.get('window').height;
+
   // fetch name from AsyncStorage
   useEffect(() => {
     const fetchUserName = async () => {
@@ -99,18 +101,23 @@ const MainApp = ({ handleLogout }) => {
     <Stack.Navigator>
       <Stack.Screen
         name="Main"
+        
         component={BottomTabNavigator}
         options={({ navigation }) => ({
           headerTitle: () => <View></View>,
+          headerStyle:{backgroundColor:'#0C2D57',height:screenHeight*0.15},
           headerLeft: () => (
             <TouchableOpacity style={{flexDirection:"row"}}
               onPress={() => navigation.navigate("ProfileStack")}
             >
               <Image
-                source={require("./assets/icons/default-profile-icon.png")} // path to image
+                source={require("./assets/icons/profilePageicon.png")} // path to image
                 style={icons.profile_icon}
               />
-              <Text>{name}</Text>
+              <View style={{flexDirection:'column'}}>
+                <Text style={{color:'#FC6736',fontWeight:'bold',fontSize:18,paddingLeft:20}}>{name}</Text>
+                <Text style={{color:'#FFB0B0',fontSize:12,paddingLeft:20}}>Welcome to the UniConnect</Text>
+              </View>
             </TouchableOpacity>
           ),
           headerRight: () => (
@@ -119,31 +126,35 @@ const MainApp = ({ handleLogout }) => {
                 onPress={() => navigation.navigate("NotificationsStack")}
               >
                 <Image
-                  source={require("./assets/icons/bell-icon.png")} // path to image
+                  source={require("./assets/icons/bell.png")} // path to image
                   style={icons.bell_icon}
                 />
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => navigation.navigate("SettingsStack")}
               >
                 <Image
                   source={require("./assets/icons/setting-icon.png")} // path to image
                   style={icons.setting_icon}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           ),
         })}
       />
 
-      <Stack.Screen name="ProfileStack" component={ProfileScreen} 
+      <Stack.Screen name="ProfileStack"
       options={{headerTitle: '',
-       headerStyle:{
+        headerTintColor: '#FFB0B0',
+        headerStyle:{
         backgroundColor:'#0C2D57', 
         borderWidth:0,
         shadowColor:'#0C2D57'
-
-        }}}/>
+        },
+        headerShown:false
+        }}>
+          {(props) => <ProfileScreen {...props} setLoggedOut={handleLogout} />}
+        </Stack.Screen>
 
       <Stack.Screen name="NotificationsStack" component={NotificationsScreen} />
 
@@ -155,6 +166,8 @@ const MainApp = ({ handleLogout }) => {
         name="CourseDetail"
         component={TopTabcourse}
         options={({ navigation }) => ({
+          // headerTintColor: '#FFB0B0',
+          headerLeft:() => <CustomHeaderBackButton />,
           title: "Course",
           headerStyle: {backgroundColor:'#0C2D57'},
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}
@@ -165,6 +178,7 @@ const MainApp = ({ handleLogout }) => {
       <Stack.Screen
         name="FileDetail"
         options={{ ...TransitionPresets.ModalPresentationIOS , 
+          headerTintColor: '#FFB0B0',
           headerStyle:{backgroundColor:'#0C2D57'},
           title : 'FILE DETAIL',
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
@@ -173,13 +187,18 @@ const MainApp = ({ handleLogout }) => {
 
       <Stack.Screen
         name="PostDetail"
-        options={{ ...TransitionPresets.Modal }}
+        options={{ ...TransitionPresets.Modal ,
+          headerTintColor: '#FFB0B0',
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'FORUMS POST',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={PostDetailScreen}
       />
 
       <Stack.Screen
         name="ReviewDetail"
         options={{ ...TransitionPresets.Modal , 
+          headerTintColor: '#FFB0B0',
           headerStyle:{backgroundColor:'#0C2D57'},
           title : 'REVIEWS POST',
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'},}}
@@ -189,6 +208,7 @@ const MainApp = ({ handleLogout }) => {
       <Stack.Screen
         name="createReview"
         options={{ ...TransitionPresets.ModalPresentationIOS, 
+        headerTintColor: '#FFB0B0',
         headerStyle:{backgroundColor:'#0C2D57'},
         title : 'REVIEWS CREATE',
         headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
@@ -200,6 +220,7 @@ const MainApp = ({ handleLogout }) => {
       <Stack.Screen
         name="uploadsheet"
         options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerTintColor: '#FFB0B0',
           headerStyle:{backgroundColor:'#0C2D57'},
           title : 'UPLOADSHEET',
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
@@ -209,6 +230,7 @@ const MainApp = ({ handleLogout }) => {
       <Stack.Screen
         name="uploadexam"
         options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerTintColor: '#FFB0B0',
           headerStyle:{backgroundColor:'#0C2D57'},
           title : 'UPLOADEXAM',
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
@@ -217,13 +239,18 @@ const MainApp = ({ handleLogout }) => {
 
       <Stack.Screen
         name="createForum"
-        options={{ ...TransitionPresets.Modal }}
+        options={{ ...TransitionPresets.Modal,
+          headerTintColor: '#FFB0B0',
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'FORUM CREATE',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={CreateForumScreen}
       />
 
       <Stack.Screen
         name="CommentReview"
         options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerTintColor: '#FFB0B0',
           headerStyle:{backgroundColor:'#0C2D57'},
           title : 'COMMENT REVIEWS',
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
@@ -232,10 +259,27 @@ const MainApp = ({ handleLogout }) => {
 
       <Stack.Screen
         name="ForumReview"
-        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerTintColor: '#FFB0B0',
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'COMMENT FORUMS',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={CreateCommentForumScreen}
       />
     </Stack.Navigator>
+  );
+};
+
+const CustomHeaderBackButton = () => {
+  const navigation = useNavigation();
+
+  return (
+    <TouchableOpacity onPress={() => navigation.goBack()}>
+      <Image
+        source={require("./assets/icons/fe_arrow-up.png")} // path to image
+        style={{width:40,height:40,marginLeft:10}}
+      />
+    </TouchableOpacity>
   );
 };
 

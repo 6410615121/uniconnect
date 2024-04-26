@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from "react";
-import { View, Text, StyleSheet,Button,TouchableHighlight} from 'react-native';
+import { View, Text, StyleSheet,Button,TouchableHighlight, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../../assets/styles/styles_coursedetail.js';
 import { TouchableOpacity,Image,FlatList} from 'react-native';
@@ -71,6 +71,7 @@ const Reviews = ({ course,reviews}) => {
                     <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.Author}</Text>
                   </View>
                   <Text style={styles.label}>{item.Description}</Text>
+                  <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{item.likeCount} Likes</Text>
                   <View style={{alignSelf:'center',marginTop:20}}>  
                     <Image source={require("../../assets/icons/likeComment.png")}/>
                   </View>  
@@ -125,7 +126,7 @@ const Sheets = ( props ) => {
             <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('FileDetail', {item});}}>
               <Image source={require('../../assets/icons/file.png')} style={{marginTop:10}}/>
               <View style={{marginTop:-50}}>
-                <Text style={styles.label}>{item.Filename}</Text>  
+                  <Text style={styles.label}>{item.Filename}</Text>
                 <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
                   <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
                   <Image source={require('../../assets/icons/dowsload.png')} 
