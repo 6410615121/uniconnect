@@ -25,22 +25,40 @@ const CreateCommentForumScreen = ({ route }) => {
     }; 
   
     return (
-      <View>
-        <View style={{ flexDirection: 'row',justifyContent: 'flex-end',marginRight:20,marginTop:10}}>
-            <Button title="comment" onPress={comment} />
+      <View style={{backgroundColor:'#EFECEC',flexDirection:'column',height:'100%'}}>
+        <View style={{height:'80%'}}>
+          <TextInput
+            multiline
+            numberOfLines={10}
+            style={{ padding: 10, width: "100%",color:'#0C2D57'}}
+            placeholder="Enter comment"
+            onChangeText={(text) => {
+              setDescription(text);
+            }}
+          />
         </View>
+        <View style={{height:'20%'}}>
+          <View style={{ flexDirection: 'column',backgroundColor:'#FFB0B0',width:'90%',alignSelf:'center'}}>
+              <Button title="Comment" onPress={comment} color={'#FFB0B0'} />
+          </View>
+        </View>
+      </View>
+      // <View>
+      //   <View style={{ flexDirection: 'row',justifyContent: 'flex-end',marginRight:20,marginTop:10}}>
+      //       <Button title="comment" onPress={comment} />
+      //   </View>
         
 
-        <TextInput
-          style={{ padding: 5, width: "100%" ,height:"50%"}}
-          placeholder="Enter comment"
-          onChangeText={(text) => {
-            setDescription(text);
-          }}
-        />
+      //   <TextInput
+      //     style={{ padding: 5, width: "100%" ,height:"50%"}}
+      //     placeholder="Enter comment"
+      //     onChangeText={(text) => {
+      //       setDescription(text);
+      //     }}
+      //   />
   
         
-      </View>
+      // </View>
     );
   };
   

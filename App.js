@@ -180,7 +180,11 @@ const MainApp = ({ handleLogout }) => {
 
       <Stack.Screen
         name="PostDetail"
-        options={{ ...TransitionPresets.Modal }}
+        options={{ ...TransitionPresets.Modal ,
+          headerTintColor: '#FFB0B0',
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'FORUMS POST',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={PostDetailScreen}
       />
 
@@ -228,7 +232,11 @@ const MainApp = ({ handleLogout }) => {
 
       <Stack.Screen
         name="createForum"
-        options={{ ...TransitionPresets.Modal }}
+        options={{ ...TransitionPresets.Modal,
+          headerTintColor: '#FFB0B0',
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'FORUM CREATE',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={CreateForumScreen}
       />
 
@@ -244,7 +252,11 @@ const MainApp = ({ handleLogout }) => {
 
       <Stack.Screen
         name="ForumReview"
-        options={{ ...TransitionPresets.ModalPresentationIOS }}
+        options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerTintColor: '#FFB0B0',
+          headerStyle:{backgroundColor:'#0C2D57'},
+          title : 'COMMENT FORUMS',
+          headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
         component={CreateCommentForumScreen}
       />
     </Stack.Navigator>
