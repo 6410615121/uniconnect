@@ -123,20 +123,20 @@ const MainApp = ({ handleLogout }) => {
                   style={icons.bell_icon}
                 />
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => navigation.navigate("SettingsStack")}
               >
                 <Image
                   source={require("./assets/icons/setting-icon.png")} // path to image
                   style={icons.setting_icon}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           ),
         })}
       />
 
-      <Stack.Screen name="ProfileStack" component={ProfileScreen} 
+      <Stack.Screen name="ProfileStack"
       options={{headerTitle: '',
         headerTintColor: '#FFB0B0',
         headerStyle:{
@@ -145,7 +145,9 @@ const MainApp = ({ handleLogout }) => {
         shadowColor:'#0C2D57'
         },
         headerShown:false
-        }}/>
+        }}>
+          {(props) => <ProfileScreen {...props} setLoggedOut={handleLogout} />}
+        </Stack.Screen>
 
       <Stack.Screen name="NotificationsStack" component={NotificationsScreen} />
 
