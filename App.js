@@ -138,7 +138,8 @@ const MainApp = ({ handleLogout }) => {
 
       <Stack.Screen name="ProfileStack" component={ProfileScreen} 
       options={{headerTitle: '',
-       headerStyle:{
+        headerTintColor: '#FFB0B0',
+        headerStyle:{
         backgroundColor:'#0C2D57', 
         borderWidth:0,
         shadowColor:'#0C2D57'
@@ -155,6 +156,7 @@ const MainApp = ({ handleLogout }) => {
         name="CourseDetail"
         component={TopTabcourse}
         options={({ navigation }) => ({
+          headerTintColor: '#FFB0B0',
           title: "Course",
           headerStyle: {backgroundColor:'#0C2D57'},
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}
@@ -165,6 +167,7 @@ const MainApp = ({ handleLogout }) => {
       <Stack.Screen
         name="FileDetail"
         options={{ ...TransitionPresets.ModalPresentationIOS , 
+          headerTintColor: '#FFB0B0',
           headerStyle:{backgroundColor:'#0C2D57'},
           title : 'FILE DETAIL',
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
@@ -180,6 +183,7 @@ const MainApp = ({ handleLogout }) => {
       <Stack.Screen
         name="ReviewDetail"
         options={{ ...TransitionPresets.Modal , 
+          headerTintColor: '#FFB0B0',
           headerStyle:{backgroundColor:'#0C2D57'},
           title : 'REVIEWS POST',
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'},}}
@@ -189,6 +193,7 @@ const MainApp = ({ handleLogout }) => {
       <Stack.Screen
         name="createReview"
         options={{ ...TransitionPresets.ModalPresentationIOS, 
+        headerTintColor: '#FFB0B0',
         headerStyle:{backgroundColor:'#0C2D57'},
         title : 'REVIEWS CREATE',
         headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
@@ -200,6 +205,7 @@ const MainApp = ({ handleLogout }) => {
       <Stack.Screen
         name="uploadsheet"
         options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerTintColor: '#FFB0B0',
           headerStyle:{backgroundColor:'#0C2D57'},
           title : 'UPLOADSHEET',
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
@@ -209,6 +215,7 @@ const MainApp = ({ handleLogout }) => {
       <Stack.Screen
         name="uploadexam"
         options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerTintColor: '#FFB0B0',
           headerStyle:{backgroundColor:'#0C2D57'},
           title : 'UPLOADEXAM',
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
@@ -224,6 +231,7 @@ const MainApp = ({ handleLogout }) => {
       <Stack.Screen
         name="CommentReview"
         options={{ ...TransitionPresets.ModalPresentationIOS ,
+          headerTintColor: '#FFB0B0',
           headerStyle:{backgroundColor:'#0C2D57'},
           title : 'COMMENT REVIEWS',
           headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}

@@ -21,18 +21,20 @@ const styles = StyleSheet.create({
       borderRadius: 15,
       padding: 10,
       width:'90%',
-      height:150,
+      height:'30%',
       backgroundColor:'#EFECEC',
-      alignSelf:'center'
+      alignSelf:'center',
     },
     commentbox: {
         marginTop: 20,
         borderRadius: 20,
         padding: 20,
-        width: 340,
+        width: '90%',
         height:"auto",
         backgroundColor:'#FFF8E3',
-        flexDirection:'row'
+        flexDirection:'row',
+        alignSelf:'center',
+        borderWidth:1
     }
     
   });

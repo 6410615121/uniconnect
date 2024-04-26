@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Button ,Image, TouchableOpacity} from 'react-na
 import { useEffect, useState } from "react";
 import { styles } from '../../assets/styles//styles_post.js';
 import { TextInput } from "react-native-gesture-handler";
-import { FlatList} from 'react-native';
+import { FlatList, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import {
@@ -49,25 +49,30 @@ const ReviewDetailScreen = ({ route }) => {
 
     return(
       <View style={styles.container}>
-
         <View style={styles.postbox}>
           <View style={{flexDirection:'column'}}>
-            <View style={{flexDirection:'row'}}>
-              <Image source={require("../../assets/icons/profileBlue.png")} />
-              <Text style={{fontSize: 18,fontWeight:'bold',marginTop: 5,marginLeft:10, color: '#0C2D57',}}>{item.Author}</Text>
+            <View style={{height:'80%'}}>
+              <View style={{flexDirection:'row'}}>
+                <Image source={require("../../assets/icons/profileBlue.png")} />
+                <Text style={{fontSize: 18,fontWeight:'bold',marginTop: 5,marginLeft:10, color: '#0C2D57',}}>{item.Author}</Text>
+              </View>
+              <ScrollView style={{height:'40%'}}>
+                <View><Text style={{fontSize:15, color:'#0C2D57',marginLeft:50,marginRight:50}}>{item.Description}</Text></View>
+              </ScrollView>
             </View>
-            <Text style={{fontSize:15, color:'#0C2D57',marginLeft:50,marginRight:50}}>{item.Description}</Text>
-            <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30,marginTop:60}}>{item.likeCount} Likes</Text>
+            <View style={{height:'20%'}}>
+              <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{item.likeCount} Likes</Text>
+            </View>
           </View>
         </View>
 
         {/* creating comment */}
-        <View style={{ flexDirection: 'row', marginTop:10}}>
+        <View style={{ flexDirection: 'row'}}>
           <TouchableOpacity>
             <Image source={require('../../assets/icons/like.png')} style={{height:30,width:30,marginRight:10}}/>
           </TouchableOpacity>
           <TextInput
-            style={{ backgroundColor: "#FFF8E3", padding: 5, width:200,borderBottomLeftRadius:15,borderTopLeftRadius:15}}
+            style={{paddingLeft:10, backgroundColor: "#FFF8E3", padding: 5, width:200,borderBottomLeftRadius:15,borderTopLeftRadius:15,borderWidth:1}}
             placeholder="comments"
             onTouchStart={handleTextInputPress} // Open popup when TextInput is pressed
           />
@@ -75,6 +80,7 @@ const ReviewDetailScreen = ({ route }) => {
             title="comment"
             onPress={handleTextInputPress}
             color='#0C2D57'
+            
             />    
         </View>
       
