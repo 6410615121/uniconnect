@@ -12,28 +12,30 @@ export default function ProfileScreen() {
   
 
   return (
-    <Stack.Navigator initialRouteName="ProfileScreen">
+    <Stack.Navigator initialRouteName="ProfileScreen"
+    screenOptions={{headerShown: true, 
+                    headerTitle:'',
+                    headerStyle:{backgroundColor:'#002E57', shadowColor:'#002E57'},
+                    headerLeft:()=> <View><CustomHeaderBackButton /></View>,
+      }}
+    >
       <Stack.Screen 
         name='ProfileScreen'
         component={ProfileMain}
-        options={{headerShown: false}}
       />
       <Stack.Screen 
         name='LikeScreen'
         component={LikeScreen}
-        options={{headerShown: false}}
       />
 
       <Stack.Screen 
         name='PostScreen'
         component={PostScreen}
-        options={{headerShown: false}}
       />
 
       <Stack.Screen 
         name='MyCourseScreen'
         component={MyCourseScreen}
-        options={{headerShown: false}}
       />
     </Stack.Navigator>
   )
@@ -155,6 +157,19 @@ const ProfileMain = ({route}) => {
   </View>
   )
 }
+
+const CustomHeaderBackButton = () => {
+  const navigation = useNavigation();
+
+  return (
+    <TouchableOpacity onPress={() => navigation.goBack()}>
+      <Image
+        source={require("../../assets/icons/ph--arrow-left.png")} // path to image
+        style={{width:40,height:40,marginLeft:10}}
+      />
+    </TouchableOpacity>
+  );
+};
 
 const LikeScreen = ({route}) => {
   return (

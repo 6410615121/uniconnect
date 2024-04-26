@@ -143,8 +143,9 @@ const MainApp = ({ handleLogout }) => {
         backgroundColor:'#0C2D57', 
         borderWidth:0,
         shadowColor:'#0C2D57'
-
-        }}}/>
+        },
+        headerShown:false
+        }}/>
 
       <Stack.Screen name="NotificationsStack" component={NotificationsScreen} />
 
