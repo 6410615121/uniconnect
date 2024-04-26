@@ -26,7 +26,7 @@ function Forum( {post} ){
                   </View>
                   <Text style={styles.label}>{post_data.Description}</Text>
                   <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{post_data.likeCount} Likes</Text>
-                  <View style={{alignSelf:'center',marginTop:20}}>  
+                  <View style={{alignSelf:'center'}}>  
                     <Image source={require("../../assets/icons/likeComment.png")}/>
                   </View>  
     </TouchableOpacity>

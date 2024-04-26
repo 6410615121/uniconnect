@@ -1,4 +1,4 @@
-import { Button, Text, View } from "react-native";
+import { Button, Text, View, Image} from "react-native";
 import React, { useState } from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { API_host, API_port } from "@env";
@@ -44,27 +44,35 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
 
   return (
     <View
-      style={{ justifyContent: "center", alignItems: "center", height: "100%" }}
+      style={{ justifyContent: "center", alignItems: "center", height: "100%", backgroundColor:'#0C2D57'}}
     >
-      <Text>Login Screen</Text>
-      <TextInput
-        style={{ backgroundColor: "#C7C7C7", padding: 5, width: 200 }}
-        placeholder="Enter Email Here"
-        onChangeText={(text) => setEmail(text)}
-      />
-      <TextInput
-        style={{ backgroundColor: "#C7C7C7", padding: 5, width: 200 }}
-        placeholder="Enter Password Here"
-        onChangeText={(text) => setPassword(text)}
-        secureTextEntry={true}
-      />
+      <Image source={require("../../assets/icons/logo.png")}/>
+      <View style={{marginTop:10}}>
+        <TextInput
+          style={{ backgroundColor: "#FFF8E3",paddingLeft:10, padding: 5, width: 200, borderWidth:1,borderRadius:15}}
+          placeholder="Enter Email Here"
+          onChangeText={(text) => setEmail(text)}
+        />
+      </View>
+      <View style={{marginTop:10}}>
+        <TextInput
+          style={{ backgroundColor: "#FFF8E3", paddingLeft:10, padding: 5, width: 200, borderWidth:1,borderRadius:15}}
+          placeholder="Enter Password Here"
+          onChangeText={(text) => setPassword(text)}
+          secureTextEntry={true}
+        />
+      </View>
       {loginStatus ? <Text>{loginStatus}</Text> : null}
-      <Button title="Login" onPress={handleLogin} />
-
-      <Button
-        title="register"
-        onPress={() => navigation.navigate("register")}
-      />
+      <View style={{marginTop:10}}>
+        <Button title="Login" onPress={handleLogin} color={'#FC6736'} />
+      </View>
+      <View style={{marginTop:10}}>
+        <Button
+          title="register"
+          onPress={() => navigation.navigate("register")}
+          color={'#FC6736'}
+        />
+      </View>
     </View>
   );
 }
