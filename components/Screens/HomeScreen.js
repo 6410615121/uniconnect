@@ -61,12 +61,12 @@ function Feeds({feeds}){
         renderItem= {({item}) => {return(
           <TouchableOpacity
           onPress={() => navigation.navigate('PostDetail',{post:{field:{author:item.author,Description:item.Description,likeCount:item.likeCount},id:item.reviewID}})}>
-            <View style={{flexDirection:'row', padding:10, backgroundColor:"#EFECEC", alignSelf:'center', justifyContent: 'center', alignItems: 'center',borderBottomWidth:2, borderBlockColor:"#0C2D57"}}>
+            <View style={{flexDirection:'row', padding:10, backgroundColor:"#EFECEC", alignSelf:'center', justifyContent: 'center', alignItems: 'center'}}>
               <Image source={require("../../assets/icons/Vector.png")} style={{marginRight:10, height:42, width:42}}/>
-              <View style={{flexDirection:"column", flex:1, backgroundColor:'#FFF8E3', marginLeft:"0.1%", padding:10, borderRadius: 15, width:"80%"}} >
-                <Text>{item.author}</Text>
-                <Text>{item.Description}</Text>
-                <Text>like {item.likeCount}</Text>
+              <View style={{flexDirection:"column", flex:1, backgroundColor:'#FFF8E3', marginLeft:"0.1%", padding:10, borderRadius: 15, width:"80%",borderWidth:1}} >
+                <Text style={{fontSize:18,color:'#0C2D57',fontWeight:'bold'}}>{item.author}</Text>
+                <Text style={{fontSize:18,color:'#0C2D57'}}>{item.Description}</Text>
+                <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:10}}>{item.likeCount} Likes</Text>
               </View>
               <Text style={{backgroundColor:"#EFECEC"}}></Text>
 {/* 
@@ -107,12 +107,12 @@ export default function HomeScreen() {
   return(
     <View style={{flexDirection: "column", height:'100%', backgroundColor:'#EFECEC', justifyContent:'space-evenly' , alignItems:'center'}}>
       <View style={{backgroundColor:"#EFECEC"}}>
-        <Text style={{fontWeight:"bold", fontSize:24, padding:"3%", marginLeft:"3%"}}>News</Text>
+        <Text style={{fontWeight:"bold", fontSize:24, padding:"3%", marginLeft:"3%",color:'#0C2D57'}}>News</Text>
         <CarouselNews />
       </View>
       
       <View style={{backgroundColor:'#EFECEC', height:'50%',width:'80%', overflow:'hidden'}}>
-        <Text style={{fontWeight:"bold", fontSize:24, padding:"3%", marginLeft:"3%"}}>Trending</Text>
+        <Text style={{fontWeight:"bold", fontSize:24, padding:"3%", marginLeft:"3%",color:'#0C2D57'}}>Trending</Text>
         <Feeds feeds={data}/>
       </View>
     </View>
