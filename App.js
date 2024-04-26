@@ -63,10 +63,26 @@ export default function App() {
 const RegisterAndLoginStack = ({ handleLogin }) => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login">
+      <Stack.Screen 
+      name="Login"
+      options={{
+        headerTitle:"LOGIN",
+        headerTintColor: '#FFB0B0',
+        headerStyle:{backgroundColor:'#0C2D57'},
+        headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}}}
+      >
         {(props) => <LoginScreen {...props} setLoggedIn={handleLogin} />}
       </Stack.Screen>
-      <Stack.Screen name="register">
+      <Stack.Screen 
+      name="register"
+      options={{
+        headerTitle:"REGISTER",
+        headerTintColor: '#FFB0B0',
+        headerStyle:{backgroundColor:'#0C2D57'},
+        headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}
+        
+      }}
+      >
         {(props) => <RegisterScreen {...props} />}
       </Stack.Screen>
     </Stack.Navigator>
