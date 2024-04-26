@@ -10,6 +10,7 @@ import {
   getAllReviews,
   getAllSheets,
   getAllExams,
+  downloadExam,
 } from "../../firebase/firestoreCourseDetail.js";
 
 
@@ -183,7 +184,7 @@ const Exam = ( props ) => {
                 <View style={{marginTop:-50}}>
                   <Text style={styles.label}>{item.Filename}</Text>
                   <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
-                    <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
+                    <TouchableOpacity  onPress={() => downloadExam(item.nameinstorage)}> 
                       <Image source={require('../../assets/icons/dowsload.png')} 
                         style={icons.download_icon}
                       /> 

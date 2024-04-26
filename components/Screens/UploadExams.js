@@ -4,11 +4,14 @@ import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-gesture-handler";
 import { styles } from '../../assets/styles//styles_post.js';
 import { Alert } from 'react-native';
+import { getDocumentAsync } from 'expo-document-picker';
+import storage from '@react-native-firebase/storage';
+
 
 
 import {
     uploadexam,
-  
+    uploadExamToStorage
   } from "../../firebase/firestoreCourseDetail.js";
 
 const UploadexamScreen = ({ route }) => {
@@ -17,14 +20,38 @@ const UploadexamScreen = ({ route }) => {
     const [Filename, setFilename] = useState("");
     const [description, setDescription] = useState("");
     const navigation = useNavigation();
+
+    let result = [];
+
+    const pickDocument = async () => {
+
+      try {
+        
+        result = await getDocumentAsync({
+          type: '*/*', // You can specify the MIME type of the documents you want to allow
+        });
+        
+      } catch (error) {
+        console.log('Error picking document:', error);
+      }
+    };
   
     const Post = async () => {
       if (!Filename.trim()) {
         Alert.alert('Filename cannot be empty');
         return;
-      }else{
-        await uploadexam(Filename,course.courseID, description)
-      
+      }
+      if (result.length === 0){
+        Alert.alert('select file');
+        return;
+      }
+      else{
+        
+        if (! result.canceled ) {
+          await uploadExamToStorage(result.assets[0].uri, result.assets[0].name)
+        }
+        await uploadexam(Filename,course.courseID, description, result.assets[0].name)
+
         navigation.goBack();
       }
     }; 
@@ -52,12 +79,15 @@ const UploadexamScreen = ({ route }) => {
             }}
           />
         </View>
+        <View>
+        <Button title="Select File" onPress={pickDocument} />
+        </View>
         <View style={{height:'20%'}}>
           <View style={{ flexDirection: 'column',backgroundColor:'#FFB0B0',width:'90%',alignSelf:'center'}}>
               <Button title="Upload" onPress={Post} color={'#FFB0B0'} />
           </View>
         </View>
-  
+        
         
       </View>
       // <View>

@@ -4,12 +4,12 @@ import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-gesture-handler";
 import { styles } from '../../assets/styles//styles_post.js';
 import { Alert } from 'react-native';
-
+import { getDocumentAsync } from 'expo-document-picker';
 
 
 import {
     uploadsheet,
-  
+    uploadSheetToStorage
   } from "../../firebase/firestoreCourseDetail.js";
 
 const UploadsheetScreen = ({ route }) => {
@@ -18,14 +18,40 @@ const UploadsheetScreen = ({ route }) => {
     const [Filename, setFilename] = useState("");
     const [description, setDescription] = useState("description");
     const navigation = useNavigation();
-  
+
+    let result = [];
+
+    const pickDocument = async () => {
+
+      try {
+        
+        result = await getDocumentAsync({
+          type: '*/*', // You can specify the MIME type of the documents you want to allow
+        });
+        
+      } catch (error) {
+        console.log('Error picking document:', error);
+      }
+    };
+
+
     const Post = async () => {
       if (!Filename.trim()) {
         Alert.alert('Filename cannot be empty');
         return;
+      }
+      if (result.length === 0){
+          Alert.alert('select file');
+          return;
+        
       }else{
-        await uploadsheet(Filename,course.courseID, description)
-      
+        if (! result.canceled ) {
+          
+          await uploadSheetToStorage(result.assets[0].uri, result.assets[0].name)
+          
+        }
+        console.log("test")
+        await uploadsheet(Filename,course.courseID, description, result.assets[0].name)
         navigation.goBack();
       }
     }; 
@@ -52,6 +78,9 @@ const UploadsheetScreen = ({ route }) => {
               setDescription(text);
             }}
           />
+        </View>
+        <View>
+        <Button title="Select File" onPress={pickDocument} />
         </View>
         <View style={{height:'20%'}}>
           <View style={{ flexDirection: 'column',backgroundColor:'#FFB0B0',width:'90%',alignSelf:'center'}}>
