@@ -6,6 +6,7 @@ import { register } from "../../firebase/firebaseAuth";
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [registerMessage, setRegisterMessage] = useState("");
@@ -19,9 +20,10 @@ export default function RegisterScreen({ navigation }) {
       return;
     }
 
-    register(email, password).then(
+    register(name, email, password).then(
       (isSuccessful) => {
         console.log('Registration successful:', isSuccessful)
+        // console.log('password', password)
 
         if(isSuccessful){
           setRegisterMessage('sucessfully registered')
@@ -33,44 +35,6 @@ export default function RegisterScreen({ navigation }) {
       console.error('Error during registration:', error);
     });
   
-    
-
-    // if(result){
-    //   setRegisterMessage("Registered!!")
-    // }else{
-    //   setRegisterMessage(result)
-    // }
-
-
-    // old backend
-    // axios
-    //   .post(
-    //     `http://${API_host}:${API_port}/auth/register`,
-    //     {
-    //       username: username,
-    //       password: password,
-    //       confirmPassword: confirmPassword,
-    //     },
-    //     { timeout: 5000 }
-    //   )
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setRegisterMessage("register sucessfully");
-    //   })
-    //   .catch((err) => {
-    //     if (err.code === "ECONNABORTED") {
-    //       console.log("Request timed out");
-    //       setRegisterMessage("timeout");
-    //       return;
-    //     }
-
-    //     if (err.response.status === 400) {
-    //       setRegisterMessage("This username was already taken.");
-    //     } else if (err.response.status === 500) {
-    //       console.log(err.response.data);
-    //       setRegisterMessage("500 internal server error");
-    //     }
-    //   });
   }
 
   return (
@@ -82,6 +46,11 @@ export default function RegisterScreen({ navigation }) {
         style={{ backgroundColor: "#C7C7C7", padding: 5, width: 200 }}
         placeholder="Enter Email Here"
         onChangeText={(text) => setEmail(text)}
+      />
+      <TextInput
+        style={{ backgroundColor: "#C7C7C7", padding: 5, width: 200 }}
+        placeholder="Enter your name Here"
+        onChangeText={(text) => setName(text)}
       />
       <TextInput
         style={{ backgroundColor: "#C7C7C7", padding: 5, width: 200 }}
