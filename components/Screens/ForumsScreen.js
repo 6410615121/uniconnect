@@ -80,6 +80,8 @@ export default function Forums() {
         
       </View>
       <FlatList
+        // style={{flexGrow:1}}
+        contentContainerStyle={{paddingBottom:100}}
         data={data}
         renderItem={({ item }) => <Forum post={item} />}
         onEndReachedThreshold={0.3}
