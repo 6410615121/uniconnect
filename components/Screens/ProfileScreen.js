@@ -45,6 +45,13 @@ export default function ProfileScreen({ setLoggedOut }) {
         component={MyCourseScreen}
         options={{ headerTitle: "My Courses" }}
       />
+
+      <Stack.Screen
+        name="ContactScreen"
+        component={ContactScreen}
+        options={{ headerTitle: "Contact Us" }}
+      />
+
     </Stack.Navigator>
   );
 }
@@ -62,6 +69,10 @@ const ProfileMain = ({ route, setLoggedOut }) => {
 
   const handleMyCoursePress = () => {
     navigation.push("MyCourseScreen");
+  };
+
+  const handleContactPress = () => {
+    navigation.push("ContactScreen");
   };
 
   return (
@@ -279,7 +290,7 @@ const ProfileMain = ({ route, setLoggedOut }) => {
             borderTopLeftRadius: 15,
             borderTopEndRadius: 15,
           }}
-          onPress={alert}
+          onPress={handleContactPress}
           underlayColor="#FFDEA2"
         >
           <View style={{ flexDirection: "row" }}>
@@ -463,4 +474,14 @@ const MyCourseScreen = ({ route }) => {
     </View>
   );
 };
+/* -------------------------------------------------------------------------- */
+const ContactScreen = ({ route }) => {
+  return (
+    <View>
+      <Text>Contact us screen</Text>
+    </View>
+  )
+}
+
+
 /* -------------------------------------------------------------------------- */
