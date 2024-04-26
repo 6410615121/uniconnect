@@ -52,7 +52,7 @@ const PostDetailScreen = ({ route }) => {
             <View style={{height:'80%'}}>
               <View style={{flexDirection:'row'}}>
                 <Image source={require("../../assets/icons/profileBlue.png")} />
-                <Text style={{fontSize: 18,fontWeight:'bold',marginTop: 5,marginLeft:10, color: '#0C2D57',}}>{post_data.Author}</Text>
+                <Text style={{fontSize: 18,fontWeight:'bold',marginTop: 5,marginLeft:10, color: '#0C2D57',}}>{post_data.author}</Text>
               </View>
               <ScrollView style={{height:'40%'}}>
                 <View><Text style={{fontSize:15, color:'#0C2D57',marginLeft:50,marginRight:50}}>{post_data.Description}</Text></View>

@@ -1,8 +1,8 @@
 import { firestore, storage } from "./firebaseConfig";
 import { ref, uploadBytes, getDownloadURL, } from "firebase/storage";
 import { collection, query, where, getDocs, addDoc, updateDoc, runTransaction } from "firebase/firestore";
-
-
+import * as FileSystem from 'expo-file-system';
+import * as Linking from 'expo-linking';
 
 /* -------------------------  Reviews -------------------------- */
 const getAllReviews = async (IDCourse) => {
@@ -278,29 +278,35 @@ const uploadExamToStorage = async (uri, filename) => {
 };
 
 
-/* const downloadExam = async (filename) => {
+const downloadExam = async (filename) => {
   try {
     const storageRef = ref(storage, `exams/${filename}`);
     const url = await getDownloadURL(storageRef);
 
-    const downloadDest = '${RNFS.DocumentDirectoryPath}/${filename}';
+
+    await Linking.openURL(url);
+    /* const callback = downloadProgress => {
+      const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
+      this.setState({
+        downloadProgress: progress,
+      });
+    }; */
+    /* console.log(FileSystem.documentDirectory)
+    const downloadResumable = FileSystem.createDownloadResumable(
+      url, // URL of the file to download
+      FileSystem.documentDirectory + filename,
+      
+    ); */
 
     // Download the file
-    const downloadResult =  RNFS.downloadFile({
-      fromUrl: url,
-      toFile: downloadDest,
-    });
+    /* const { uri } = await downloadResumable.downloadAsync(); */
 
-    if (downloadResult.statusCode === 200) {
-      console.log("File downloaded successfully");
-    } else {
-      console.error("Error downloading file: Unexpected status code", downloadResult.statusCode);
-    }
+    //console.log('Downloaded file URI:', uri);
   } catch (error) {
     console.error("Error downloading file:", error);
   }
-}; */
+}; 
 
 /* -------------------------  exams -------------------------- */
 
-export { getAllReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage};
+export { getAllReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, downloadExam};

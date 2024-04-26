@@ -5,12 +5,17 @@ import { TextInput } from "react-native-gesture-handler";
 import { styles } from '../../assets/styles//styles_post.js';
 import { Alert } from 'react-native';
 import { getDocumentAsync } from 'expo-document-picker';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
     uploadsheet,
     uploadSheetToStorage
   } from "../../firebase/firestoreCourseDetail.js";
+
+import {
+
+  getID
+} from "../../firebase/firebaseAuth.js";
 
 const UploadsheetScreen = ({ route }) => {
 
@@ -50,7 +55,7 @@ const UploadsheetScreen = ({ route }) => {
           await uploadSheetToStorage(result.assets[0].uri, result.assets[0].name)
           
         }
-        console.log("test")
+        console.log(await AsyncStorage.getItem('UID'))
         await uploadsheet(Filename,course.courseID, description, result.assets[0].name)
         navigation.goBack();
       }
