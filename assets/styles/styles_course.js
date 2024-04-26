@@ -27,12 +27,12 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor:'#EFECEC',
     padding: 20,
   },
   course_container: {
     marginBottom: 20,
-    borderWidth: 3,
-    borderColor: '#ccc',
+    borderWidth: 1,
     borderRadius: 20,
     // padding: 20,
     marginLeft:10,
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10
   },
   course_text_box: {
+    backgroundColor:'#FFF8E3',
     padding: 10,
     flexDirection: "column",
   },
@@ -60,14 +61,15 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 15,
     fontWeight: 'bold',
-    height: 65
+    height: 65,
+    color:'#0C2D57'
   },
   description: {
     // marginTop: 3,
     fontSize: 13,
     fontWeight: 'bold',
     height: 30,
-    color: '#707070'
+    color: '#0C2D57'
   },
 });
 
