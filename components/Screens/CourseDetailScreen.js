@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from "react";
-import { View, Text, StyleSheet,Button,TouchableHighlight} from 'react-native';
+import { View, Text, StyleSheet,Button,TouchableHighlight, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../../assets/styles/styles_coursedetail.js';
 import { TouchableOpacity,Image,FlatList} from 'react-native';
@@ -124,7 +124,7 @@ const Sheets = ( props ) => {
             <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('FileDetail', {item});}}>
               <Image source={require('../../assets/icons/file.png')} style={{marginTop:10}}/>
               <View style={{marginTop:-50}}>
-                <Text style={styles.label}>{item.Filename}</Text>  
+                  <Text style={styles.label}>{item.Filename}</Text>
                 <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
                   <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
                   <Image source={require('../../assets/icons/dowsload.png')} 

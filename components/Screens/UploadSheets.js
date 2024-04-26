@@ -35,6 +35,7 @@ const UploadsheetScreen = ({ route }) => {
         <View style={{height:'10%'}}>
           <TextInput
             style={{backgroundColor: "#FFF8E3", padding: 5,width:'80%',alignSelf:'center',marginTop:10,borderRadius:15}}
+            maxLength={15}
             placeholder="Enter Filename"
             onChangeText={(text) => {
               setFilename(text);
@@ -43,7 +44,6 @@ const UploadsheetScreen = ({ route }) => {
         </View>
         <View style={{height:'70%'}}>
           <TextInput
-            
             multiline
             numberOfLines={10}
             style={{ padding: 10, width: "100%",color:'#0C2D57'}}
