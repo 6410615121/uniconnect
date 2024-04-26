@@ -152,25 +152,26 @@ const MainScreen = ({ handleCoursePress }) => {
 
   return (
     <View style={{ flex: 1, alignItems: "center"}}>
-      <View style={{ flexDirection: "row", backgroundColor:"white", width:'100%', justifyContent:'space-evenly' }}>
+      <View style={{ flexDirection: "row", backgroundColor:"#EFECEC", width:'100%', justifyContent:'space-evenly',marginTop:20}}>
         <TextInput
           style={{
-            backgroundColor: "#ffffff",
+            backgroundColor: "#FFF8E3",
             padding: 8,
             paddingLeft:15,
             width: 250,
-
-            borderColor:'#e9e9e9',
-            borderWidth: 3,
-            borderRadius: 8
+            borderWidth: 1,
+            borderRadius:15,
           }}
           placeholder="search by id"
           onChangeText={(text) => setSearchText(text)}
         />
         <TouchableOpacity onPress={handleSearchSubmit} style={{justifyContent: "center"}}>
-          <Image source={require("../../assets/icons/search_FILL0_wght400_GRAD0_opsz24.png")} />
+          <Image source={require("../../assets/icons/search.png")} />
         </TouchableOpacity>
-
+        <TouchableOpacity style={{justifyContent:"center"}}>
+          <Image source={require("../../assets/icons/bigHeart.png" )} />
+        </TouchableOpacity>
+        
         <TouchableOpacity onPress={() => navigation.navigate("createCourseScreen")} style={{justifyContent: "center"}}>
           <Image style={{height:32, marginBottom:2}} source={require("../../assets/icons/add_FILL0_wght400_GRAD0_opsz24.png")} />
         </TouchableOpacity>
@@ -190,38 +191,43 @@ const MainScreen = ({ handleCoursePress }) => {
         numColumns={2}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity
-              key={item.id}
-              onPress={() => handleCoursePress(item)}
-            >
-              <View style={styles.course_container}>
-                <View
-                  style={[
-                    styles.course_header,
-                    { backgroundColor: item.color },
-                    // { backgroundColor: "#BC9FD1" }
-                  ]}
+            
+              <TouchableOpacity style={{flexDirection:'row-reverse'}}>
+                <Image source={require("../../assets/icons/bigHeart.png")} />
+                <TouchableOpacity
+                  key={item.id}
+                  onPress={() => handleCoursePress(item)}
                 >
-                  <Text style={styles.courseID}>{item.courseID}</Text>
+                <View style={[styles.course_container,{marginRight:-40}]}>
+                  <View
+                    style={[
+                      styles.course_header,
+                      { backgroundColor: item.color },
+                      // { backgroundColor: "#BC9FD1" }
+                    ]}
+                  >
+                    <Text style={styles.courseID}>{item.courseID}</Text>
+                  </View>
+
+                  <View
+                    style={
+                      styles.course_text_box
+                    }
+                  >
+                    <Text style={styles.title}>{item.title}</Text>
+                    <Text style={styles.description}>{item.description}</Text>
+                  </View>
+
+                  {/* <Text style={styles.courseID}>{item.courseID}</Text>
+                  <Text style={styles.title}>{item.title}</Text> */}
+
+                  {/* <Text style={styles.description}>
+                    Description: {item.description}
+                  </Text> */}
                 </View>
-
-                <View
-                  style={
-                    styles.course_text_box
-                  }
-                >
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.description}>{item.description}</Text>
-                </View>
-
-                {/* <Text style={styles.courseID}>{item.courseID}</Text>
-                <Text style={styles.title}>{item.title}</Text> */}
-
-                {/* <Text style={styles.description}>
-                  Description: {item.description}
-                </Text> */}
-              </View>
+              </TouchableOpacity>
             </TouchableOpacity>
+            
           );
         }}
       />
