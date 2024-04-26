@@ -70,6 +70,7 @@ const Reviews = ({ course,reviews}) => {
                     <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.Author}</Text>
                   </View>
                   <Text style={styles.label}>{item.Description}</Text>
+                  <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{item.likeCount} Likes</Text>
                   <View style={{alignSelf:'center',marginTop:20}}>  
                     <Image source={require("../../assets/icons/likeComment.png")}/>
                   </View>  

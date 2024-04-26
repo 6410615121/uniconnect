@@ -1,9 +1,10 @@
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity,Image } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import {TextInput, Button, Modal } from 'react-native';
+import { styles } from '../../assets/styles/styles_coursedetail.js';
 
 import {
   getAllForums, 
@@ -16,13 +17,26 @@ function Forum( {post} ){
   const post_data = post.field
   
   return(
-    <TouchableOpacity onPress={() => navigation.navigate('PostDetail',{post})}>
-      <View style={{backgroundColor:'#D6D6D6', marginBottom: 10}}>
-        <Text>{post_data.author}</Text>
-        <Text>{post_data.Description}</Text>
-        <Text>{post_data.likeCount}</Text>
-      </View>
+    <TouchableOpacity
+                style={styles.postbox} 
+                onPress={() => { navigation.navigate('PostDetail',{post});}}>
+                  <View style={{flexDirection:'row'}}>
+                    <Image source={require("../../assets/icons/profileBlue.png")}/>
+                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{post_data.author}</Text>
+                  </View>
+                  <Text style={styles.label}>{post_data.Description}</Text>
+                  <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{post_data.likeCount} Likes</Text>
+                  <View style={{alignSelf:'center',marginTop:20}}>  
+                    <Image source={require("../../assets/icons/likeComment.png")}/>
+                  </View>  
     </TouchableOpacity>
+    // <TouchableOpacity onPress={() => navigation.navigate('PostDetail',{post})}>
+    //   <View style={{backgroundColor:'#D6D6D6', marginBottom: 10}}>
+    //     <Text>{post_data.author}</Text>
+    //     <Text>{post_data.Description}</Text>
+    //     <Text>{post_data.likeCount}</Text>
+    //   </View>
+    // </TouchableOpacity>
   )
 }
 
@@ -54,15 +68,15 @@ export default function Forums() {
 
   return (
     <View>
-      <View style={{ flexDirection: 'row',justifyContent: 'center',marginTop:10,marginBottom:20}}>
+      <View style={{ flexDirection: 'row',justifyContent: 'center',marginTop:20,marginBottom:20,backgroundColor:'#EFECEC'}}>
         <TextInput
-          style={{ backgroundColor: "#C7C7C7", padding: 5, width: 200 }}
+          style={{ paddingLeft:10,backgroundColor: "#FFF8E3", padding: 5, width: '70%',borderWidth:1,borderTopLeftRadius:15,borderBottomLeftRadius:15 }}
           placeholder="Post"
           
           onTouchStart={handleTextInputPress} // Open popup when TextInput is pressed
         />
         
-        <Button title="Post" onPress={handleTextInputPress} />
+        <Button title="Post" onPress={handleTextInputPress} color={'#0C2D57'} />
         
       </View>
       <FlatList
