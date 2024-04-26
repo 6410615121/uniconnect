@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-gesture-handler";
 import { styles } from '../../assets/styles//styles_post.js';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
     Createcomment,
@@ -17,8 +18,9 @@ const CreateCommentReviewScreen = ({ route }) => {
     const navigation = useNavigation();
   
     const comment = async () => {
-      
-      await Createcomment(data.CourseID, data.reviewID, description)
+      const author = await AsyncStorage.getItem('name')
+      const userID = await AsyncStorage.getItem('UID')
+      await Createcomment(userID, author, data.CourseID, data.reviewID, description)
       
       navigation.goBack();
 

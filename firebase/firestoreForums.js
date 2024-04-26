@@ -1,5 +1,5 @@
 import { firestore } from "./firebaseConfig";
-import { addDoc, collection, getDocs, doc } from "firebase/firestore";
+import { addDoc, collection, getDocs, doc, query, where } from "firebase/firestore";
 
 const getAllForums = async () => {
   try {
@@ -19,11 +19,26 @@ const getAllForums = async () => {
   }
 };
 
-const createPost = async (description) => {
+const getMyForums = async (userID) => {
+  try {
+ 
+    
+    const forumsDocs = await getDocs(query(collection(firestore, "forums"),where("userID", '==', userID)));
+    const forumsData = forumsDocs.docs.map((doc) => { return {id:doc.id,field:doc.data()}});
+   
+    return forumsData;
+
+  } catch (e) {
+    console.error("Error getting allforums: ", e);
+  }
+};
+
+
+const createPost = async (userID, Author, description) => {
   try {
     const docRef = await addDoc(collection(firestore, "forums"), {
-      
-      author:"nawaphoom Nachai", //test data
+      userID:userID,
+      author:Author, //test data
       Description:description, //test data
       likeCount: 0,
     });
@@ -40,7 +55,7 @@ const createPost = async (description) => {
     console.error("Error adding document: ", e);
   }
 }
-const Createcomment = async (IDPost, comment) => {
+const Createcomment = async (userID, Author, IDPost, comment) => {
   try {
 
     const commentsCollectionRef = collection(firestore, 'forums', IDPost, 'comments');
@@ -49,7 +64,8 @@ const Createcomment = async (IDPost, comment) => {
     if (!commentsCollectionRef.empty) {
 
       await addDoc(commentsCollectionRef, {
-        Author:"Nawaphoom Nachai",
+        Author:Author,
+        userID:userID,
         comment,
         likeCount: 0,
       });
@@ -83,4 +99,4 @@ const getAllCommentForum = async (IDPost) => {
   }
 };
 
-export { getAllForums, createPost, getAllCommentForum,Createcomment };
+export { getAllForums, createPost, getAllCommentForum,Createcomment, getMyForums };

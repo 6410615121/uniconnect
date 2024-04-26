@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Button ,Image, TouchableOpacity} from 'react-native';
 
-
+import { useIsFocused } from '@react-navigation/native';
 import { useEffect, useState } from "react";
 import { styles } from '../../assets/styles//styles_post.js';
 import { TextInput } from "react-native-gesture-handler";
@@ -26,17 +26,18 @@ const ReviewDetailScreen = ({ route }) => {
     const { item } = route.params;
     const [comment, setcomment] = useState("");
     const [comobject, setcomobject] = useState([]);
-
+    const isFocused = useIsFocused();
     const navigation = useNavigation();
     useEffect(() => {
       const fetchAndUpdateState = async () => {
         const commentdata = await fetchComments(item.CourseID, item.reviewID);
         setcomobject(commentdata);
       };
-      fetchAndUpdateState();
-      
-    },[]);
-    //console.log(comobject);
+      if (isFocused) {
+        fetchAndUpdateState();
+        }
+    },[isFocused]);
+    console.log(comobject);
 
 
 

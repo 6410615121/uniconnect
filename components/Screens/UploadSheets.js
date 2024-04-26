@@ -55,8 +55,9 @@ const UploadsheetScreen = ({ route }) => {
           await uploadSheetToStorage(result.assets[0].uri, result.assets[0].name)
           
         }
-        console.log(await AsyncStorage.getItem('UID'))
-        await uploadsheet(Filename,course.courseID, description, result.assets[0].name)
+        const author = await AsyncStorage.getItem('name')
+        const userID = await AsyncStorage.getItem('UID')
+        await uploadsheet(Filename, userID, author, course.courseID, description, result.assets[0].name)
         navigation.goBack();
       }
     }; 

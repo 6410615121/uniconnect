@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-gesture-handler";
 import { styles } from '../../assets/styles//styles_post.js';
 import { FlatList} from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
 
@@ -18,7 +18,9 @@ const CreateForumScreen = ({ route }) => {
     const navigation = useNavigation();
   
     const Post = async () => {
-      await createPost(description); //test
+      const author = await AsyncStorage.getItem('name')
+      const userID = await AsyncStorage.getItem('UID')
+      await createPost(userID, author, description); //test
       
       navigation.goBack();
 

@@ -1,7 +1,7 @@
 import { firestore, storage } from "./firebaseConfig";
 import { ref, uploadBytes, getDownloadURL, } from "firebase/storage";
 import { collection, query, where, getDocs, addDoc, updateDoc, runTransaction } from "firebase/firestore";
-import * as FileSystem from 'expo-file-system';
+//import * as FileSystem from 'expo-file-system';
 import * as Linking from 'expo-linking';
 
 /* -------------------------  Reviews -------------------------- */
@@ -34,6 +34,38 @@ const getAllReviews = async (IDCourse) => {
   }
 };
 
+const getMyReviews = async (userID) => {
+  try {
+    // Query all course documents
+    const coursesCollectionRef = collection(firestore, "courses");
+    const courseQuerySnapshot = await getDocs(coursesCollectionRef);
+
+    // Array to store all reviews
+    let allReviews = [];
+
+    for (const courseDoc of courseQuerySnapshot.docs) {
+      // Query the reviews subcollection for the current course and filter by userID
+      const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
+      const reviewsQuerySnapshot = await getDocs(
+        query(reviewsCollectionRef, where("userID", "==", userID))
+      );
+
+      // Extract data from the query snapshot and push it to the array
+      const reviewsData = reviewsQuerySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      allReviews.push(...reviewsData);
+    }
+
+    return allReviews;
+
+  } catch (e) {
+    console.error("Error getting allforums: ", e);
+  }
+};
+
+
 const getAllComment = async (IDCourse,reviewID) => {
   try{
     // Query all course documents
@@ -60,7 +92,7 @@ const getAllComment = async (IDCourse,reviewID) => {
 };
 
 
-const createReviews = async (CourseID,Description) => {
+const createReviews = async (userID, Author, CourseID,Description) => {
   try {
     // Query all course documents
     const filteredCourses = query(collection(firestore, "courses"), where("courseID", '==', CourseID));
@@ -72,7 +104,8 @@ const createReviews = async (CourseID,Description) => {
       const courseDoc = courseQuerySnapshot.docs[0];
       const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
       await addDoc(reviewsCollectionRef, {
-        Author:"Nawaphoom Nachai",
+        userID:userID,
+        Author:Author,
         CourseID,
         Description,
         likeCount: 0,
@@ -87,10 +120,9 @@ const createReviews = async (CourseID,Description) => {
   }
 };
 
-const Createcomment = async (IDCourse, IDReview, comment) => {
+const Createcomment = async (userID, Author,IDCourse, IDReview, comment) => {
   try {
 
-    // Query all course documents
     const filteredCourses = query(collection(firestore, "courses"), where("courseID", '==', IDCourse));
     const courseQuerySnapshot = await getDocs(filteredCourses);
 
@@ -102,7 +134,8 @@ const Createcomment = async (IDCourse, IDReview, comment) => {
 
       if (!commentCollectionRef.empty) {
         await addDoc(commentCollectionRef, {
-          Author:"Nawaphoom Nachai",
+          Author:Author,
+          userID:userID,
           comment,
           likeCount: 0,
         });
@@ -128,7 +161,7 @@ const Createcomment = async (IDCourse, IDReview, comment) => {
 
 
 /* -------------------------  sheets -------------------------- */
-const uploadsheet = async (Filename, CourseID, Description, name) => {
+const uploadsheet = async (Filename, userID, Author, CourseID, Description, name) => {
   try {
 
     // Query all course documents
@@ -141,6 +174,8 @@ const uploadsheet = async (Filename, CourseID, Description, name) => {
       const courseDoc = courseQuerySnapshot.docs[0];
       const sheetsCollectionRef = collection(courseDoc.ref, "sheets");
       const docRef = await addDoc(sheetsCollectionRef, {
+        Author:Author,
+        userID:userID,
         Filename,
         CourseID,
         Description,
@@ -205,7 +240,7 @@ const uploadSheetToStorage = async (uri, filename) => {
 
 
 /* -------------------------  exams -------------------------- */
-const uploadexam = async (Filename, CourseID, Description, name) => {
+const uploadexam = async (Filename, userID, Author, CourseID, Description, name) => {
   try {
 
     // Query all course documents
@@ -218,6 +253,8 @@ const uploadexam = async (Filename, CourseID, Description, name) => {
       const courseDoc = courseQuerySnapshot.docs[0];
       const sheetsCollectionRef = collection(courseDoc.ref, "exams");
       const docRef = await addDoc(sheetsCollectionRef, {
+        Author:Author,
+        userID:userID,
         Filename,
         CourseID,
         Description,
@@ -309,4 +346,4 @@ const downloadExam = async (filename) => {
 
 /* -------------------------  exams -------------------------- */
 
-export { getAllReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, downloadExam};
+export { getAllReviews, getMyReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, downloadExam};
