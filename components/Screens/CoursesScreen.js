@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, FlatList, Button, TouchableHighlight, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Button,
+  TouchableHighlight,
+  Image,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 // import coursesData from "../../test.json"; // Import the JSON data directly for testing fetch json from api
 import { styles } from "../../assets/styles/styles_course.js";
@@ -151,29 +159,46 @@ const MainScreen = ({ handleCoursePress }) => {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: "center"}}>
-      <View style={{ flexDirection: "row", backgroundColor:"#EFECEC", width:'100%', justifyContent:'space-evenly',marginTop:20}}>
+    <View style={{ flex: 1, alignItems: "center" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          backgroundColor: "#EFECEC",
+          width: "100%",
+          justifyContent: "space-evenly",
+          marginTop: 20,
+        }}
+      >
         <TextInput
           style={{
             backgroundColor: "#FFF8E3",
             padding: 8,
-            paddingLeft:15,
+            paddingLeft: 15,
             width: 250,
             borderWidth: 1,
-            borderRadius:15,
+            borderRadius: 15,
           }}
           placeholder="search by id"
           onChangeText={(text) => setSearchText(text)}
         />
-        <TouchableOpacity onPress={handleSearchSubmit} style={{justifyContent: "center"}}>
+        <TouchableOpacity
+          onPress={handleSearchSubmit}
+          style={{ justifyContent: "center" }}
+        >
           <Image source={require("../../assets/icons/search.png")} />
         </TouchableOpacity>
-        <TouchableOpacity style={{justifyContent:"center"}}>
-          <Image source={require("../../assets/icons/bigHeart.png" )} />
+        <TouchableOpacity style={{ justifyContent: "center" }}>
+          <Image source={require("../../assets/icons/bigHeart.png")} />
         </TouchableOpacity>
-        
-        <TouchableOpacity onPress={() => navigation.navigate("createCourseScreen")} style={{justifyContent: "center"}}>
-          <Image style={{height:32, marginBottom:2}} source={require("../../assets/icons/add_FILL0_wght400_GRAD0_opsz24.png")} />
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate("createCourseScreen")}
+          style={{ justifyContent: "center" }}
+        >
+          <Image
+            style={{ height: 32, marginBottom: 2 }}
+            source={require("../../assets/icons/add_FILL0_wght400_GRAD0_opsz24.png")}
+          />
         </TouchableOpacity>
 
         {/* <Button title="search" onPress={handleSearchSubmit} />
@@ -191,43 +216,34 @@ const MainScreen = ({ handleCoursePress }) => {
         numColumns={2}
         renderItem={({ item }) => {
           return (
-            
-              <TouchableOpacity style={{flexDirection:'row-reverse'}}>
-                <Image source={require("../../assets/icons/bigHeart.png")} />
-                <TouchableOpacity
-                  key={item.id}
-                  onPress={() => handleCoursePress(item)}
+            <TouchableOpacity
+              key={item.id}
+              onPress={() => handleCoursePress(item)}
+            >
+              <View style={styles.course_container}>
+                <View
+                  style={[
+                    styles.course_header,
+                    { backgroundColor: item.color },
+                    // { backgroundColor: "#BC9FD1" }
+                  ]}
                 >
-                <View style={[styles.course_container,{marginRight:-40}]}>
-                  <View
-                    style={[
-                      styles.course_header,
-                      { backgroundColor: item.color },
-                      // { backgroundColor: "#BC9FD1" }
-                    ]}
-                  >
-                    <Text style={styles.courseID}>{item.courseID}</Text>
-                  </View>
-
-                  <View
-                    style={
-                      styles.course_text_box
-                    }
-                  >
-                    <Text style={styles.title}>{item.title}</Text>
-                    <Text style={styles.description}>{item.description}</Text>
-                  </View>
-
-                  {/* <Text style={styles.courseID}>{item.courseID}</Text>
-                  <Text style={styles.title}>{item.title}</Text> */}
-
-                  {/* <Text style={styles.description}>
-                    Description: {item.description}
-                  </Text> */}
+                  <Text style={styles.courseID}>{item.courseID}</Text>
                 </View>
-              </TouchableOpacity>
+
+                <View style={styles.course_text_box}>
+                  <Text style={styles.title}>{item.title}</Text>
+                  <Text style={styles.description}>{item.description}</Text>
+                </View>
+
+                {/* Heart icon inside TouchableOpacity */}
+                <TouchableOpacity
+                  style={{ position: "absolute", top: 0, right: 5 }}
+                >
+                  <Image source={require("../../assets/icons/bigHeart.png")} />
+                </TouchableOpacity>
+              </View>
             </TouchableOpacity>
-            
           );
         }}
       />
