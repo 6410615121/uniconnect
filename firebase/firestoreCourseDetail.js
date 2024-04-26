@@ -1,6 +1,8 @@
-import { firestore } from "./firebaseConfig";
+import { firestore, storage } from "./firebaseConfig";
+import { ref, uploadBytes, getDownloadURL, } from "firebase/storage";
 import { collection, query, where, getDocs, addDoc, updateDoc, runTransaction } from "firebase/firestore";
-
+import * as FileSystem from 'expo-file-system';
+import * as Linking from 'expo-linking';
 
 /* -------------------------  Reviews -------------------------- */
 const getAllReviews = async (IDCourse) => {
@@ -126,7 +128,7 @@ const Createcomment = async (IDCourse, IDReview, comment) => {
 
 
 /* -------------------------  sheets -------------------------- */
-const uploadsheet = async (Filename, CourseID, Description) => {
+const uploadsheet = async (Filename, CourseID, Description, name) => {
   try {
 
     // Query all course documents
@@ -142,7 +144,7 @@ const uploadsheet = async (Filename, CourseID, Description) => {
         Filename,
         CourseID,
         Description,
-        
+        nameinstorage:name
       });
       
     } 
@@ -181,11 +183,29 @@ const getAllSheets = async (IDCourse) => {
     return [];
   }
 };
+
+const uploadSheetToStorage = async (uri, filename) => {
+  
+  const response = await fetch(uri);
+  
+  const blob = await response.blob();
+  const storageRef = ref(storage, `sheets/${filename}`);
+  
+
+  try {
+    await uploadBytes(storageRef, blob);
+    console.log('Document uploaded to Firebase Storage successfully');
+  } catch (error) {
+    console.log('Error uploading document to Firebase Storage:', error);
+  }
+};
+
+
 /* -------------------------  sheets -------------------------- */
 
 
 /* -------------------------  exams -------------------------- */
-const uploadexam = async (Filename, CourseID, Description) => {
+const uploadexam = async (Filename, CourseID, Description, name) => {
   try {
 
     // Query all course documents
@@ -201,7 +221,7 @@ const uploadexam = async (Filename, CourseID, Description) => {
         Filename,
         CourseID,
         Description,
-        
+        nameinstorage:name,
       });
       
     } 
@@ -240,6 +260,53 @@ const getAllExams = async (IDCourse) => {
     return [];
   }
 };
+
+const uploadExamToStorage = async (uri, filename) => {
+  
+  const response = await fetch(uri);
+  
+  const blob = await response.blob();
+  const storageRef = ref(storage, `exams/${filename}`);
+  
+
+  try {
+    await uploadBytes(storageRef, blob);
+    console.log('Document uploaded to Firebase Storage successfully');
+  } catch (error) {
+    console.log('Error uploading document to Firebase Storage:', error);
+  }
+};
+
+
+const downloadExam = async (filename) => {
+  try {
+    const storageRef = ref(storage, `exams/${filename}`);
+    const url = await getDownloadURL(storageRef);
+
+
+    await Linking.openURL(url);
+    /* const callback = downloadProgress => {
+      const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
+      this.setState({
+        downloadProgress: progress,
+      });
+    }; */
+    /* console.log(FileSystem.documentDirectory)
+    const downloadResumable = FileSystem.createDownloadResumable(
+      url, // URL of the file to download
+      FileSystem.documentDirectory + filename,
+      
+    ); */
+
+    // Download the file
+    /* const { uri } = await downloadResumable.downloadAsync(); */
+
+    //console.log('Downloaded file URI:', uri);
+  } catch (error) {
+    console.error("Error downloading file:", error);
+  }
+}; 
+
 /* -------------------------  exams -------------------------- */
 
-export { getAllReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment};
+export { getAllReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, downloadExam};

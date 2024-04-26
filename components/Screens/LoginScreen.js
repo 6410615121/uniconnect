@@ -12,7 +12,7 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
   const [loginStatus, setLoginStatus] = useState("");
 
   async function handleLogin() {
-    setLoggedIn(); // for development only
+    //setLoggedIn(); // for development only
     
     if (!email || !password) {
       setLoginStatus("All field is required!");
@@ -28,7 +28,11 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
 
         if (userData) {
           const { name } = userData;
-          AsyncStorage.setItem("name", name); // set name for later use in app
+          AsyncStorage.setItem("name", name);
+          console.log(user.uid)
+          AsyncStorage.setItem("UID", user.uid); // set name for later use in app
+          
+          console.log("async:",await AsyncStorage.getItem('UID'))
           setLoggedIn(); 
         } else {
           console.log("User data not found");

@@ -1,11 +1,13 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth,initializeAuth,getReactNativePersistence, ReactNativeAsyncStorage, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseApp, firestore } from "./firebaseConfig";
 import { doc, setDoc, getDoc } from "firebase/firestore"; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const auth = getAuth(firebaseApp);
-// const auth = initializeAuth(firebaseApp, {
-//   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
-// });
+/*  const auth = initializeAuth(firebaseApp, {
+   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+ }); */
 
 
 const register = async (name, email, password) => {
@@ -56,7 +58,9 @@ const createUserDoc = async (userId, name, email) => {
     console.error("Error creating user document:", error);
   }
 };
-
+const getID = async () => {
+    return await AsyncStorage.getItem('UID')
+}
 const getUserFromUserID = async (userId) => {
   try {
     const userRef = doc(firestore, "users", userId);
@@ -76,4 +80,4 @@ const getUserFromUserID = async (userId) => {
 };
 
 
-export { register, signIn, getUserFromUserID };
+export { register, signIn, getUserFromUserID, getID };
