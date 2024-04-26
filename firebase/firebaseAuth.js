@@ -1,17 +1,14 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseApp, firestore } from "./firebaseConfig";
-import { initializeAuth, getReactNativePersistence } from "firebase/auth";
-
 import { doc, setDoc } from "firebase/firestore"; 
-
-import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 const auth = getAuth(firebaseApp);
 // const auth = initializeAuth(firebaseApp, {
 //   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 // });
 
-const register = async (email, password) => {
+
+const register = async (name, email, password) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -19,6 +16,9 @@ const register = async (email, password) => {
       password
     );
     const user = userCredential.user;
+
+    // Create a user document in Firestore
+    await createUserDoc(user.uid, name, email);
 
     return true;
   } catch (error) {
@@ -31,24 +31,30 @@ const register = async (email, password) => {
 };
 
 const signIn = async (email, password) => {
-  try{
+  try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password)
     const user = userCredential.user;
 
-    return true;
-  }catch(error){
+    return user;
+  } catch (error) {
     const errorCode = error.code;
-    const errorMessage = error.message
+    const errorMessage = error.message;
+    console.error("Sign-in error:", errorCode, errorMessage);
     
-    return false;
+    return null;
   }
 };
 
-const createUserDoc = async (name, email) => {
-	const docRef = await addDoc(collection(firestore, "users"), {
-		name: name,
-		email: email
-	});
-}
+const createUserDoc = async (userId, name, email) => {
+  try {
+    await setDoc(doc(firestore, "users", userId), {
+      name: name,
+      email: email
+    });
+    console.log("User document created successfully");
+  } catch (error) {
+    console.error("Error creating user document:", error);
+  }
+};
 
 export { register, signIn };
