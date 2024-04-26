@@ -3,7 +3,7 @@ import "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { Button, Text, View, TouchableOpacity, Image } from "react-native";
+import { Button, Text, View, TouchableOpacity, Image,Dimensions } from "react-native";
 import { TransitionPresets } from "@react-navigation/stack"; //https://reactnavigation.org/docs/stack-navigator/#transparent-modals
 import { icons } from "./assets/styles/icon.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -76,6 +76,8 @@ const RegisterAndLoginStack = ({ handleLogin }) => {
 const MainApp = ({ handleLogout }) => {
   const [name, setName] = useState('');
 
+  const screenHeight = Dimensions.get('window').height;
+
   // fetch name from AsyncStorage
   useEffect(() => {
     const fetchUserName = async () => {
@@ -103,7 +105,7 @@ const MainApp = ({ handleLogout }) => {
         component={BottomTabNavigator}
         options={({ navigation }) => ({
           headerTitle: () => <View></View>,
-          headerStyle:{backgroundColor:'#0C2D57',height:90},
+          headerStyle:{backgroundColor:'#0C2D57',height:screenHeight*0.15},
           headerLeft: () => (
             <TouchableOpacity style={{flexDirection:"row"}}
               onPress={() => navigation.navigate("ProfileStack")}
