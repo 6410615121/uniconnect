@@ -1,6 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseApp, firestore } from "./firebaseConfig";
-import { doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc, getDoc } from "firebase/firestore"; 
 
 const auth = getAuth(firebaseApp);
 // const auth = initializeAuth(firebaseApp, {
@@ -57,4 +57,23 @@ const createUserDoc = async (userId, name, email) => {
   }
 };
 
-export { register, signIn };
+const getUserFromUserID = async (userId) => {
+  try {
+    const userRef = doc(firestore, "users", userId);
+    const userSnapshot = await getDoc(userRef);
+    
+    if (userSnapshot.exists()) {
+      const userData = userSnapshot.data();
+      return userData;
+    } else {
+      console.log("User not found");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error getting user:", error);
+    return null;
+  }
+};
+
+
+export { register, signIn, getUserFromUserID };
