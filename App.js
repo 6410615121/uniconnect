@@ -99,18 +99,23 @@ const MainApp = ({ handleLogout }) => {
     <Stack.Navigator>
       <Stack.Screen
         name="Main"
+        
         component={BottomTabNavigator}
         options={({ navigation }) => ({
           headerTitle: () => <View></View>,
+          headerStyle:{backgroundColor:'#0C2D57',height:90},
           headerLeft: () => (
             <TouchableOpacity style={{flexDirection:"row"}}
               onPress={() => navigation.navigate("ProfileStack")}
             >
               <Image
-                source={require("./assets/icons/default-profile-icon.png")} // path to image
+                source={require("./assets/icons/profilePageicon.png")} // path to image
                 style={icons.profile_icon}
               />
-              <Text>{name}</Text>
+              <View style={{flexDirection:'column'}}>
+                <Text style={{color:'#FC6736',fontWeight:'bold',fontSize:18,paddingLeft:20}}>{name}</Text>
+                <Text style={{color:'#FFB0B0',fontSize:12,paddingLeft:20}}>Welcome to the UniConnect</Text>
+              </View>
             </TouchableOpacity>
           ),
           headerRight: () => (
@@ -119,7 +124,7 @@ const MainApp = ({ handleLogout }) => {
                 onPress={() => navigation.navigate("NotificationsStack")}
               >
                 <Image
-                  source={require("./assets/icons/bell-icon.png")} // path to image
+                  source={require("./assets/icons/bell.png")} // path to image
                   style={icons.bell_icon}
                 />
               </TouchableOpacity>
