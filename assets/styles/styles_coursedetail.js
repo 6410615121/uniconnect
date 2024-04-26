@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
       width:'90%',
       height:'auto',
       backgroundColor:'#FFF8E3',
-      alignSelf:'center'
+      alignSelf:'center',
+      borderWidth:1   
 
     },
     filebox: {
@@ -34,7 +35,8 @@ const styles = StyleSheet.create({
       width:'90%',
       height:80,
       backgroundColor:'#FFF8E3',
-      alignSelf:'center'
+      alignSelf:'center',
+      borderWidth:1
     },
     label: {
       fontSize: 18,
