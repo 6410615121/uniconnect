@@ -58,13 +58,12 @@ const Reviews = ({ course,reviews}) => {
       <FlatList style={styles.container}
         data={extractedReviews}
         numColumns={1}
-        contentContainerStyle={{ paddingBottom: 10 }}
+        contentContainerStyle={{ paddingBottom: 100 }}
         renderItem={({item})=>{ 
           
           return(
 // <<<<<<< HEAD
-            <View
-                style={styles.postbox} >
+            <View style={styles.postbox} >
                 <TouchableOpacity onPress={() => { navigation.navigate('ReviewDetail',{item});}} style={{width:'100%'}}>
                   <View style={{flexDirection:'row'}}>
                     <Image source={require("../../assets/icons/profileBlue.png")}/>
@@ -121,6 +120,7 @@ const Sheets = ( props ) => {
       <FlatList style={styles.container}
         data={sheets}
         numColumns={1}
+        contentContainerStyle={{ paddingBottom: 100 }}
         renderItem={({item})=>{ 
           //console.log(sheetfile)
           return(
@@ -177,7 +177,7 @@ const Exam = ( props ) => {
       <FlatList style={styles.container}
         data={exams}
         numColumns={1}
-        contentContainerStyle={{ paddingBottom: 50 }}
+        contentContainerStyle={{ paddingBottom: 100 }}
         renderItem={({item})=>{
 
           return(

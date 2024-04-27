@@ -407,65 +407,65 @@ const LikeScreen = ({ route }) => {
   
   const ForumsScreen = () => {
     return (
-      <TouchableOpacity
-        style={[
-          styles.postbox,
-          // { backgroundColor: "#FFF8E3", height: "auto", paddingBottom: 20 },
-        ]}
-        // onPress={() => {
-        //   navigation.navigate("ReviewDetail", { item });
-        // }}
-      >
-        <View style={{ flexDirection: "row" }}>
-          <Image source={require("../../assets/icons/profileBlue.png")} />
-          <Text
-            style={{
-              color: "#0C2D57",
-              fontSize: 18,
-              fontWeight: "bold",
-              marginLeft: 10,
-              marginTop: 8,
-            }}
-          >
-            {/* {item.Author} */}
-            Author
-          </Text>
-        </View>
-        <Text style={styles.label}>Description</Text>
-        <Text
-          style={{
-            fontSize: 10,
-            color: "#FC6736",
-            textAlign: "right",
-            marginRight: 30,
-          }}
-        >
-          {/* {item.likeCount}  */}
-          Likes
-        </Text>
-        <View style={{ alignSelf: "center" }}>
-          <Image source={require("../../assets/icons/likeComment.png")} />
-        </View>
-      </TouchableOpacity>
+      <View style={styles.postbox} >
+                <TouchableOpacity 
+                // onPress={() => { navigation.navigate("ReviewDetail", { item });}} 
+                style={{width:'100%'}}>
+                  <View style={{flexDirection:'row'}}>
+                    <Image source={require("../../assets/icons/profileBlue.png")}/>
+                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>Author</Text>
+                  </View>
+                  <Text style={styles.label}>Description</Text>
+                </TouchableOpacity>
+                  <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
+                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+                      <Image source={require("../../assets/icons/minilike.png")}/>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Likes</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+                      <Image source={require("../../assets/icons/minicomment.png")}/>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
+                    </TouchableOpacity>
+                  </View>  
+            </View>
     );
   };
 
   const ReviewScreen = () => {
     return (
-      <View>
-        <Text>reviews Like</Text>
-      </View>
+       <View style={styles.postbox} >
+                <TouchableOpacity 
+                // onPress={() => { navigation.navigate("ReviewDetail", { item });}} 
+                style={{width:'100%'}}>
+                  <View style={{flexDirection:'row'}}>
+                    <Image source={require("../../assets/icons/profileBlue.png")}/>
+                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>Author</Text>
+                  </View>
+                  <Text style={styles.label}>Description</Text>
+                </TouchableOpacity>
+                  <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
+                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+                      <Image source={require("../../assets/icons/minilike.png")}/>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Likes</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+                      <Image source={require("../../assets/icons/minicomment.png")}/>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
+                    </TouchableOpacity>
+                  </View>  
+            </View>
     );
   };
 
   return (
     <TopTabNavigator.Navigator
       screenOptions={{
+        tabBarActiveTintColor:"#FC6736",
+        tabBarInactiveTintColor:"#EFECEC",
         backgroundColor: "#EFECEC",
         headerShown: true,
         tabBarLabelStyle: {
           fontSize: 18,
-          color: "#FC6736",
           fontWeight: "bold",
         },
         tabBarStyle: {
@@ -517,69 +517,96 @@ const PostScreen = ({ route }) => {
 
   const ForumsScreen = () => {
     return (
-      <View>
-        <Text>forums Post</Text>
-      
         <FlatList
         // style={{flexGrow:1}}
         contentContainerStyle={{paddingBottom:100}}
         data={postdata}
         renderItem={({ item }) => {
           return(
-            <View style={{borderWidth: 1,
-              borderColor: 'gray',
-              padding: 10,
-              marginBottom: 10,
-              borderRadius: 8,}}>
-              <Text>{item.field.author}</Text>
-              <Text>{item.field.Description}</Text>
-              <Text>{item.field.likeCount}</Text>
-            </View>
+            <View style={styles.postbox} >
+            <TouchableOpacity 
+            // onPress={() => { navigation.navigate("ReviewDetail", { item });}} 
+            style={{width:'100%'}}>
+              <View style={{flexDirection:'row'}}>
+                <Image source={require("../../assets/icons/profileBlue.png")}/>
+                <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.field.author}</Text>
+              </View>
+              <Text style={styles.label}>{item.field.Description}</Text>
+            </TouchableOpacity>
+              <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
+                <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+                  <Image source={require("../../assets/icons/minilike.png")}/>
+                  <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.field.likeCount} Likes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+                  <Image source={require("../../assets/icons/minicomment.png")}/>
+                  <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
+                </TouchableOpacity>
+              </View>  
+        </View>
 
           )
         }}
         onEndReachedThreshold={0.3}
         />
-      </View>
     );
   };
 
   const ReviewScreen = () => {
     return (
-      <View>
-        <Text>reviews Post</Text>
         <FlatList
         // style={{flexGrow:1}}
         contentContainerStyle={{paddingBottom:100}}
         data={reviewdata}
         renderItem={({ item }) => {
           return(
-            <View style={{borderWidth: 1,
-              borderColor: 'gray',
-              padding: 10,
-              marginBottom: 10,
-              borderRadius: 8,}}>
-              <Text>{item.data.Author}</Text>
-              <Text>{item.data.Description}</Text>
-              <Text>{item.data.likeCount}</Text>
-            </View>
+            <View style={styles.postbox} >
+            <TouchableOpacity 
+            // onPress={() => { navigation.navigate("ReviewDetail", { item });}} 
+            style={{width:'100%'}}>
+              <View style={{flexDirection:'row'}}>
+                <Image source={require("../../assets/icons/profileBlue.png")}/>
+                <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.data.Author}</Text>
+              </View>
+              <Text style={styles.label}>{item.data.Description}</Text>
+            </TouchableOpacity>
+              <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
+                <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+                  <Image source={require("../../assets/icons/minilike.png")}/>
+                  <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.data.likeCount} Likes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+                  <Image source={require("../../assets/icons/minicomment.png")}/>
+                  <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
+                </TouchableOpacity>
+              </View>  
+        </View>
+            // <View style={{borderWidth: 1,
+            //   borderColor: 'gray',
+            //   padding: 10,
+            //   marginBottom: 10,
+            //   borderRadius: 8,}}>
+            //   <Text>{item.data.Author}</Text>
+            //   <Text>{item.data.Description}</Text>
+            //   <Text>{item.data.likeCount}</Text>
+            // </View>
 
           )
         }}
         onEndReachedThreshold={0.3}
         /> 
-      </View>
     );
   };
 
   return (
     <TopTabNavigator.Navigator
       screenOptions={{
+        tabBarActiveTintColor:"#FC6736",
+        tabBarInactiveTintColor:"#EFECEC",
         backgroundColor: "#EFECEC",
         headerShown: true,
         tabBarLabelStyle: {
           fontSize: 18,
-          color: "#FC6736",
           fontWeight: "bold",
         },
         tabBarStyle: {
