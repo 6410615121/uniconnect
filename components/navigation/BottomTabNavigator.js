@@ -88,7 +88,7 @@ const CoursesTabIcon = () => {
   return (
     <Image
       source={isFocused ? require("../../assets/icons/course-icon2.png") : require("../../assets/icons/course-unselected-icon.png")}
-      style={{ width: "120%", height: "75%", backgroundColor:"#FFB0B0" }}
+      style={{ width: "180%", height: "75%", backgroundColor:"#FFB0B0" }}
     />
   );
 };
