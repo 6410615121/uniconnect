@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StyleSheet } from 'react-native';
 
 import { getFavCourse } from "../../firebase/firebaseFavCourse.js";
 
@@ -740,9 +741,70 @@ const MyCourseScreen = ({ route }) => {
 };
 /* -------------------------------------------------------------------------- */
 const ContactScreen = ({ route }) => {
+  const styles = StyleSheet.create({
+    image:{
+      marginTop: -170,
+    },
+    textContainer:{
+      // backgroundColor:'gray',
+      marginTop:20,
+      alignItems:'center',
+      padding:4
+    },
+    textStyle:{
+      fontSize:23,
+      color:"#002240",
+      backgroundColor:'white',
+      width:"95%",
+      // textAlign:'center',
+      // justifyContent:'center',
+      padding:6,
+      marginBottom:10,
+      fontWeight:"bold",
+      borderRadius:20,
+
+      borderColor:'#BABABA',
+      borderWidth:1,
+      height:50
+    },
+    header:{
+      backgroundColor:"#002E57",
+      alignSelf:'center',
+      width:"120%",
+      height:150,
+      borderBottomLeftRadius: 600,
+      borderBottomRightRadius: 600,
+    },
+    shadow:{
+      // backgroundColor:'white',
+      width:'100%',
+      height:'auto',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
+      shadowOpacity: 0.58,
+      shadowRadius: 16,
+      
+      elevation: 30,
+    }
+  })
+
   return (
     <View>
-      <Text>Contact us screen</Text>
+      <View style={styles.header}>
+      </View>
+      <Image style={[styles.image]} source={require("../../assets/icons/Humaaans-FriendMeeting.png")}/>
+      <View style={styles.textContainer}>
+        <Text style={[styles.textStyle,{textAlign:'center'}]}>Members</Text>
+        <Text style={styles.textStyle}>6410615121 ศุทธา จงเจริญ</Text>
+        <Text style={styles.textStyle}>6410685173 นิพิฐพนธ์ กำพลรัตน์</Text>
+        <Text style={styles.textStyle}>6410455015 รัชพล เยี่ยมกระโทก</Text>
+        <Text style={styles.textStyle}>6410615071 นวภูมิ นาชัย</Text>
+        <Text style={styles.textStyle}>6410615055 ธนบูรณ์ จิวริยเวชณ์</Text>
+        
+      </View>
     </View>
   );
 };
