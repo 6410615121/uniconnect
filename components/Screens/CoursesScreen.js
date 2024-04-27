@@ -133,27 +133,23 @@ const MainScreen = ({ handleCoursePress }) => {
   // fetching courses
   const fetchCourses = async () => {
     try {
-      const courses = await getAllCourses();
-      
       // Check if userUID is available
-      if (userUID) {
-        let favCourseIDList = await getFavCourseIDList(userUID);
-  
-        if (!favCourseIDList) {
-          favCourseIDList = [];
-        }
-  
-        if (courses.length > 0) {
-          courses.forEach((course) => {
-            if (course.courseID && favCourseIDList) {
-              course.isFav = favCourseIDList.includes(course.courseID);
-            } else {
-              course.isFav = false;
-            }
-          });
-          setCourses(courses);
-        }
+      if (!userUID) {
+        // console.log("UserUID not available (yet).");
+        return;
       }
+  
+      const courses = await getAllCourses();
+      let favCourseIDList = await getFavCourseIDList(userUID);
+  
+      favCourseIDList = favCourseIDList || [];
+  
+      // mark course fav
+      courses.forEach((course) => {
+        course.isFav = favCourseIDList.includes(course.courseID);
+      });
+  
+      setCourses(courses);
     } catch (error) {
       console.error("Error fetching courses:", error);
     }
