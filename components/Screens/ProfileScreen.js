@@ -688,16 +688,47 @@ const MyCourseScreen = ({ route }) => {
   
   return (
     <FlatList
-      data={favCourses}
-      contentContainerStyle={{gap:20}}
-      renderItem={({item})=>(
-        <View>
-          <Text>{item.courseID}</Text>
-          <Text>{item.description}</Text>
-          <Text>{item.color}</Text>
-        </View>
-      )
-    }
+        style={{backgroundColor:'#EFECEC',padding: 20}}
+        data={favCourses}
+        contentContainerStyle={{ paddingBottom: 40 }}
+        numColumns={2}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity
+              key={item.id}
+              // onPress={() => handleCoursePress(item)}
+            >
+              <View style={{
+                marginBottom: 20,
+                borderWidth: 1,
+                borderRadius: 20,
+                marginLeft:10,
+                width:160,
+                height:150,
+                backgroundColor:'#FFF',
+                overflow:'hidden',}}>
+                <View style={{ backgroundColor: item.color,width:'100%', height:40,padding: 7,paddingLeft: 10}}>
+                  <Text style={{fontSize: 18,fontWeight: 'bold',color: 'white'}}>{item.courseID}</Text>
+                </View>
+                <View style={{ backgroundColor:'#FFF8E3', padding: 10,flexDirection: "column",}}>
+                  <Text style={{fontSize: 15,fontWeight: 'bold',height: 65,color:'#0C2D57'}}>{item.title}</Text>
+                  <Text style={{fontSize: 13,fontWeight: 'bold',height: 30,color: '#0C2D57'}}>{item.description}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          );
+        }}
+     
+    //   data={favCourses}
+    //   contentContainerStyle={{gap:20}}
+    //   renderItem={({item})=>(
+    //     <View>
+    //       <Text>{item.courseID}</Text>
+    //       <Text>{item.description}</Text>
+    //       <Text>{item.color}</Text>
+    //     </View>
+    //   )
+    // }
     />
   );
 };
