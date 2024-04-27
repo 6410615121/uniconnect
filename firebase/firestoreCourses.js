@@ -39,7 +39,7 @@ const createCourse = async (courseID, title, description) => {
       likeCount: 0,
       color: randomColor
     });
-    console.log("Document written with ID: ", docRef.id);
+    // console.log("Document written with ID: ", docRef.id);
 
     // create subcollection reviews (store object reviews when create course)
     /* addDoc(collection(docRef, "reviews"),{
