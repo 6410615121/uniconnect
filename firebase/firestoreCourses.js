@@ -1,5 +1,5 @@
 import { firestore } from "./firebaseConfig";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, doc, setDoc } from "firebase/firestore";
 
 const getAllCourses = async () => {
   try {
@@ -31,14 +31,13 @@ const createCourse = async (courseID, title, description) => {
   const randomColor = Colors[Math.floor(Math.random() * Colors.length)];
 
   try {
-    const docRef = await addDoc(collection(firestore, "courses"), {
+    const docRef = await setDoc(doc(firestore, "courses", courseID), {
       courseID,
       title,
       description,
       reviewcounts:0,
       likeCount: 0,
       color: randomColor
-
     });
     console.log("Document written with ID: ", docRef.id);
 
