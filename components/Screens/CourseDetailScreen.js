@@ -13,24 +13,77 @@ import {
   downloadExam,
   favReview,
   unfavReview,
+  getfavReview,
+  getfavReviewByCourseIDAndUID
 } from "../../firebase/firestoreCourseDetail.js";
 
 
 const Reviews = ({ course,reviews}) => {
+  const [extractedReviews ,setExtractedReviews] = useState([]);
+  const [isRefresh, setIsRefresh] = useState(false);
   const navigation = useNavigation();
-  const extractedReviews = reviews.map((review) => ({
-    reviewID: review.id,
-    Author: review.data.Author,
-    CourseID: review.data.CourseID,
-    Description: review.data.Description,
-    likeCount: review.data.likeCount,
-    commentcounts: review.data.commentcounts,
-  }));
+
+
+    const fetchData = async () => {
+        try {
+            const userUID = await AsyncStorage.getItem("UID");
+            const reviews = await getAllReviews(course.courseID);
+            let exReviews = reviews.map((review) => ({
+              reviewID: review.id,
+              Author: review.data.Author,
+              CourseID: review.data.CourseID,
+              Description: review.data.Description,
+              likeCount: review.data.likeCount,
+              commentcounts: review.data.commentcounts,
+              isLiked: null
+            }));
+
+            const FavReviewList = await getfavReviewByCourseIDAndUID(userUID, course.courseID)
+            
+            exReviews.forEach((review)=> {
+              review.isLiked = FavReviewList.includes(review.reviewID)
+            })
+
+            setExtractedReviews(exReviews);
+        } catch (error) {
+            console.log("Error fetching favorite reviews: ", error);
+        }
+    }
+
+    useEffect(()=>{
+      fetchData();
+    },[])
+
+    useEffect(() => {
+      if (isRefresh) {
+        fetchData();
+        setIsRefresh(false);
+      }
+    }, [isRefresh]);
+  
+
+
   const like= async (CourseID, postID) => {
     const userID = await AsyncStorage.getItem('UID')
-    await unfavReview(userID, CourseID, postID)
-    
+    await favReview(userID, CourseID, postID)
+    console.log("liked!")
   }; 
+
+  const unlike= async (CourseID, postID) => {
+    const userID = await AsyncStorage.getItem('UID')
+    await unfavReview(userID, CourseID, postID)
+    console.log("unliked!")
+  }; 
+
+  const handleLikeButtonPress = async ({item}) =>{
+    if(item.isLiked){
+      await unlike(item.CourseID, item.reviewID)
+    }else{
+      await like(item.CourseID, item.reviewID)
+    }
+    item.isLiked = !item.isLiked;
+    setIsRefresh(true);
+  }
   
   
   return(
@@ -80,9 +133,10 @@ const Reviews = ({ course,reviews}) => {
                 </TouchableOpacity>
                   <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
                     <TouchableOpacity 
-                      onPress={() => {like(item.CourseID, item.reviewID)}}
+                      onPress={() => handleLikeButtonPress({item})}
                       style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
-                      <Image source={require("../../assets/icons/minilike.png")}/>
+                      {item.isLiked? <Image source={require("../../assets/icons/minilike.png")}/>: <Text>ยังไม่กด</Text>  }
+                      
                       <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.likeCount} Likes</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { navigation.navigate('ReviewDetail',{item});}} style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
@@ -249,6 +303,8 @@ const CourseDetailScreen = ({ route }) => {
   const [reviews, setreviews] = useState([]);
   const [sheets, setsheets] = useState([]);
   const [exams, setexams] = useState([]);
+
+  const [isRefreshReview, setIsRefresh] = useState(false);
   
   useEffect(() => {
     const fetchAndUpdateState = async () => {
@@ -266,7 +322,7 @@ const CourseDetailScreen = ({ route }) => {
 
   if(route.name == "reviews"){
     return (
-      <Reviews course={course} reviews={reviews}/>
+      <Reviews course={course} reviews={reviews} setIsRefresh={setIsRefresh}/>
     );
   }else if (route.name == "sheets"){
     return (

@@ -183,35 +183,29 @@ const likeReview = async (IDCourse, IDReview) => {
     const filteredCourses = query(collection(firestore, "courses"), where("courseID", '==', IDCourse));
     const courseQuerySnapshot = await getDocs(filteredCourses);
 
-    
-
     if (!courseQuerySnapshot.empty) {
       const courseDoc = courseQuerySnapshot.docs[0];
       const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
-      
       const reviewDocRef = doc(reviewsCollectionRef, IDReview);
 
-      
-      if (! reviewDocRef.empty) {
+      const reviewDocSnapshot = await getDoc(reviewDocRef);
+      if (reviewDocSnapshot.exists()) {
         await runTransaction(firestore, async (transaction) => {
-          const reviewDocSnapshot = await transaction.get(reviewDocRef);
-  
           const reviewData = reviewDocSnapshot.data();
-          const updatedreviewData = {
+          const updatedReviewData = {
             ...reviewData,
-            likeCount: (reviewData.likeCount || 0) + 1, // Increment commentcounts
+            likeCount: (reviewData.likeCount || 0) + 1,
           };
-          transaction.update(reviewDocRef, updatedreviewData);       
-        })
+          transaction.update(reviewDocRef, updatedReviewData);
+        });
       } else {
-        console.log("No matching reviews found.");
+        console.log("Review document not found.");
       }
-      
-    } 
-
+    } else {
+      console.log("Course document not found.");
+    }
   } catch (e) {
-    console.error("Error creating comments: ", e);
-    return [];
+    console.error("Error liking review: ", e);
   }
 };
 
@@ -220,37 +214,32 @@ const unlikeReview = async (IDCourse, IDReview) => {
     const filteredCourses = query(collection(firestore, "courses"), where("courseID", '==', IDCourse));
     const courseQuerySnapshot = await getDocs(filteredCourses);
 
-    
-
     if (!courseQuerySnapshot.empty) {
       const courseDoc = courseQuerySnapshot.docs[0];
       const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
-      
       const reviewDocRef = doc(reviewsCollectionRef, IDReview);
 
-      
-      if (! reviewDocRef.empty) {
+      const reviewDocSnapshot = await getDoc(reviewDocRef);
+      if (reviewDocSnapshot.exists()) {
         await runTransaction(firestore, async (transaction) => {
-          const reviewDocSnapshot = await transaction.get(reviewDocRef);
-  
           const reviewData = reviewDocSnapshot.data();
-          const updatedreviewData = {
+          const updatedReviewData = {
             ...reviewData,
-            likeCount: (reviewData.likeCount || 0) - 1, // Increment commentcounts
+            likeCount: (reviewData.likeCount || 0) - 1,
           };
-          transaction.update(reviewDocRef, updatedreviewData);       
-        })
+          transaction.update(reviewDocRef, updatedReviewData);
+        });
       } else {
-        console.log("No matching reviews found.");
+        console.log("Review document not found.");
       }
-      
-    } 
-
+    } else {
+      console.log("Course document not found.");
+    }
   } catch (e) {
-    console.error("Error creating comments: ", e);
-    return [];
+    console.error("Error unliking review: ", e);
   }
 };
+
 
 const favReview = async (uid, IDCourse, IDPost)=>{
   try {
@@ -264,7 +253,7 @@ const favReview = async (uid, IDCourse, IDPost)=>{
     await likeReview(IDCourse, IDPost)
     
   }catch(error){
-    console.error("error fav: ", error)
+    console.error("error fav1: ", error)
   }
   
 }
@@ -279,7 +268,7 @@ const unfavReview = async (uid, IDCourse, IDPost)=>{
     await unlikeReview(IDCourse, IDPost)
     
   }catch(error){
-    console.error("error fav: ", error)
+    console.error("error fav2: ", error)
   }
   
 }
@@ -292,6 +281,47 @@ const getfavReview = async (uid)=>{
     //const favouriteReviews = querySnapshot.docs.map(doc => doc.data());
     //console.log(uid)
     //return favouriteReviews;
+  } catch (error) {
+    console.error("Error fetching favourite reviews for user:", error);
+    return [];
+  }
+};
+
+// const getfavReview = async (uid)=>{
+//   try {
+//     // console.log(uid)
+//     let querySnapshot = await getDocs(collection(firestore, "users", uid, "favouriteReview"));
+//     // console.log(querySnapshot.docs)
+//     const courseIDList = querySnapshot.docs.map(doc => doc.id);
+//     console.log(courseIDList)
+
+//     for(courseID of courseIDList){
+//       querySnapshot = await getDocs(collection(firestore, "users", uid, "favouriteReview", courseID,"IDPost"))
+//       const postIDs = querySnapshot.docs.map((doc)=>doc.data())
+//       console.log(postIDs)
+//     }
+//     // return courseIDList;
+//   } catch (error) {
+//     console.error("Error fetching favourite reviews for user:", error);
+//     return [];
+//   }
+// };
+
+
+const getfavReviewByCourseIDAndUID = async (uid, courseID)=>{
+  try {
+    // console.log(uid)
+    let querySnapshot = await getDocs(collection(firestore, "users", uid, "favouriteReview", courseID, "IDPost"));
+    // console.log(querySnapshot.docs)
+    const FavcourseIDList = querySnapshot.docs.map(doc => doc.id);
+    return FavcourseIDList
+
+    // for(courseID of courseIDList){
+    //   querySnapshot = await getDocs(collection(firestore, "users", uid, "favouriteReview", courseID,"IDPost"))
+    //   const postIDs = querySnapshot.docs.map((doc)=>doc.data())
+    //   console.log(postIDs)
+    // }
+    // return courseIDList;
   } catch (error) {
     console.error("Error fetching favourite reviews for user:", error);
     return [];
@@ -493,4 +523,7 @@ const downloadExam = async (filename) => {
 
 /* -------------------------  exams -------------------------- */
 
-export { getAllReviews, getMyReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, downloadExam, favReview, getfavReview, unfavReview};
+export { getAllReviews, getMyReviews, createReviews, 
+  Createcomment, uploadsheet, getAllSheets, getAllExams, 
+  uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, 
+  downloadExam, favReview, getfavReview, unfavReview, getfavReviewByCourseIDAndUID};
