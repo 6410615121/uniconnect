@@ -384,7 +384,8 @@ import { styles } from "../../assets/styles/styles_coursedetail";
 const LikeScreen = ({ route }) => {
   const isFocused = useIsFocused();
   const [data, setData] = useState([]);
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
+  const TopTabNavigator = createMaterialTopTabNavigator();
   
   const fetchData = async () => {
     try {
@@ -401,11 +402,9 @@ const LikeScreen = ({ route }) => {
       fetchData();
     }
   }, [isFocused]);
-  console.log()
+  // console.log()
   
-  const TopTabNavigator = createMaterialTopTabNavigator();
-  const navigation = useNavigation();
-
+  
   const ForumsScreen = () => {
     return (
       <TouchableOpacity
