@@ -253,27 +253,35 @@ const unlikeReview = async (IDCourse, IDReview) => {
 };
 
 const favReview = async (uid, IDCourse, IDPost)=>{
-  const docRef = doc(firestore, "users", uid, "favouriteReview"
-);
-  const reviewRef = doc(collection(docRef,IDPost));
-  // Get the snapshot of the document
-  await addDoc(docRef, {IDPost})
-  const reviewSnapshot = await getDoc(reviewRef);
+  try {
+    const CoursedocRef = doc(firestore, "users", uid, "favouriteReview", IDCourse)
+    await setDoc(CoursedocRef, {})
 
-  // Check if the document exists
-  if (reviewSnapshot.exists()) {
-
-    await deleteDoc(reviewRef);
-    await unlikeReview(IDCourse, IDPost)
-
-  } else {
-    // Document does not exist
-
-    
-    await setDoc(reviewRef, {IDPost})
+    const postDocRef = doc(CoursedocRef, "IDPost", IDPost)
+    await setDoc(postDocRef, {
+      [IDPost]: IDPost
+    });
     await likeReview(IDCourse, IDPost)
+    
+  }catch(error){
+    console.error("error fav: ", error)
+  }
   
-  } 
+}
+
+const unfavReview = async (uid, IDCourse, IDPost)=>{
+  try {
+    const CoursedocRef = doc(firestore, "users", uid, "favouriteReview", IDCourse)
+    await setDoc(CoursedocRef, {})
+
+    const postDocRef = doc(CoursedocRef, "IDPost", IDPost)
+    await deleteDoc(postDocRef)
+    await unlikeReview(IDCourse, IDPost)
+    
+  }catch(error){
+    console.error("error fav: ", error)
+  }
+  
 }
 
 const getfavReview = async (uid)=>{
@@ -485,4 +493,4 @@ const downloadExam = async (filename) => {
 
 /* -------------------------  exams -------------------------- */
 
-export { getAllReviews, getMyReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, downloadExam, favReview, getfavReview};
+export { getAllReviews, getMyReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, downloadExam, favReview, getfavReview, unfavReview};

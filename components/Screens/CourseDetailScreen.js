@@ -12,6 +12,7 @@ import {
   getAllExams,
   downloadExam,
   favReview,
+  unfavReview,
 } from "../../firebase/firestoreCourseDetail.js";
 
 
@@ -27,7 +28,7 @@ const Reviews = ({ course,reviews}) => {
   }));
   const like= async (CourseID, postID) => {
     const userID = await AsyncStorage.getItem('UID')
-    await favReview(userID, CourseID, postID)
+    await unfavReview(userID, CourseID, postID)
     
   }; 
   

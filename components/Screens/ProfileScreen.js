@@ -17,7 +17,8 @@ import {
   getMyForums,
 } from "../../firebase/firestoreForums.js";
 import {
-  getMyReviews
+  getMyReviews,
+  getfavReview,
 } from "../../firebase/firestoreCourseDetail.js";
 
 
@@ -414,8 +415,8 @@ const LikeScreen = ({ route }) => {
   const fetchData = async () => {
     try {
       const userID = await AsyncStorage.getItem('UID')
-      //const forumsData = await getMyForums(userID);
-      //setData(forumsData);
+      const forumsData = await getfavReview(userID);
+      setData(forumsData);
     } catch (error) {
       console.error("Error fetching forums:", error);
     }
