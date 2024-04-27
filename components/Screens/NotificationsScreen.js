@@ -1,8 +1,34 @@
 import { View, Text, TouchableOpacity,FlatList, Image } from "react-native";
-import React from "react";
+import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { useIsFocused } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage';;
+import {
+  getnotify
+} from "../../firebase/firebasenotify.js";
+
 
 export default function NotificationsScreen() {
-  const list = new Array(20).fill({text:"Notification Text", date:"26-4-2024", hasBeenClicked:false, category:"reply"});
+  //const list = new Array(20).fill({text:"Notification Text", date:"26-4-2024", hasBeenClicked:false, category:"reply"});
+  const isFocused = useIsFocused();
+  const [list, setData] = useState([]);
+  const navigation = useNavigation();
+  const fetchData = async () => {
+    try {
+      const userID = await AsyncStorage.getItem('UID')
+      
+      const Data = await getnotify(userID);
+      setData(Data);
+    } catch (error) {
+      console.error("Error fetching notify:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchData();
+    }
+  }, [isFocused]);
 
   return (
   <View 
@@ -13,6 +39,7 @@ export default function NotificationsScreen() {
       // contentContainerStyle={}
       data={list}
       renderItem={({item}) => 
+        
         <Notification item={item} />
       }
      />
@@ -21,6 +48,7 @@ export default function NotificationsScreen() {
 }
 
 const Notification = ({item}) => {
+  
   return (
     <View style={{alignItems:'center'}}>
       <TouchableOpacity
@@ -46,7 +74,8 @@ const Notification = ({item}) => {
             }
 
             <View>
-              <Text style={{ fontSize: 20 ,fontWeight:'bold', color:'#00294D'}}>{item.text}</Text>
+              <Text style={{ fontSize: 20 ,fontWeight:'bold', color:'#00294D'}}>{item.from}</Text>
+              <Text style={{ fontSize: 20 ,fontWeight:'bold', color:'#00294D'}}>{item.Description}</Text>
               <Text style={{ fontSize: 20 ,fontWeight:'bold', color:'#00294D'}}>{item.date}</Text>
             </View>
           </View>
