@@ -135,7 +135,7 @@ const Reviews = ({ course,reviews}) => {
                     <TouchableOpacity 
                       onPress={() => handleLikeButtonPress({item})}
                       style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
-                      {item.isLiked? <Image source={require("../../assets/icons/minilike.png")}/>: <Text>ยังไม่กด</Text>  }
+                      {item.isLiked? <Image source={require("../../assets/icons/minilike.png")}/>: <Image source={require("../../assets/icons/unlike.png")}/>  }
                       
                       <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.likeCount} Likes</Text>
                     </TouchableOpacity>
