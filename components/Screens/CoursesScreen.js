@@ -21,7 +21,7 @@ import {
 } from "../../firebase/firestoreCourses.js";
 import { TextInput } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { favCourse } from "../../firebase/firebaseFavCourse.js";
+import { favCourse, getFavCourseIDList, isUserFavThisCourse, unfavCourse } from "../../firebase/firebaseFavCourse.js";
 
 const Stack = createStackNavigator();
 
@@ -134,7 +134,14 @@ const MainScreen = ({ handleCoursePress }) => {
   const fetchCourses = async () => {
     try {
       const courses = await getAllCourses();
+      const favCourseIDList = await getFavCourseIDList(userUID);
+      // console.log(favCourseIDList)
+
+      courses.forEach((course) => {
+        course.isFav = favCourseIDList.includes(course.courseID);
+      });
       setCourses(courses);
+
       // console.log("fetched!");
       // console.log(courses)
       // console.log(courses.length)
@@ -181,15 +188,28 @@ const MainScreen = ({ handleCoursePress }) => {
   };
 
   const handleCourseFavPress = async (courseID) => {
-    // console.log("you press: " , courseID)
-    // console.log("your uid: ", userUID)
-  
-    try {
-      const result = await favCourse(userUID, courseID);
-      // console.log("Favorited course result:", result);
-    } catch (error) {
-      // console.error("Error favoriting course:", error);
+    try{
+      let result;
+      const isFav = await isUserFavThisCourse(userUID, courseID);
+      
+      if(!isFav){
+        result = await favCourse(userUID, courseID);
+      }else{
+        result = await unfavCourse(userUID, courseID);
+      }
+      // console.log("fav result: ", result)
+      fetchCourses();
     }
+    catch(error){
+      console.error("Error Fav course: ", error)
+    }
+  
+    // try {
+    //   const result = await favCourse(userUID, courseID);
+    //   // console.log("Favorited course result:", result);
+    // } catch (error) {
+    //   // console.error("Error favoriting course:", error);
+    // }
   }
 
   return (
@@ -275,7 +295,7 @@ const MainScreen = ({ handleCoursePress }) => {
                   onPress={() => handleCourseFavPress(item.courseID)}
                   style={{ position: "absolute", top: 0, right: 5 }}
                 >
-                  <Image source={require("../../assets/icons/bigHeart.png")} />
+                  {item.isFav? <Text>Faved!</Text>: <Image source={require("../../assets/icons/bigHeart.png")} />}
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
