@@ -65,7 +65,9 @@ const RegisterAndLoginStack = ({ handleLogin }) => {
     <Stack.Navigator>
       <Stack.Screen 
       name="Login"
+
       options={{
+        headerShown:false,
         headerTitle:"LOGIN",
         headerTintColor: '#FFB0B0',
         headerStyle:{backgroundColor:'#0C2D57'},
@@ -78,8 +80,12 @@ const RegisterAndLoginStack = ({ handleLogin }) => {
       options={{
         headerTitle:"REGISTER",
         headerTintColor: '#FFB0B0',
-        headerStyle:{backgroundColor:'#0C2D57'},
-        headerTitleStyle:{color:'#FC6736',fontWeight:'bold'}
+        headerTitleStyle:{color:'#FC6736',fontWeight:'bold'},
+        headerTintColor: '#FFB0B0',
+        headerStyle:{
+        backgroundColor:'#0C2D57', 
+        borderWidth:0,
+        shadowColor:'#0C2D57'}
         
       }}
       >

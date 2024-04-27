@@ -324,7 +324,7 @@ const fetchCourses = async () => {
                   onPress={() => handleCourseFavPress(item.courseID)}
                   style={{ position: "absolute", top: 0, right: 5 }}
                 >
-                  {item.isFav? <Text>Faved!</Text>: <Image source={require("../../assets/icons/bigHeart.png")} />}
+                  {item.isFav? <Image source={require("../../assets/icons/pinkheart.png")} style={{width:41,height:41}}/>: <Image source={require("../../assets/icons/bigHeart.png")} />}
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
