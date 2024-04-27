@@ -68,7 +68,21 @@ export default function ProfileScreen({ setLoggedOut }) {
 }
 
 const ProfileMain = ({ route, setLoggedOut }) => {
+  const [name, setName] = useState("FirstName LastName")
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchName = async () => {
+      try {
+        const name = await AsyncStorage.getItem("name");
+        setName(name);
+        // console.log(name);
+      } catch (error) {
+        console.error("Cannot fetch name");
+      }
+    };
+    fetchName();
+  },[]);
 
   const handleLikesPress = () => {
     navigation.push("LikeScreen");
@@ -112,7 +126,7 @@ const ProfileMain = ({ route, setLoggedOut }) => {
           marginTop: 10,
         }}
       >
-        Somsak Rakthai
+        {name}
       </Text>
       <Text
         style={{
