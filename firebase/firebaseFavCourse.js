@@ -55,7 +55,7 @@ const unfavCourse = async (uid, courseid) => {
 const getFavCourse = async (uid) => {
     try{
         const courses = await getAllCourses()
-        const favCourseIDList = await getFavCourseIDList();
+        const favCourseIDList = await getFavCourseIDList(uid);
 
         const favCourses = courses.filter((course) => favCourseIDList.includes(course.courseID))
         return favCourses;
@@ -66,6 +66,6 @@ const getFavCourse = async (uid) => {
 }
 
 
-export { favCourse, getFavCourseIDList, isUserFavThisCourse, unfavCourse }
+export { favCourse, getFavCourseIDList, isUserFavThisCourse, unfavCourse, getFavCourse }
 
 // favCourse("E7l7Pjj1W6Rls4dg5jV2PxNJ8bh1", "CN202");
