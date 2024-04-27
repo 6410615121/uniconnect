@@ -81,12 +81,12 @@ const UploadexamScreen = ({ route }) => {
             }}
           />
         </View>
-        <View>
-        <Button title="Select File" onPress={pickDocument} />
-        </View>
         <View style={{height:'20%'}}>
-          <View style={{ flexDirection: 'column',backgroundColor:'#FFB0B0',width:'90%',alignSelf:'center'}}>
-              <Button title="Upload" onPress={Post} color={'#FFB0B0'} />
+          <View style={{ flexDirection: 'column',width:'90%',alignSelf:'center'}}>
+            <View style={{marginBottom:10}}>
+              <Button title="Select File" onPress={pickDocument} color={'#FFB0B0'} />
+            </View>
+            <Button title="Upload" onPress={Post} color={'#FFB0B0'} />
           </View>
         </View>
         
