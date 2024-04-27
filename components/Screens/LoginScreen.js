@@ -32,7 +32,7 @@ export default function LoginScreen({ navigation, setLoggedIn }) {
           console.log(user.uid)
           AsyncStorage.setItem("UID", user.uid); // set name for later use in app
           
-          console.log("async:",await AsyncStorage.getItem('UID'))
+          console.log("async:",await AsyncStorage.getItem('name'))
           setLoggedIn(); 
         } else {
           console.log("User data not found");

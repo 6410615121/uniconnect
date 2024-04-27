@@ -6,7 +6,7 @@ import { styles } from '../../assets/styles//styles_post.js';
 import { Alert } from 'react-native';
 import { getDocumentAsync } from 'expo-document-picker';
 import storage from '@react-native-firebase/storage';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 import {
@@ -50,7 +50,9 @@ const UploadexamScreen = ({ route }) => {
         if (! result.canceled ) {
           await uploadExamToStorage(result.assets[0].uri, result.assets[0].name)
         }
-        await uploadexam(Filename,course.courseID, description, result.assets[0].name)
+        const author = await AsyncStorage.getItem('name')
+        const userID = await AsyncStorage.getItem('UID')
+        await uploadexam(Filename,userID, author, course.courseID, description, result.assets[0].name)
 
         navigation.goBack();
       }

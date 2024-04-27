@@ -1,10 +1,22 @@
 import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState} from "react";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useIsFocused } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+
+import {
+  getMyForums,
+} from "../../firebase/firestoreForums.js";
+import {
+  getMyReviews
+} from "../../firebase/firestoreCourseDetail.js";
+
 
 export default function ProfileScreen({ setLoggedOut }) {
   const navigation = useNavigation();
@@ -370,6 +382,27 @@ const CustomHeaderBackButton = () => {
 import { styles } from "../../assets/styles/styles_coursedetail";
 
 const LikeScreen = ({ route }) => {
+  const isFocused = useIsFocused();
+  const [data, setData] = useState([]);
+  // const navigation = useNavigation();
+  
+  const fetchData = async () => {
+    try {
+      const userID = await AsyncStorage.getItem('UID')
+      //const forumsData = await getMyForums(userID);
+      //setData(forumsData);
+    } catch (error) {
+      console.error("Error fetching forums:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchData();
+    }
+  }, [isFocused]);
+  console.log()
+  
   const TopTabNavigator = createMaterialTopTabNavigator();
   const navigation = useNavigation();
 
@@ -459,10 +492,55 @@ const LikeScreen = ({ route }) => {
 /* -------------------------------------------------------------------------- */
 const PostScreen = ({ route }) => {
   const TopTabNavigator = createMaterialTopTabNavigator();
+  const isFocused = useIsFocused();
+  const [postdata, setPost] = useState([]);
+  const [reviewdata, setReview] = useState([]);
+  const navigation = useNavigation();
+  
+  const fetchData = async () => {
+    try {
+      const userID = await AsyncStorage.getItem('UID')
+      const forumsData = await getMyForums(userID);
+      const reviewsData = await getMyReviews(userID);
+      setPost(forumsData);
+      setReview(reviewsData);
+    } catch (error) {
+      console.error("Error fetching forums:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchData();
+    }
+  }, [isFocused]);
+  //console.log(reviewdata)
+
   const ForumsScreen = () => {
     return (
       <View>
         <Text>forums Post</Text>
+      
+        <FlatList
+        // style={{flexGrow:1}}
+        contentContainerStyle={{paddingBottom:100}}
+        data={postdata}
+        renderItem={({ item }) => {
+          return(
+            <View style={{borderWidth: 1,
+              borderColor: 'gray',
+              padding: 10,
+              marginBottom: 10,
+              borderRadius: 8,}}>
+              <Text>{item.field.author}</Text>
+              <Text>{item.field.Description}</Text>
+              <Text>{item.field.likeCount}</Text>
+            </View>
+
+          )
+        }}
+        onEndReachedThreshold={0.3}
+        />
       </View>
     );
   };
@@ -471,6 +549,26 @@ const PostScreen = ({ route }) => {
     return (
       <View>
         <Text>reviews Post</Text>
+        <FlatList
+        // style={{flexGrow:1}}
+        contentContainerStyle={{paddingBottom:100}}
+        data={reviewdata}
+        renderItem={({ item }) => {
+          return(
+            <View style={{borderWidth: 1,
+              borderColor: 'gray',
+              padding: 10,
+              marginBottom: 10,
+              borderRadius: 8,}}>
+              <Text>{item.data.Author}</Text>
+              <Text>{item.data.Description}</Text>
+              <Text>{item.data.likeCount}</Text>
+            </View>
+
+          )
+        }}
+        onEndReachedThreshold={0.3}
+        /> 
       </View>
     );
   };
