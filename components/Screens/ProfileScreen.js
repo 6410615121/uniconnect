@@ -657,6 +657,7 @@ const PostScreen = ({ route }) => {
 const MyCourseScreen = ({ route }) => {
   const [favCourses, setFavCourses] = useState([]);
   const [userUID, setUserUID] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(()=>{
     const fetchUserUID = async ()=> {
@@ -685,6 +686,11 @@ const MyCourseScreen = ({ route }) => {
       fetchFavCourse(userUID);
     }
   }, [userUID])
+
+  const handleCoursePress = (course)=>{
+    // console.log(course)
+    navigation.navigate("CourseDetail", { course });
+  }
   
   return (
     <FlatList
@@ -696,7 +702,7 @@ const MyCourseScreen = ({ route }) => {
           return (
             <TouchableOpacity
               key={item.id}
-              // onPress={() => handleCoursePress(item)}
+              onPress={() => handleCoursePress(item)}
             >
               <View style={{
                 marginBottom: 20,
