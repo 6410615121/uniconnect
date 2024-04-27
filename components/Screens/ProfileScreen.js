@@ -8,6 +8,8 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { getFavCourse } from "../../firebase/firebaseFavCourse.js";
+
 
 
 import {
@@ -652,10 +654,50 @@ const PostScreen = ({ route }) => {
 };
 /* -------------------------------------------------------------------------- */
 const MyCourseScreen = ({ route }) => {
+  const [favCourses, setFavCourses] = useState([]);
+  const [userUID, setUserUID] = useState(null);
+
+  useEffect(()=>{
+    const fetchUserUID = async ()=> {
+      try{
+        const uid = await AsyncStorage.getItem("UID")
+        // console.log(uid)
+        setUserUID(uid)
+      }catch(error){
+        console.error("Error fetch uid: ", error)
+      }
+    }
+    fetchUserUID();
+  },[])
+
+  useEffect(()=> {
+    const fetchFavCourse = async (uid) => {
+      try {
+        const courses = await getFavCourse(uid)
+        // console.log(courses)
+        setFavCourses(courses)
+      }catch(error) {
+        console.error("error fetch fav course: ", error)
+      }
+    }
+    if (userUID) {
+      fetchFavCourse(userUID);
+    }
+  }, [userUID])
+  
   return (
-    <View>
-      <Text>MyCourseScreen</Text>
-    </View>
+    <FlatList
+      data={favCourses}
+      contentContainerStyle={{gap:20}}
+      renderItem={({item})=>(
+        <View>
+          <Text>{item.courseID}</Text>
+          <Text>{item.description}</Text>
+          <Text>{item.color}</Text>
+        </View>
+      )
+    }
+    />
   );
 };
 /* -------------------------------------------------------------------------- */
