@@ -111,25 +111,51 @@ const unlikePost = async (IDPost) => {
 };
 
 const favPost = async (uid, IDPost)=>{
-  const docRef = doc(firestore, "users", uid, "favouritePost", IDPost);
-
-  // Get the snapshot of the document
-  const docSnapshot = await getDoc(docRef);
-
-  // Check if the document exists
-  if (docSnapshot.exists()) {
-
-    await deleteDoc(docRef);
-    await unlikePost(IDPost)
-
-  } else {
-    // Document does not exist
+  try {
+    const docRef = doc(firestore, "users", uid, "favouritePost", IDPost);
 
     await setDoc(docRef, {})
     await likePost(IDPost)
-  
+  }catch(error){
+    console.error("error : ", error)
+  }
+}
+
+const unfavPost = async (uid, IDPost)=>{
+  try {
+    const docRef = doc(firestore, "users", uid, "favouritePost", IDPost);
+
+    await deleteDoc(docRef)
+    await unlikePost(IDPost)
+  }catch(error){
+    console.error("error : ", error)
   } 
 }
+
+
+const getfavPost= async (uid)=>{
+  try {
+    
+    const querySnapshot = await getDocs(collection(firestore, "users", uid, "favouritePost"));
+    
+    const forumDataList = [];
+    
+    for (const docquery of querySnapshot.docs) {
+        
+        const forumDocRef = doc(firestore, "forums", docquery.id);
+        const forumDocSnapshot = await getDoc(forumDocRef);
+        forumDataList.push({id:forumDocSnapshot.id,field:forumDocSnapshot.data()});
+    } 
+    
+    
+    return forumDataList;
+  } catch (error) {
+    console.error("Error fetching favourite reviews for user:", error);
+    return [];
+  }
+};
+
+
 
 const Createcomment = async (userID, Author, IDPost, comment) => {
   try {
@@ -187,4 +213,4 @@ const getAllCommentForum = async (IDPost) => {
   }
 };
 
-export { getAllForums, createPost, getAllCommentForum,Createcomment, getMyForums, favPost};
+export { getAllForums, createPost, getAllCommentForum,Createcomment, getMyForums, favPost, unfavPost, getfavPost};

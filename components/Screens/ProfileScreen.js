@@ -15,6 +15,7 @@ import { getFavCourse } from "../../firebase/firebaseFavCourse.js";
 
 import {
   getMyForums,
+  getfavPost,
 } from "../../firebase/firestoreForums.js";
 import {
   getMyReviews,
@@ -407,78 +408,122 @@ const CustomHeaderBackButton = () => {
 import { styles } from "../../assets/styles/styles_coursedetail.js";
 
 const LikeScreen = ({ route }) => {
-  const isFocused = useIsFocused();
-  const [data, setData] = useState([]);
+  
+  const [reviewData, setreview] = useState([]);
+  const [postsData, setpost] = useState([]);
   const navigation = useNavigation();
   const TopTabNavigator = createMaterialTopTabNavigator();
   
   const fetchData = async () => {
     try {
       const userID = await AsyncStorage.getItem('UID')
-      const forumsData = await getfavReview(userID);
-      setData(forumsData);
+      const reviewsData = await getfavReview(userID);
+      const postsData = await getfavPost(userID);
+      setreview(reviewsData);
+      setpost(postsData);
     } catch (error) {
       console.error("Error fetching forums:", error);
     }
   };
-
+  //console.log(reviewData)
   useEffect(() => {
-    if (isFocused) {
+    
       fetchData();
-    }
-  }, [isFocused]);
-  // console.log()
+    
+  }, []);
   
+  //console.log(postsData)
   
   const ForumsScreen = () => {
     return (
-      <View style={styles.postbox} >
+      <FlatList
+      // style={{flexGrow:1}}
+      contentContainerStyle={{paddingBottom:100}}
+      data={postsData}
+      renderItem={({ item }) => {
+        //console.log(item)
+          return(
+            <View style={styles.postbox} >
                 <TouchableOpacity 
-                // onPress={() => { navigation.navigate("ReviewDetail", { item });}} 
+                onPress={() => { navigation.navigate("PostDetail", { 
+                  post:{
+                    field:item.field,
+                    id:item.id, 
+                  }
+                });}} 
                 style={{width:'100%'}}>
                   <View style={{flexDirection:'row'}}>
                     <Image source={require("../../assets/icons/profileBlue.png")}/>
-                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>Author</Text>
+                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.field.author}</Text>
+                    
                   </View>
-                  <Text style={styles.label}>Description</Text>
-                </TouchableOpacity>
+                  <Text style={styles.label}>{item.field.Description}</Text>
                   <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
-                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+                     <View style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}> 
                       <Image source={require("../../assets/icons/minilike.png")}/>
-                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Likes</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.field.likeCount} Likes</Text>
+                     </View> 
+                     <View style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}> 
                       <Image source={require("../../assets/icons/minicomment.png")}/>
-                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
-                    </TouchableOpacity>
-                  </View>  
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.field.commentcounts} Comments</Text>
+                    </View> 
+                  </View> 
+                </TouchableOpacity>
+                   
             </View>
+          )
+        }}
+        onEndReachedThreshold={0.3}
+        />
     );
   };
 
   const ReviewScreen = () => {
     return (
-       <View style={styles.postbox} >
+      <FlatList
+      // style={{flexGrow:1}}
+      contentContainerStyle={{paddingBottom:100}}
+      data={reviewData}
+      renderItem={({ item }) => {
+
+        return( 
+            <View style={styles.postbox} >
                 <TouchableOpacity 
-                // onPress={() => { navigation.navigate("ReviewDetail", { item });}} 
+                 onPress={() => { navigation.navigate("ReviewDetail", {
+                   item:{
+                    Author: item.data.Author,
+                    comment: item.data.Description,
+                    likeCount: item.data.likeCount,
+                    commentcounts: item.data.commentcounts,
+                    CourseID:item.data.CourseID,
+                    reviewID:item.postID,
+                    userID:item.data.userID,
+                  }
+                  });}} 
                 style={{width:'100%'}}>
                   <View style={{flexDirection:'row'}}>
                     <Image source={require("../../assets/icons/profileBlue.png")}/>
-                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>Author</Text>
+                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.data.Author}</Text>
+                    <Text style={{textAlign:'center',color:'#FC6736',padding:10,backgroundColor:'#0C2D57',borderRadius:10,marginLeft:5}}>{item.data.CourseID}</Text>
                   </View>
-                  <Text style={styles.label}>Description</Text>
-                </TouchableOpacity>
+                  <Text style={styles.label}>{item.data.Description}</Text>
                   <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
-                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+                    <View style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
                       <Image source={require("../../assets/icons/minilike.png")}/>
-                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Likes</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.data.likeCount} Likes</Text>
+                    </View>
+                    <View style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
                       <Image source={require("../../assets/icons/minicomment.png")}/>
-                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
-                    </TouchableOpacity>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.data.commentcounts} Comments</Text>
+                    </View>
                   </View>  
+                </TouchableOpacity>
+                  
             </View>
+          )
+        }}
+        onEndReachedThreshold={0.3}
+        />
     );
   };
 
@@ -550,24 +595,30 @@ const PostScreen = ({ route }) => {
           return(
             <View style={styles.postbox} >
             <TouchableOpacity 
-            // onPress={() => { navigation.navigate("ReviewDetail", { item });}} 
+            onPress={() => { navigation.navigate("PostDetail", { 
+              post:{
+                field:item.field,
+                id:item.id, 
+              }
+            });}}  
             style={{width:'100%'}}>
               <View style={{flexDirection:'row'}}>
                 <Image source={require("../../assets/icons/profileBlue.png")}/>
                 <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.field.author}</Text>
               </View>
               <Text style={styles.label}>{item.field.Description}</Text>
-            </TouchableOpacity>
               <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
-                <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+                <View style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
                   <Image source={require("../../assets/icons/minilike.png")}/>
                   <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.field.likeCount} Likes</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+                </View>
+                <View style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
                   <Image source={require("../../assets/icons/minicomment.png")}/>
                   <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
-                </TouchableOpacity>
+                </View>
               </View>  
+            </TouchableOpacity>
+              
         </View>
 
           )
@@ -584,10 +635,21 @@ const PostScreen = ({ route }) => {
         contentContainerStyle={{paddingBottom:100}}
         data={reviewdata}
         renderItem={({ item }) => {
+          
           return(
             <View style={styles.postbox} >
             <TouchableOpacity 
-            // onPress={() => { navigation.navigate("ReviewDetail", { item });}} 
+            onPress={() => { navigation.navigate("ReviewDetail", {
+              item:{
+               Author: item.data.Author,
+               comment: item.data.Description,
+               likeCount: item.data.likeCount,
+               commentcounts: item.data.commentcounts,
+               CourseID:item.data.CourseID,
+               reviewID:item.id,
+               userID:item.data.userID,
+             }
+             });}} 
             style={{width:'100%'}}>
               <View style={{flexDirection:'row'}}>
                 <Image source={require("../../assets/icons/profileBlue.png")}/>
@@ -595,17 +657,18 @@ const PostScreen = ({ route }) => {
                 <Text style={{textAlign:'center',color:'#FC6736',padding:10,backgroundColor:'#0C2D57',borderRadius:10}}>{item.data.CourseID}</Text>
               </View>
               <Text style={styles.label}>{item.data.Description}</Text>
-            </TouchableOpacity>
               <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
-                <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+                <View style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
                   <Image source={require("../../assets/icons/minilike.png")}/>
                   <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.data.likeCount} Likes</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+                </View>
+                <View style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
                   <Image source={require("../../assets/icons/minicomment.png")}/>
-                  <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
-                </TouchableOpacity>
+                  <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.data.commentcounts} Comments</Text>
+                </View>
               </View>  
+            </TouchableOpacity>
+              
         </View>
             // <View style={{borderWidth: 1,
             //   borderColor: 'gray',

@@ -64,15 +64,15 @@ const Reviews = ({ course,reviews}) => {
 
 
   const like= async (CourseID, postID) => {
-    const userID = await AsyncStorage.getItem('UID')
-    await favReview(userID, CourseID, postID)
-    console.log("liked!")
+      const userID = await AsyncStorage.getItem('UID')
+      await favReview(userID, CourseID, postID)
+      console.log("liked!")
   }; 
-
+  
   const unlike= async (CourseID, postID) => {
-    const userID = await AsyncStorage.getItem('UID')
-    await unfavReview(userID, CourseID, postID)
-    console.log("unliked!")
+      const userID = await AsyncStorage.getItem('UID')
+      await unfavReview(userID, CourseID, postID)
+      console.log("unliked!")
   }; 
 
   const handleLikeButtonPress = async ({item}) =>{

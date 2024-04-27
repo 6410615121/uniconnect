@@ -1,5 +1,5 @@
 import { firestore, storage } from "./firebaseConfig";
-import { ref, uploadBytes, getDownloadURL, } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, connectStorageEmulator, } from "firebase/storage";
 import { collection, query, where, getDocs,getDoc, addDoc, updateDoc, runTransaction, doc, setDoc, deleteDoc } from "firebase/firestore";
 //import * as FileSystem from 'expo-file-system';
 import * as Linking from 'expo-linking';
@@ -275,12 +275,36 @@ const unfavReview = async (uid, IDCourse, IDPost)=>{
 
 const getfavReview = async (uid)=>{
   try {
-    console.log(uid)
+    
     const querySnapshot = await getDocs(collection(firestore, "users", uid, "favouriteReview"));
-    console.log(querySnapshot.docs)
-    //const favouriteReviews = querySnapshot.docs.map(doc => doc.data());
-    //console.log(uid)
-    //return favouriteReviews;
+    
+    const favouriteReviews = querySnapshot.docs.map(doc => doc.id);
+    const allSubcollectionDocs = [];
+    for (const doc of querySnapshot.docs) {
+        //console.log(doc.id)
+        const subcollectionRef = collection(doc.ref, "IDPost");
+        const subcollectionSnapshot = await getDocs(subcollectionRef);
+        
+        subcollectionSnapshot.forEach(async (subDoc) => {
+          const filteredCourses = query(collection(firestore, "courses"), where("courseID", '==', doc.id ));
+          const courseQuerySnapshot = await getDocs(filteredCourses);
+          
+          const courseDoc = courseQuerySnapshot.docs[0];
+          const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
+          // Query all documents from the "reviews" subcollection for the course
+          const reviewsQuerySnapshot = await getDocs(reviewsCollectionRef);
+          const reviewsData = reviewsQuerySnapshot.docs.map((doc) => {return {id:doc.id,data:doc.data()}});
+         
+          allSubcollectionDocs.push({
+            postID: reviewsData[0].id, 
+            data: reviewsData[0].data 
+          }); 
+        });
+        
+    }
+    
+
+    return allSubcollectionDocs;
   } catch (error) {
     console.error("Error fetching favourite reviews for user:", error);
     return [];

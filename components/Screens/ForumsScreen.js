@@ -8,7 +8,8 @@ import { styles } from '../../assets/styles/styles_coursedetail.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   getAllForums, 
-  favPost
+  favPost,
+  unfavPost,
 } from "../../firebase/firestoreForums.js";
 
 

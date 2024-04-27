@@ -38,7 +38,7 @@ const ReviewDetailScreen = ({ route }) => {
         fetchAndUpdateState();
         }
     },[isFocused]);
-    console.log(comobject);
+    
 
     const like= async (CourseID, postID) => {
       const userID = await AsyncStorage.getItem('UID')
@@ -52,7 +52,7 @@ const ReviewDetailScreen = ({ route }) => {
       navigation.navigate('CommentReview',{item});
       
     };
-
+    
 
     return(
       <View style={styles.container}>
