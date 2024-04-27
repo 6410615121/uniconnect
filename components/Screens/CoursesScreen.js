@@ -134,25 +134,34 @@ const MainScreen = ({ handleCoursePress }) => {
   const fetchCourses = async () => {
     try {
       const courses = await getAllCourses();
-      const favCourseIDList = await getFavCourseIDList(userUID);
-      // console.log(favCourseIDList)
-
-      courses.forEach((course) => {
-        course.isFav = favCourseIDList.includes(course.courseID);
-      });
-      setCourses(courses);
-
-      // console.log("fetched!");
-      // console.log(courses)
-      // console.log(courses.length)
+      
+      // Check if userUID is available
+      if (userUID) {
+        let favCourseIDList = await getFavCourseIDList(userUID);
+  
+        if (!favCourseIDList) {
+          favCourseIDList = [];
+        }
+  
+        if (courses.length > 0) {
+          courses.forEach((course) => {
+            if (course.courseID && favCourseIDList) {
+              course.isFav = favCourseIDList.includes(course.courseID);
+            } else {
+              course.isFav = false;
+            }
+          });
+          setCourses(courses);
+        }
+      }
     } catch (error) {
       console.error("Error fetching courses:", error);
     }
   };
-
+  
   useEffect(() => {
     fetchCourses(); // Call the fetchCourses function when component mounts
-  }, []);
+  }, [userUID]);
 
   // refresh when main become focus again
   useEffect(() => {
