@@ -402,7 +402,7 @@ const CustomHeaderBackButton = () => {
 };
 
 /* -------------------------------------------------------------------------- */
-import { styles } from "../../assets/styles/styles_coursedetail";
+import { styles } from "../../assets/styles/styles_coursedetail.js";
 
 const LikeScreen = ({ route }) => {
   const isFocused = useIsFocused();
