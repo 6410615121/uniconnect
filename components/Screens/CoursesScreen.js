@@ -271,7 +271,7 @@ const fetchCourses = async () => {
         <TouchableOpacity 
         onPress={handleFavFilterMark}
         style={{ justifyContent: "center" }}>
-          {isFavFilter? <Text>Marked</Text> : <Image source={require("../../assets/icons/bigHeart.png")} />}
+          {isFavFilter? <Image source={require("../../assets/icons/pinkheart.png")} style={{width:41,height:41}}/> : <Image source={require("../../assets/icons/bigHeart.png")} />}
         </TouchableOpacity>
 
         <TouchableOpacity
