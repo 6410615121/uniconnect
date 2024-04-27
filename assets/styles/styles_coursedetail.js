@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
       borderWidth:1
     },
     label: {
+      paddingBottom:5,
       fontSize: 18,
       marginTop: 5,
       marginLeft:50,

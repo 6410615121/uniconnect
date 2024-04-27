@@ -17,26 +17,26 @@ function Forum( {post} ){
   const post_data = post.field
   
   return(
-    <TouchableOpacity
-                style={styles.postbox} 
-                onPress={() => { navigation.navigate('PostDetail',{post});}}>
-                  <View style={{flexDirection:'row'}}>
-                    <Image source={require("../../assets/icons/profileBlue.png")}/>
-                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{post_data.author}</Text>
-                  </View>
-                  <Text style={styles.label}>{post_data.Description}</Text>
-                  <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{post_data.likeCount} Likes</Text>
-                  <View style={{alignSelf:'center'}}>  
-                    <Image source={require("../../assets/icons/likeComment.png")}/>
-                  </View>  
-    </TouchableOpacity>
-    // <TouchableOpacity onPress={() => navigation.navigate('PostDetail',{post})}>
-    //   <View style={{backgroundColor:'#D6D6D6', marginBottom: 10}}>
-    //     <Text>{post_data.author}</Text>
-    //     <Text>{post_data.Description}</Text>
-    //     <Text>{post_data.likeCount}</Text>
-    //   </View>
-    // </TouchableOpacity>
+    <View
+      style={styles.postbox} >
+      <TouchableOpacity onPress={() => { navigation.navigate('PostDetail',{post});}} style={{width:'100%'}}>
+        <View style={{flexDirection:'row'}}>
+          <Image source={require("../../assets/icons/profileBlue.png")}/>
+          <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{post_data.author}</Text>
+        </View>
+        <Text style={styles.label}>{post_data.Description}</Text>
+      </TouchableOpacity>
+      <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
+        <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+          <Image source={require("../../assets/icons/minilike.png")}/>
+          <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{post_data.likeCount} Likes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+          <Image source={require("../../assets/icons/minicomment.png")}/>
+          <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
+        </TouchableOpacity>
+      </View>  
+    </View>
   )
 }
 

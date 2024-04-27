@@ -63,25 +63,26 @@ const Reviews = ({ course,reviews}) => {
           
           return(
 // <<<<<<< HEAD
-            <TouchableOpacity
-                style={styles.postbox} 
-                onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
+            <View
+                style={styles.postbox} >
+                <TouchableOpacity onPress={() => { navigation.navigate('ReviewDetail',{item});}} style={{width:'100%'}}>
                   <View style={{flexDirection:'row'}}>
                     <Image source={require("../../assets/icons/profileBlue.png")}/>
                     <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.Author}</Text>
                   </View>
                   <Text style={styles.label}>{item.Description}</Text>
-                  <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{item.likeCount} Likes</Text>
-                  <View style={{alignSelf:'center'}}>  
-                    <Image source={require("../../assets/icons/likeComment.png")}/>
+                </TouchableOpacity>
+                  <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
+                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+                      <Image source={require("../../assets/icons/minilike.png")}/>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.likeCount} Likes</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+                      <Image source={require("../../assets/icons/minicomment.png")}/>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
+                    </TouchableOpacity>
                   </View>  
-{/* // =======
-              // <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('ReviewDetail',{item});}}>
-              //   <Text style={styles.label}>{item.Author}</Text> 
-              //   <Text style={styles.label}>{item.Description}</Text>  
-              //   <Text style={styles.label}>like {item.likeCount}</Text>   */}
-{/* >>>>>>> a1a576f7bb814251d89e83cf4b9595dd3e7b6bbc */}
-            </TouchableOpacity>
+            </View>
             )
         }}
       />
@@ -123,19 +124,19 @@ const Sheets = ( props ) => {
         renderItem={({item})=>{ 
           //console.log(sheetfile)
           return(
-            <TouchableOpacity style={styles.filebox} onPress={() => { navigation.navigate('FileDetail', {item});}}>
-              <Image source={require('../../assets/icons/file.png')} style={{marginTop:10}}/>
-              <View style={{marginTop:-50}}>
-                  <Text style={styles.label}>{item.Filename}</Text>
-                <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
-                  <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
-                  <Image source={require('../../assets/icons/dowsload.png')} 
-                      style={icons.download_icon}
-                  /> 
-                  </TouchableOpacity>
+            <View style={[styles.filebox , {flexDirection:'row',justifyContent:'center'}]}>
+              <TouchableOpacity onPress={() => { navigation.navigate('FileDetail', {item});}} style={{ flexDirection: 'row',width:'80%'}}>
+                <Image source={require('../../assets/icons/file.png')} style={{marginTop:10}}/>
+                <View >
+                    <Text style={{fontSize: 18,marginTop: 5,marginLeft:20,color: '#0C2D57'}}>{item.Filename}</Text>
                 </View>
+              </TouchableOpacity>
+              <View style={{width:'20%'}}>
+                <TouchableOpacity  onPress={() => {console.log("test download sucessfully")}}> 
+                    <Image source={require('../../assets/icons/dowsload.png')}/> 
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
+            </View>
             )
         }}
       />
@@ -180,19 +181,19 @@ const Exam = ( props ) => {
         renderItem={({item})=>{
 
           return(
-              <TouchableOpacity style={styles.filebox} onPress={() => {navigation.navigate('FileDetail', {item});}}>
+            <View style={[styles.filebox , {flexDirection:'row',justifyContent:'center'}]}>
+              <TouchableOpacity onPress={() => { navigation.navigate('FileDetail', {item});}} style={{ flexDirection: 'row',width:'80%'}}>
                 <Image source={require('../../assets/icons/file.png')} style={{marginTop:10}}/>
-                <View style={{marginTop:-50}}>
-                  <Text style={styles.label}>{item.Filename}</Text>
-                  <View style={{ flexDirection: 'row',justifyContent: 'flex-end'}}>
-                    <TouchableOpacity  onPress={() => downloadExam(item.nameinstorage)}> 
-                      <Image source={require('../../assets/icons/dowsload.png')} 
-                        style={icons.download_icon}
-                      /> 
-                    </TouchableOpacity>
-                  </View>
+                <View >
+                    <Text style={{fontSize: 18,marginTop: 5,marginLeft:20,color: '#0C2D57'}}>{item.Filename}</Text>
                 </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+              <View style={{width:'20%'}}>
+                <TouchableOpacity  onPress={() => downloadExam(item.nameinstorage)}> 
+                    <Image source={require('../../assets/icons/dowsload.png')}/> 
+                </TouchableOpacity>
+              </View>
+            </View>
             )
         }}
         
