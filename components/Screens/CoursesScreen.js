@@ -240,7 +240,7 @@ const fetchCourses = async () => {
   }
 
   return (
-    <View style={{ flex: 1, alignItems: "center" }}>
+    <View style={{ flex: 1, alignItems: "center" ,backgroundColor: "#EFECEC" }}>
       <View
         style={{
           flexDirection: "row",
