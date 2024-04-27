@@ -5,10 +5,11 @@ import { useIsFocused } from '@react-navigation/native';
 import { styles } from '../../assets/styles//styles_post.js';
 import { TextInput } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Createcomment, 
   getAllCommentForum,
+  favPost,
 } from "../../firebase/firestoreForums.js";
 
 const fetchComments = async (IDPost) => {
@@ -44,6 +45,12 @@ const PostDetailScreen = ({ route }) => {
     navigation.navigate('ForumReview',(post.id));
     
   };
+
+  const like= async (postID) => {
+    const userID = await AsyncStorage.getItem('UID')
+    await favPost(userID, postID)
+    
+  }; 
   
   return(
     <View style={styles.container}>
@@ -66,7 +73,7 @@ const PostDetailScreen = ({ route }) => {
 
         {/* creating comment */}
         <View style={{ flexDirection: 'row'}}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { like(post.id)}}>
             <Image source={require('../../assets/icons/like.png')} style={{height:30,width:30,marginRight:10}}/>
           </TouchableOpacity>
           <TextInput

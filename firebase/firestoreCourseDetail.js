@@ -1,6 +1,6 @@
 import { firestore, storage } from "./firebaseConfig";
 import { ref, uploadBytes, getDownloadURL, } from "firebase/storage";
-import { collection, query, where, getDocs, addDoc, updateDoc, runTransaction } from "firebase/firestore";
+import { collection, query, where, getDocs,getDoc, addDoc, updateDoc, runTransaction, doc, setDoc, deleteDoc } from "firebase/firestore";
 //import * as FileSystem from 'expo-file-system';
 import * as Linking from 'expo-linking';
 
@@ -100,17 +100,29 @@ const createReviews = async (userID, Author, CourseID,Description) => {
 
     
     if (!courseQuerySnapshot.empty) {
+      await runTransaction(firestore, async (transaction) => {
+        const courseDoc = courseQuerySnapshot.docs[0];
+        const courseDocSnapshot = await transaction.get(courseDoc.ref);
+        const courseData = courseDocSnapshot.data();
 
-      const courseDoc = courseQuerySnapshot.docs[0];
-      const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
-      await addDoc(reviewsCollectionRef, {
-        userID:userID,
-        Author:Author,
-        CourseID,
-        Description,
-        likeCount: 0,
-      });
+        const updatedCourseData = {
+          ...courseData,
+          reviewcounts: (courseData.reviewcounts || 0) + 1, // Increment reviewcounts
+        };
+        transaction.update(courseDoc.ref, updatedCourseData);
+  
 
+        
+        const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
+        await addDoc(reviewsCollectionRef, {
+          userID:userID,
+          Author:Author,
+          CourseID,
+          Description,
+          commentcounts:0,
+          likeCount: 0,
+        });
+      })
     } 
     
 
@@ -130,15 +142,30 @@ const Createcomment = async (userID, Author,IDCourse, IDReview, comment) => {
 
     if (!courseQuerySnapshot.empty) {
       const courseDoc = courseQuerySnapshot.docs[0];
-      const commentCollectionRef = collection(courseDoc.ref, "reviews",IDReview,'comments')
+      const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
+      
+      const reviewDocRef = doc(reviewsCollectionRef, IDReview);
 
-      if (!commentCollectionRef.empty) {
-        await addDoc(commentCollectionRef, {
-          Author:Author,
-          userID:userID,
-          comment,
-          likeCount: 0,
-        });
+      
+      if (! reviewDocRef.empty) {
+        await runTransaction(firestore, async (transaction) => {
+          const reviewDocSnapshot = await transaction.get(reviewDocRef);
+  
+          const reviewData = reviewDocSnapshot.data();
+          const updatedreviewData = {
+            ...reviewData,
+            commentcounts: (reviewData.commentcounts || 0) + 1, // Increment commentcounts
+          };
+          transaction.update(reviewDocRef, updatedreviewData); 
+
+          const commentCollectionRef = collection(reviewDocRef, "comments");
+          await addDoc(commentCollectionRef, {
+            Author:Author,
+            userID:userID,
+            comment,
+            likeCount: 0,
+          });
+        })
       } else {
         console.log("No matching reviews found.");
       }
@@ -147,6 +174,118 @@ const Createcomment = async (userID, Author,IDCourse, IDReview, comment) => {
 
   } catch (e) {
     console.error("Error creating comments: ", e);
+    return [];
+  }
+};
+
+const likeReview = async (IDCourse, IDReview) => {
+  try {
+    const filteredCourses = query(collection(firestore, "courses"), where("courseID", '==', IDCourse));
+    const courseQuerySnapshot = await getDocs(filteredCourses);
+
+    
+
+    if (!courseQuerySnapshot.empty) {
+      const courseDoc = courseQuerySnapshot.docs[0];
+      const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
+      
+      const reviewDocRef = doc(reviewsCollectionRef, IDReview);
+
+      
+      if (! reviewDocRef.empty) {
+        await runTransaction(firestore, async (transaction) => {
+          const reviewDocSnapshot = await transaction.get(reviewDocRef);
+  
+          const reviewData = reviewDocSnapshot.data();
+          const updatedreviewData = {
+            ...reviewData,
+            likeCount: (reviewData.likeCount || 0) + 1, // Increment commentcounts
+          };
+          transaction.update(reviewDocRef, updatedreviewData);       
+        })
+      } else {
+        console.log("No matching reviews found.");
+      }
+      
+    } 
+
+  } catch (e) {
+    console.error("Error creating comments: ", e);
+    return [];
+  }
+};
+
+const unlikeReview = async (IDCourse, IDReview) => {
+  try {
+    const filteredCourses = query(collection(firestore, "courses"), where("courseID", '==', IDCourse));
+    const courseQuerySnapshot = await getDocs(filteredCourses);
+
+    
+
+    if (!courseQuerySnapshot.empty) {
+      const courseDoc = courseQuerySnapshot.docs[0];
+      const reviewsCollectionRef = collection(courseDoc.ref, "reviews");
+      
+      const reviewDocRef = doc(reviewsCollectionRef, IDReview);
+
+      
+      if (! reviewDocRef.empty) {
+        await runTransaction(firestore, async (transaction) => {
+          const reviewDocSnapshot = await transaction.get(reviewDocRef);
+  
+          const reviewData = reviewDocSnapshot.data();
+          const updatedreviewData = {
+            ...reviewData,
+            likeCount: (reviewData.likeCount || 0) - 1, // Increment commentcounts
+          };
+          transaction.update(reviewDocRef, updatedreviewData);       
+        })
+      } else {
+        console.log("No matching reviews found.");
+      }
+      
+    } 
+
+  } catch (e) {
+    console.error("Error creating comments: ", e);
+    return [];
+  }
+};
+
+const favReview = async (uid, IDCourse, IDPost)=>{
+  const docRef = doc(firestore, "users", uid, "favouriteReview"
+);
+  const reviewRef = doc(collection(docRef,IDPost));
+  // Get the snapshot of the document
+  await addDoc(docRef, {IDPost})
+  const reviewSnapshot = await getDoc(reviewRef);
+
+  // Check if the document exists
+  if (reviewSnapshot.exists()) {
+
+    await deleteDoc(reviewRef);
+    await unlikeReview(IDCourse, IDPost)
+
+  } else {
+    // Document does not exist
+
+    
+    await setDoc(reviewRef, {IDPost})
+    await likeReview(IDCourse, IDPost)
+  
+  } 
+}
+
+const getfavReview = async (uid)=>{
+  try {
+    console.log(uid)
+    const querySnapshot = await getDocs(collection(firestore, "users", uid, "favouriteReview"));
+    console.log(querySnapshot.docs)
+    //const favouriteReviews = querySnapshot.docs.map(doc => doc.data());
+    //console.log(uid)
+    //return favouriteReviews;
+  } catch (error) {
+    console.error("Error fetching favourite reviews for user:", error);
     return [];
   }
 };
@@ -346,4 +485,4 @@ const downloadExam = async (filename) => {
 
 /* -------------------------  exams -------------------------- */
 
-export { getAllReviews, getMyReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, downloadExam};
+export { getAllReviews, getMyReviews, createReviews, Createcomment, uploadsheet, getAllSheets, getAllExams, uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, downloadExam, favReview, getfavReview};

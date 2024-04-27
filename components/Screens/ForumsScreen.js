@@ -5,9 +5,10 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import {TextInput, Button, Modal } from 'react-native';
 import { styles } from '../../assets/styles/styles_coursedetail.js';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   getAllForums, 
+  favPost
 } from "../../firebase/firestoreForums.js";
 
 
@@ -15,6 +16,12 @@ function Forum( {post} ){
   
   const navigation = useNavigation();
   const post_data = post.field
+
+  const like= async (postID) => {
+    const userID = await AsyncStorage.getItem('UID')
+    await favPost(userID, postID)
+    
+  }; 
   
   return(
     <View
@@ -27,13 +34,15 @@ function Forum( {post} ){
         <Text style={styles.label}>{post_data.Description}</Text>
       </TouchableOpacity>
       <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
-        <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+        <TouchableOpacity 
+          onPress={() => { like(post.id)}}
+          style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
           <Image source={require("../../assets/icons/minilike.png")}/>
           <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{post_data.likeCount} Likes</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+        <TouchableOpacity  onPress={() => { navigation.navigate('PostDetail',{post});}} style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
           <Image source={require("../../assets/icons/minicomment.png")}/>
-          <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
+          <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{post_data.commentcounts} Comments</Text>
         </TouchableOpacity>
       </View>  
     </View>

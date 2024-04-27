@@ -1,5 +1,5 @@
 import { firestore } from "./firebaseConfig";
-import { addDoc, collection, getDocs, doc, query, where } from "firebase/firestore";
+import { addDoc, collection, getDoc, getDocs, doc, query, where, runTransaction, setDoc, deleteDoc } from "firebase/firestore";
 
 const getAllForums = async () => {
   try {
@@ -40,6 +40,7 @@ const createPost = async (userID, Author, description) => {
       userID:userID,
       author:Author, //test data
       Description:description, //test data
+      commentcounts:0,
       likeCount: 0,
     });
     console.log("Document written with ID: ", docRef.id);
@@ -55,21 +56,108 @@ const createPost = async (userID, Author, description) => {
     console.error("Error adding document: ", e);
   }
 }
+
+const likePost = async (IDPost) => {
+  try {
+
+    const forumDocRef  = doc(firestore, 'forums', IDPost);
+    
+    if (!forumDocRef.empty) {
+      await runTransaction(firestore, async (transaction) => {
+        
+        const forumDocSnapshot = await transaction.get(forumDocRef);
+        const forumData = forumDocSnapshot.data();
+
+        
+        const updatedPostData = {
+          ...forumData,
+          likeCount: (forumData.likeCount || 0) + 1, // Increment likeCount
+        };
+        transaction.update(forumDocRef, updatedPostData); 
+
+      })
+    } 
+
+  } catch (e) {
+    console.error("Error Increment likeCount: ", e);
+    return [];
+  }
+};
+const unlikePost = async (IDPost) => {
+  try {
+
+    const forumDocRef  = doc(firestore, 'forums', IDPost);
+    
+    if (!forumDocRef.empty) {
+      await runTransaction(firestore, async (transaction) => {
+        
+        const forumDocSnapshot = await transaction.get(forumDocRef);
+        const forumData = forumDocSnapshot.data();
+
+        
+        const updatedPostData = {
+          ...forumData,
+          likeCount: (forumData.likeCount || 0) - 1, // Decrement likeCount
+        };
+        transaction.update(forumDocRef, updatedPostData); 
+
+      })
+    } 
+
+  } catch (e) {
+    console.error("Error Decrement likeCount: ", e);
+    return [];
+  }
+};
+
+const favPost = async (uid, IDPost)=>{
+  const docRef = doc(firestore, "users", uid, "favouritePost", IDPost);
+
+  // Get the snapshot of the document
+  const docSnapshot = await getDoc(docRef);
+
+  // Check if the document exists
+  if (docSnapshot.exists()) {
+
+    await deleteDoc(docRef);
+    await unlikePost(IDPost)
+
+  } else {
+    // Document does not exist
+
+    await setDoc(docRef, {})
+    await likePost(IDPost)
+  
+  } 
+}
+
 const Createcomment = async (userID, Author, IDPost, comment) => {
   try {
 
-    const commentsCollectionRef = collection(firestore, 'forums', IDPost, 'comments');
+    const forumDocRef  = doc(firestore, 'forums', IDPost);
     
+    if (!forumDocRef.empty) {
+      await runTransaction(firestore, async (transaction) => {
+        
+        const forumDocSnapshot = await transaction.get(forumDocRef);
+        const forumData = forumDocSnapshot.data();
 
-    if (!commentsCollectionRef.empty) {
+        
+        const updatedPostData = {
+          ...forumData,
+          commentcounts: (forumData.commentcounts || 0) + 1, // Increment commentcounts
+        };
+        transaction.update(forumDocRef, updatedPostData); 
 
-      await addDoc(commentsCollectionRef, {
-        Author:Author,
-        userID:userID,
-        comment,
-        likeCount: 0,
-      });
-      
+
+         const commentsCollectionRef = collection(forumDocRef, 'comments');
+        await addDoc(commentsCollectionRef, {
+          Author:Author,
+          userID:userID,
+          comment,
+          likeCount: 0,
+        }); 
+      })
 
     } 
 
@@ -99,4 +187,4 @@ const getAllCommentForum = async (IDPost) => {
   }
 };
 
-export { getAllForums, createPost, getAllCommentForum,Createcomment, getMyForums };
+export { getAllForums, createPost, getAllCommentForum,Createcomment, getMyForums, favPost};

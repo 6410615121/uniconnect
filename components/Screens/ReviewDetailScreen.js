@@ -6,10 +6,11 @@ import { styles } from '../../assets/styles//styles_post.js';
 import { TextInput } from "react-native-gesture-handler";
 import { FlatList, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Createcomment,
-  getAllComment
+  getAllComment,
+  favReview,
 } from "../../firebase/firestoreCourseDetail.js";
 
 const fetchComments = async (CourseID, reviewID) => {
@@ -39,6 +40,11 @@ const ReviewDetailScreen = ({ route }) => {
     },[isFocused]);
     console.log(comobject);
 
+    const like= async (CourseID, postID) => {
+      const userID = await AsyncStorage.getItem('UID')
+      await favReview(userID, CourseID, postID)
+      
+    }; 
 
 
     const handleTextInputPress = () => {
@@ -69,7 +75,7 @@ const ReviewDetailScreen = ({ route }) => {
 
         {/* creating comment */}
         <View style={{ flexDirection: 'row'}}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { like(item.CourseID, item.reviewID)}}  >   
             <Image source={require('../../assets/icons/like.png')} style={{height:30,width:30,marginRight:10}}/>
           </TouchableOpacity>
           <TextInput

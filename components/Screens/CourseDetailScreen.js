@@ -5,12 +5,13 @@ import { styles } from '../../assets/styles/styles_coursedetail.js';
 import { TouchableOpacity,Image,FlatList} from 'react-native';
 import {icons} from '../../assets/styles/icon.js';
 import { useIsFocused } from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   getAllReviews,
   getAllSheets,
   getAllExams,
   downloadExam,
+  favReview,
 } from "../../firebase/firestoreCourseDetail.js";
 
 
@@ -22,9 +23,15 @@ const Reviews = ({ course,reviews}) => {
     CourseID: review.data.CourseID,
     Description: review.data.Description,
     likeCount: review.data.likeCount,
+    commentcounts: review.data.commentcounts,
   }));
+  const like= async (CourseID, postID) => {
+    const userID = await AsyncStorage.getItem('UID')
+    await favReview(userID, CourseID, postID)
+    
+  }; 
   
-
+  
   return(
     <View >
       {/* <Text style={styles.title}>reviews {course.title}</Text>
@@ -60,9 +67,8 @@ const Reviews = ({ course,reviews}) => {
         numColumns={1}
         contentContainerStyle={{ paddingBottom: 100 }}
         renderItem={({item})=>{ 
-          
+
           return(
-// <<<<<<< HEAD
             <View style={styles.postbox} >
                 <TouchableOpacity onPress={() => { navigation.navigate('ReviewDetail',{item});}} style={{width:'100%'}}>
                   <View style={{flexDirection:'row'}}>
@@ -72,13 +78,15 @@ const Reviews = ({ course,reviews}) => {
                   <Text style={styles.label}>{item.Description}</Text>
                 </TouchableOpacity>
                   <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
-                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
+                    <TouchableOpacity 
+                      onPress={() => {like(item.CourseID, item.reviewID)}}
+                      style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
                       <Image source={require("../../assets/icons/minilike.png")}/>
                       <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.likeCount} Likes</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('ReviewDetail',{item});}} style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
                       <Image source={require("../../assets/icons/minicomment.png")}/>
-                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.commentcounts} Comments</Text>
                     </TouchableOpacity>
                   </View>  
             </View>
