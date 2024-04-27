@@ -1,5 +1,6 @@
 import { firestore } from "./firebaseConfig";
-import { addDoc, collection, getDocs, doc, query, where, setDoc, deleteDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs, doc, query, where, setDoc, deleteDoc, getDoc } from "firebase/firestore";
+import { getAllCourses } from "./firestoreCourses";
 
 const favCourse = async (uid, courseid)=>{
     const docRef = doc(firestore, "users", uid, "favouriteCourse", courseid);
@@ -50,6 +51,20 @@ const unfavCourse = async (uid, courseid) => {
         return false;
     }
 }
+
+const getFavCourse = async (uid) => {
+    try{
+        const courses = await getAllCourses()
+        const favCourseIDList = await getFavCourseIDList();
+
+        const favCourses = courses.filter((course) => favCourseIDList.includes(course.courseID))
+        return favCourses;
+    }catch(error){
+        console.error("error getfavCourse: ", error)
+        return [];
+    } 
+}
+
 
 export { favCourse, getFavCourseIDList, isUserFavThisCourse, unfavCourse }
 
