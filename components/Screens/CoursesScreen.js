@@ -108,6 +108,7 @@ const MainScreen = ({ handleCoursePress }) => {
   const [searchText, setSearchText] = useState("");
   const [courses, setCourses] = useState([]);
   const [userUID, setUserUID] = useState(null);
+  const [isFavFilter, setIsFavFilter] = useState(false);
 
   // fetch userUID
   useEffect(() => {
@@ -131,33 +132,37 @@ const MainScreen = ({ handleCoursePress }) => {
   const navigation = useNavigation();
 
   // fetching courses
-  const fetchCourses = async () => {
-    try {
-      // Check if userUID is available
-      if (!userUID) {
-        // console.log("UserUID not available (yet).");
-        return;
-      }
-  
-      const courses = await getAllCourses();
-      let favCourseIDList = await getFavCourseIDList(userUID);
-  
-      favCourseIDList = favCourseIDList || [];
-  
-      // mark course fav
-      courses.forEach((course) => {
-        course.isFav = favCourseIDList.includes(course.courseID);
-      });
-  
-      setCourses(courses);
-    } catch (error) {
-      console.error("Error fetching courses:", error);
+const fetchCourses = async () => {
+  try {
+    // Check if userUID is available
+    if (!userUID) {
+      // console.log("UserUID not available (yet).");
+      return;
     }
-  };
+
+    let courses = await getAllCourses();
+
+    if (isFavFilter) {
+      // If filtering by favorite courses, fetch only favorite courses
+      const favCourseIDList = await getFavCourseIDList(userUID);
+      const filteredCourses = courses.filter(course => favCourseIDList.includes(course.courseID));
+      courses = filteredCourses;
+    }
+    // mark course fav
+    const favCourseIDList = await getFavCourseIDList(userUID);
+    courses.forEach((course) => {
+      course.isFav = favCourseIDList.includes(course.courseID);
+    });
+
+    setCourses(courses);
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+  }
+};
   
   useEffect(() => {
     fetchCourses(); // Call the fetchCourses function when component mounts
-  }, [userUID]);
+  }, [userUID,isFavFilter]);
 
   // refresh when main become focus again
   useEffect(() => {
@@ -178,7 +183,18 @@ const MainScreen = ({ handleCoursePress }) => {
           course.courseID.includes(searchText)
         );
 
-        setCourses(filteredCourses);
+        // mark course fav
+        const favCourseIDList = await getFavCourseIDList(userUID);
+        filteredCourses.forEach((course) => {
+          course.isFav = favCourseIDList.includes(course.courseID);
+        });
+
+        if(isFavFilter){
+          const filteredCoursesWithFavIDs = filteredCourses.filter(course => favCourseIDList.includes(course.courseID));
+          setCourses(filteredCoursesWithFavIDs)
+        }else{
+          setCourses(filteredCourses);
+        }
       } catch (error) {
         console.error("Error fetching and filtering courses:", error);
       }
@@ -191,6 +207,12 @@ const MainScreen = ({ handleCoursePress }) => {
       }
     }
   };
+
+  const handleFavFilterMark = () => {
+    console.log("filter pressed!")
+    setIsFavFilter(!isFavFilter)
+  }
+  
 
   const handleCourseFavPress = async (courseID) => {
     try{
@@ -246,8 +268,10 @@ const MainScreen = ({ handleCoursePress }) => {
         >
           <Image source={require("../../assets/icons/search.png")} />
         </TouchableOpacity>
-        <TouchableOpacity style={{ justifyContent: "center" }}>
-          <Image source={require("../../assets/icons/bigHeart.png")} />
+        <TouchableOpacity 
+        onPress={handleFavFilterMark}
+        style={{ justifyContent: "center" }}>
+          {isFavFilter? <Text>Marked</Text> : <Image source={require("../../assets/icons/bigHeart.png")} />}
         </TouchableOpacity>
 
         <TouchableOpacity
