@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderWidth: 1,
     borderRadius: 20,
-    // padding: 20,
     marginLeft:10,
     width:160,
     height:150,
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
     color:'#0C2D57'
   },
   description: {
-    // marginTop: 3,
+
     fontSize: 13,
     fontWeight: 'bold',
     height: 30,
