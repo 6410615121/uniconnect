@@ -20,6 +20,8 @@ import {
   createCourse,
 } from "../../firebase/firestoreCourses.js";
 import { TextInput } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { favCourse } from "../../firebase/firebaseFavCourse.js";
 
 const Stack = createStackNavigator();
 
@@ -105,15 +107,35 @@ const CreateCourseScreen = ({ route }) => {
 const MainScreen = ({ handleCoursePress }) => {
   const [searchText, setSearchText] = useState("");
   const [courses, setCourses] = useState([]);
+  const [userUID, setUserUID] = useState(null);
+
+  // fetch userUID
+  useEffect(() => {
+    const fetchUserUID = async () => {
+      try {
+        const uid = await AsyncStorage.getItem("UID")
+        if (!uid){
+          console.error("No userUID")
+        }else{
+          // console.log("get userUID: ", uid)
+          setUserUID(uid)
+        }
+      }catch(error){
+        console.error("Error fetching userUID: ", error)
+      }
+    }
+
+    fetchUserUID();
+  }, []);
 
   const navigation = useNavigation();
 
-  // fetching
+  // fetching courses
   const fetchCourses = async () => {
     try {
       const courses = await getAllCourses();
       setCourses(courses);
-      console.log("fetched!");
+      // console.log("fetched!");
       // console.log(courses)
       // console.log(courses.length)
     } catch (error) {
@@ -157,6 +179,18 @@ const MainScreen = ({ handleCoursePress }) => {
       }
     }
   };
+
+  const handleCourseFavPress = async (courseID) => {
+    // console.log("you press: " , courseID)
+    // console.log("your uid: ", userUID)
+  
+    try {
+      const result = await favCourse(userUID, courseID);
+      // console.log("Favorited course result:", result);
+    } catch (error) {
+      // console.error("Error favoriting course:", error);
+    }
+  }
 
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
@@ -238,6 +272,7 @@ const MainScreen = ({ handleCoursePress }) => {
 
                 {/* Heart icon inside TouchableOpacity */}
                 <TouchableOpacity
+                  onPress={() => handleCourseFavPress(item.courseID)}
                   style={{ position: "absolute", top: 0, right: 5 }}
                 >
                   <Image source={require("../../assets/icons/bigHeart.png")} />
