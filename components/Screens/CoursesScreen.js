@@ -274,7 +274,7 @@ const fetchCourses = async () => {
           {isFavFilter? <Image source={require("../../assets/icons/pinkheart.png")} style={{width:41,height:41}}/> : <Image source={require("../../assets/icons/bigHeart.png")} />}
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.navigate("createCourseScreen")}
           style={{ justifyContent: "center" }}
         >
@@ -282,7 +282,7 @@ const fetchCourses = async () => {
             style={{ height: 32, marginBottom: 2 }}
             source={require("../../assets/icons/add_FILL0_wght400_GRAD0_opsz24.png")}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* <Button title="search" onPress={handleSearchSubmit} />
         check later isAdmin? */}
