@@ -10,6 +10,7 @@ import {
   Createcomment, 
   getAllCommentForum,
   favPost,
+  unfavPost,
 } from "../../firebase/firestoreForums.js";
 
 const fetchComments = async (IDPost) => {
@@ -25,10 +26,14 @@ const fetchComments = async (IDPost) => {
 const PostDetailScreen = ({ route }) => {
   const isFocused = useIsFocused();
   const {post} = route.params;
-  
+ 
   post_data = post.field;
   const [comment, setcomment] = useState("");
   const [comobject, setcomobject] = useState([]);
+
+  const [isLiked, setIsLiked] = useState(post.isLiked);
+  const [likeCount, setLikeCount] = useState(post_data.likeCount);
+
   useEffect(() => {
     const fetchAndUpdateState = async () => {
       const commentdata = await fetchComments(post.id);
@@ -49,8 +54,35 @@ const PostDetailScreen = ({ route }) => {
   const like= async (postID) => {
     const userID = await AsyncStorage.getItem('UID')
     await favPost(userID, postID)
-    
+    setIsLiked(true);
+    post.isLiked = true;
+
+    const like = likeCount + 1;
+    setLikeCount(like)
+    post.field.likeCount = like
+    console.log("like called on: ", postID)
   }; 
+
+  const unlike= async (postID) => {
+    const userID = await AsyncStorage.getItem('UID')
+    await unfavPost(userID, postID)
+    setIsLiked(false);
+    post.isLiked = false;
+
+    const like = likeCount - 1;
+    post.field.likeCount = like
+    setLikeCount(like)
+
+    console.log("unlike called on: ", postID)
+  }; 
+
+  const handleLikeButtonPress = async (postID) =>{
+    if(isLiked){
+      await unlike(postID)
+    }else{
+      await like(postID)
+    }
+  }
   
   return(
     <View style={styles.container}>
@@ -66,15 +98,16 @@ const PostDetailScreen = ({ route }) => {
               </ScrollView>
             </View>
             <View style={{height:'20%'}}>
-              <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{post_data.likeCount} Likes {post_data.commentcounts} Comments</Text>
+              <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{likeCount} Likes {post_data.commentcounts} Comments</Text>
             </View>
           </View>
         </View>
 
         {/* creating comment */}
         <View style={{ flexDirection: 'row'}}>
-          <TouchableOpacity onPress={() => { like(post.id)}}>
-            <Image source={require('../../assets/icons/like.png')} style={{height:30,width:30,marginRight:10}}/>
+          <TouchableOpacity onPress={() => { handleLikeButtonPress(post.id)}}>
+            {isLiked? <Image source={require('../../assets/icons/like.png')} style={{height:30,width:30,marginRight:10}}/>: <Text>ยังไม่กด</Text> }
+            
           </TouchableOpacity>
           <TextInput
             style={{paddingLeft:10, backgroundColor: "#FFF8E3", padding: 5, width:200,borderBottomLeftRadius:15,borderTopLeftRadius:15,borderWidth:1}}

@@ -15,18 +15,22 @@ import {
 } from "../../firebase/firestoreForums.js";
 
 
-function Forum( {post} ){
+function Forum( {post,} ){
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [likeCount, setLikeCount] = useState(post.field.likeCount);
+  
   const navigation = useNavigation();
 
   const like= async (postID) => {
     const userID = await AsyncStorage.getItem('UID')
     await favPost(userID, postID)
-    console.log("liked! post: ", postID)
+    console.log("like called on: ", postID)
+
+    post.isLiked = true;
     setIsLiked(true);
 
     const like = likeCount + 1;
+    post.field.likeCount = like;
     setLikeCount(like);
   }; 
 
@@ -34,9 +38,13 @@ function Forum( {post} ){
     const userID = await AsyncStorage.getItem('UID')
     await unfavPost(userID, postID)
     
-    console.log("unliked! post: ", postID)
+    console.log("unlike called on: ", postID)
+
+    post.isLiked = false;
     setIsLiked(false);
+
     const like = likeCount - 1;
+    post.field.likeCount = like;
     setLikeCount(like);
   }; 
 
@@ -80,38 +88,41 @@ export default function Forums() {
   const isFocused = useIsFocused();
   const [data, setData] = useState([]);
   const navigation = useNavigation();
+  // const [isRefresh, setIsRefresh] = useState(false);
 
   const fetchData = async () => {
     try {
+      console.log("forums fetched!");
       const forumsData = await getAllForums();
-      const userUID = await AsyncStorage.getItem("UID") 
-      const favPostIDList = await getFavPostIdListByUserUID(userUID)
-      // console.log(favPostIDList)
-
-      // Mark each forum isLiked?
-      forumsData.forEach(
-        (forum) => {
-          forum.isLiked = favPostIDList.includes(forum.id)
-        }
-      )
-      // forumsData.forEach((forum) => console.log(forum))
-
-      setData(forumsData);
+      const userUID = await AsyncStorage.getItem("UID");
+      const favPostIDList = await getFavPostIdListByUserUID(userUID);
+  
+      // Create a new array with updated isLiked property
+      const updatedForumsData = forumsData.map(forum => {
+        return {
+          ...forum,
+          isLiked: favPostIDList.includes(forum.id)
+        };
+      });
+  
+      setData(updatedForumsData);
     } catch (error) {
       console.error("Error fetching forums:", error);
     }
   };
+
+  useEffect(()=>{
+    fetchData();
+  },[])
 
   useEffect(() => {
     if (isFocused) {
       fetchData();
     }
   }, [isFocused]);
-  
 
-  
+
   const handleTextInputPress = () => {
-
     navigation.navigate('createForum');
   };
 
@@ -132,7 +143,9 @@ export default function Forums() {
         // style={{flexGrow:1}}
         contentContainerStyle={{paddingBottom:100}}
         data={data}
-        renderItem={({ item }) => <Forum post={item} />}
+        renderItem={({ item }) => <Forum post={item}/>}
+        // keyExtractor={(item) => item.id}
+  
         onEndReachedThreshold={0.3}
       />
       

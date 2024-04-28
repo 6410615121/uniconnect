@@ -61,12 +61,13 @@ const createPost = async (userID, Author, description) => {
   }
 }
 
-const likePost = async (IDPost) => {
+const likePost = async (IDPost, userDocRef) => {
   try {
 
     const forumDocRef  = doc(firestore, 'forums', IDPost);
+    const userDoc = await getDoc(userDocRef)
     
-    if (!forumDocRef.empty) {
+    if (userDoc.exists()) {
       await runTransaction(firestore, async (transaction) => {
         
         const forumDocSnapshot = await transaction.get(forumDocRef);
@@ -87,12 +88,14 @@ const likePost = async (IDPost) => {
     return [];
   }
 };
-const unlikePost = async (IDPost) => {
+
+const unlikePost = async (IDPost, userDocRef) => {
   try {
 
     const forumDocRef  = doc(firestore, 'forums', IDPost);
     
-    if (!forumDocRef.empty) {
+    const userDoc = await getDoc(userDocRef)
+    if (!userDoc.exists()) {
       await runTransaction(firestore, async (transaction) => {
         
         const forumDocSnapshot = await transaction.get(forumDocRef);
@@ -119,7 +122,7 @@ const favPost = async (uid, IDPost)=>{
     const docRef = doc(firestore, "users", uid, "favouritePost", IDPost);
 
     await setDoc(docRef, {})
-    await likePost(IDPost)
+    await likePost(IDPost, docRef)
     await notifyPost(IDPost,"Like your post",uid)
   }catch(error){
     console.error("error : ", error)
@@ -132,7 +135,7 @@ const unfavPost = async (uid, IDPost)=>{
     // console.log(uid)
 
     await deleteDoc(docRef)
-    await unlikePost(IDPost)
+    await unlikePost(IDPost, docRef)
   }catch(error){
     console.error("error1 : ", error)
   } 
