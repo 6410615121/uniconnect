@@ -106,7 +106,8 @@ const PostDetailScreen = ({ route }) => {
         {/* creating comment */}
         <View style={{ flexDirection: 'row'}}>
           <TouchableOpacity onPress={() => { handleLikeButtonPress(post.id)}}>
-            {isLiked? <Image source={require('../../assets/icons/like.png')} style={{height:30,width:30,marginRight:10}}/>: <Text>ยังไม่กด</Text> }
+            {isLiked? <Image source={require('../../assets/icons/like.png')} style={{height:30,width:30,marginRight:10}}/>: <Image style={{height:30,width:30,marginRight:10}} source={require("../../assets/icons/unlike.png")} />  }
+
             
           </TouchableOpacity>
           <TextInput
