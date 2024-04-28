@@ -11,6 +11,7 @@ import {
   getAllCommentForum,
   favPost,
   unfavPost,
+  delPost,
 } from "../../firebase/firestoreForums.js";
 
 const fetchComments = async (IDPost) => {
@@ -37,6 +38,8 @@ const PostDetailScreen = ({ route }) => {
   useEffect(() => {
     const fetchAndUpdateState = async () => {
       const commentdata = await fetchComments(post.id);
+      const userID = await AsyncStorage.getItem('UID')
+      setid(userID);
       setcomobject(commentdata);
     };
     if (isFocused) {
@@ -44,7 +47,7 @@ const PostDetailScreen = ({ route }) => {
     }
   },[isFocused]);
   const navigation = useNavigation();
-  
+  const [id, setid] = useState("");
   const handleTextInputPress = () => {
     
     navigation.navigate('ForumReview',(post.id));
@@ -83,7 +86,7 @@ const PostDetailScreen = ({ route }) => {
       await like(postID)
     }
   }
-  
+
   return(
     <View style={styles.container}>
         <View style={styles.postbox}>
@@ -92,6 +95,11 @@ const PostDetailScreen = ({ route }) => {
               <View style={{flexDirection:'row'}}>
                 <Image source={require("../../assets/icons/profileBlue.png")} />
                 <Text style={{fontSize: 18,fontWeight:'bold',marginTop: 5,marginLeft:10, color: '#0C2D57',}}>{post_data.author}</Text>
+                {id === post_data.userID ? (
+                <TouchableOpacity onPress={() => { delPost(post.id); navigation.goBack(); }}>
+                  <Text>del</Text>
+                </TouchableOpacity>
+              ) : null}
               </View>
               <ScrollView style={{height:'40%'}}>
                 <View><Text style={{fontSize:15, color:'#0C2D57',marginLeft:50,marginRight:50}}>{post_data.Description}</Text></View>
