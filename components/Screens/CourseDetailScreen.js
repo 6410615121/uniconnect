@@ -96,7 +96,7 @@ const Reviews = ({ course,reviews}) => {
         <Text style={styles.label}>Description:</Text>
         <Text style={styles.value}>{course.description}</Text>
       </View> */}
-      <View style={{ flexDirection: 'row',marginTop:10, marginLeft:40,marginRight:40}}>
+      <View style={{ backgroundColor: '#f5f5f5',flexDirection: 'row',marginTop:10, marginLeft:40,marginRight:40}}>
         <TouchableOpacity onPress={() => navigation.navigate("createReview", { course})} style={{width:'50%'}} >
           <View>
             <Image 
@@ -105,12 +105,12 @@ const Reviews = ({ course,reviews}) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={{width:'50%'}}>
-        <View>
+        {/* <View>
             <Image 
               source={require("../../assets/icons/filter.png")}
               style={{marginTop:5,alignSelf:'flex-end'}}
             />
-          </View>
+          </View> */}
         </TouchableOpacity>
         {/* <Button
           title="Review"
@@ -162,7 +162,7 @@ const Sheets = ( props ) => {
   return(
     <View >
       {/* <Text style={styles.title}>sheets{course.title}</Text> */}
-      <View style={{ flexDirection: 'row',marginTop:20, marginLeft:40,marginRight:40}}>
+      <View style={{ backgroundColor: '#f5f5f5',flexDirection: 'row',marginTop:20, marginLeft:40,marginRight:40}}>
       <TouchableOpacity onPress={() => navigation.navigate("uploadsheet", { course})} style={{width:'50%'}}>
           <View>
             <Image 
@@ -171,12 +171,12 @@ const Sheets = ( props ) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={{width:'50%'}}>
-        <View>
+        {/* <View>
             <Image 
               source={require("../../assets/icons/filter.png")}
               style={{marginTop:0,alignSelf:'flex-end'}}
             />
-          </View>
+          </View> */}
         </TouchableOpacity>
         {/* <Button
           title="upload"
@@ -223,7 +223,7 @@ const Exam = ( props ) => {
           onPress={() => navigation.navigate("uploadexam", { course})}
         />
       </View> */}
-      <View style={{ flexDirection: 'row',marginTop:20, marginLeft:40,marginRight:40}}>
+      <View style={{ backgroundColor: '#f5f5f5',flexDirection: 'row',marginTop:20, marginLeft:40,marginRight:40}}>
       <TouchableOpacity  onPress={() => navigation.navigate("uploadexam", { course})} style={{width:'50%'}}>
           <View>
             <Image 
@@ -232,12 +232,12 @@ const Exam = ( props ) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={{width:'50%'}}>
-        <View>
+        {/* <View>
             <Image 
               source={require("../../assets/icons/filter.png")}
               style={{marginTop:0,alignSelf:'flex-end'}}
             />
-          </View>
+          </View> */}
         </TouchableOpacity>
       </View>
       <FlatList style={styles.container}
