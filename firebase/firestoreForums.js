@@ -129,33 +129,36 @@ const favPost = async (uid, IDPost)=>{
 const unfavPost = async (uid, IDPost)=>{
   try {
     const docRef = doc(firestore, "users", uid, "favouritePost", IDPost);
+    // console.log(uid)
 
     await deleteDoc(docRef)
     await unlikePost(IDPost)
   }catch(error){
-    console.error("error : ", error)
+    console.error("error1 : ", error)
   } 
 }
 
 
 const getfavPost= async (uid)=>{
   try {
-    
+    // TODO:
     const querySnapshot = await getDocs(collection(firestore, "users", uid, "favouritePost"));
+    const favPostIDList = querySnapshot.docs.map((doc)=>doc.id)
+    return favPostIDList;
     
-    const forumDataList = [];
+    // const forumDataList = [];
     
-    for (const docquery of querySnapshot.docs) {
+    // for (const docquery of querySnapshot.docs) {
         
-        const forumDocRef = doc(firestore, "forums", docquery.id);
-        const forumDocSnapshot = await getDoc(forumDocRef);
-        forumDataList.push({id:forumDocSnapshot.id,field:forumDocSnapshot.data()});
-    } 
+    //     const forumDocRef = doc(firestore, "forums", docquery.id);
+    //     const forumDocSnapshot = await getDoc(forumDocRef);
+    //     forumDataList.push({id:forumDocSnapshot.id,field:forumDocSnapshot.data()});
+    // } 
     
     
-    return forumDataList;
+    // return forumDataList;
   } catch (error) {
-    console.error("Error fetching favourite reviews for user:", error);
+    console.error("Error fetching favourite Post for user:", error);
     return [];
   }
 };
