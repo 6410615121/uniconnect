@@ -407,9 +407,12 @@ const getfavReviewFromUID = async(uid) =>{
 
     ref = doc(firestore, "courses", courseID, "reviews", postID)
     const reviewDoc = await getDoc(ref);
-    reviews.push(reviewDoc.data())
+    const reviewDocData = reviewDoc.data()
+    reviewDocData.postID = favObj.postID
+
+    reviews.push(reviewDocData)
   }
-  // console.log("reviews: ", reviews)
+  console.log("reviews: ", reviews)
 
 
   return reviews;

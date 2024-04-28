@@ -38,6 +38,7 @@ const ReviewDetailScreen = ({ route }) => {
 
     useEffect(() => {
       const fetchAndUpdateState = async () => {
+        // console.log("")
         const commentdata = await fetchComments(item.CourseID, item.reviewID);
         const userID = await AsyncStorage.getItem('UID')
         setid(userID);
@@ -81,8 +82,8 @@ const ReviewDetailScreen = ({ route }) => {
         setLikeCount(temp);
       }
     } 
-    console.log(id)
-    console.log(route.params)
+    // console.log(id)
+    // console.log("test")
     return(
       <View style={styles.container}>
         <View style={styles.postbox}>

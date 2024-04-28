@@ -427,7 +427,7 @@ const LikeScreen = ({ route }) => {
       });
 
       getfavPost(userID).then((postsData) => {
-        // console.log(postsData)
+        // console.log("postsData: ", postsData)
         setpost(postsData);
       }).catch((error)=>{
         console.log("cannot fetch favPost: ", error)
@@ -503,6 +503,7 @@ const LikeScreen = ({ route }) => {
       contentContainerStyle={{paddingBottom:100}}
       data={reviewData}
       renderItem={({ item }) => {
+        // console.log(item)
         if (!item) {
           return null;
         }
@@ -512,13 +513,13 @@ const LikeScreen = ({ route }) => {
                 <TouchableOpacity 
                  onPress={() => { navigation.navigate("ReviewDetail", {
                    item:{
-                    Author: item.data.Author,
-                    Description: item.data.Description,
-                    likeCount: item.data.likeCount,
-                    commentcounts: item.data.commentcounts,
-                    CourseID:item.data.CourseID,
+                    Author: item.Author,
+                    Description: item.Description,
+                    likeCount: item.likeCount,
+                    commentcounts: item.commentcounts,
+                    CourseID:item.CourseID,
                     reviewID:item.postID,
-                    userID:item.data.userID,
+                    userID:item.userID,
                   }
                   });}} 
                 style={{width:'100%'}}>
