@@ -22,6 +22,7 @@ const Reviews = ({ course,reviews}) => {
   const [extractedReviews ,setExtractedReviews] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
 
     const fetchData = async () => {
@@ -54,6 +55,10 @@ const Reviews = ({ course,reviews}) => {
     useEffect(()=>{
       fetchData();
     },[])
+
+    useEffect(()=>{
+      fetchData();
+    },[isFocused])
 
     useEffect(() => {
       if (isRefresh) {
