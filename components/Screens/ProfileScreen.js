@@ -614,7 +614,7 @@ const PostScreen = ({ route }) => {
                 </View>
                 <View style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
                   <Image source={require("../../assets/icons/minicomment.png")}/>
-                  <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>0 Comments</Text>
+                  <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.field.commentcounts} Comments</Text>
                 </View>
               </View>  
             </TouchableOpacity>
