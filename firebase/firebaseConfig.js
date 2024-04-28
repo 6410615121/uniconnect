@@ -7,14 +7,25 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage, ref} from "firebase/storage";
 
 // Initialize Firebase
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDm8YFGadGQpnlZX_8b7rnrYHRUUzCFFLk",
+//   authDomain: "uniconnect-project.firebaseapp.com",
+//   databaseURL: "https://uniconnect-project.firebaseio.com",
+//   projectId: "uniconnect-project",
+//   storageBucket: "uniconnect-project.appspot.com",
+//   messagingSenderId: "89215099916",
+//   appId: "1:89215099916:android:5308cc442480faf9d7ba29",
+//   measurementId: "G-measurement-id",
+// };
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDm8YFGadGQpnlZX_8b7rnrYHRUUzCFFLk",
-  authDomain: "uniconnect-project.firebaseapp.com",
+  apiKey: "AIzaSyBmiH8-ECJWmcaFj-oROYUjwOfDR7f8pxI",
+  authDomain: "com.company.myapp",
   databaseURL: "https://uniconnect-project.firebaseio.com",
-  projectId: "uniconnect-project",
-  storageBucket: "uniconnect-project.appspot.com",
-  messagingSenderId: "89215099916",
-  appId: "1:89215099916:android:5308cc442480faf9d7ba29",
+  projectId: "uniconnect-daf98",
+  storageBucket: "uniconnect-daf98.appspot.com",
+  messagingSenderId: "698512847181",
+  appId: "1:698512847181:android:b4392a7fc4c8b64f71c704",
   measurementId: "G-measurement-id",
 };
 
