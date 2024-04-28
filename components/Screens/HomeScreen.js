@@ -12,6 +12,11 @@ import {
 
 
 function CarouselNews(){
+  const paths = [
+    "https://tu.ac.th/uploads/news-tu/banner/banner64/bg64-03.jpg",
+    "https://tu.ac.th/uploads/news-tu/news/2567/apr/67-396.jpg",
+    "https://tu.ac.th/uploads/news-tu/banner/banner64/bg64-04.jpg"
+  ];
   const width = Dimensions.get('window').width*0.8;
 
   return (
@@ -21,22 +26,25 @@ function CarouselNews(){
               width={width}
               height={width / 2}
               autoPlay={true}
-              data={[...new Array(6).keys()]}
+              data={paths}
               scrollAnimationDuration={1000}
-              renderItem={({ index }) => (
+              renderItem={({item}) => {
+                console.log(item)
+                // var image = require(item)
+                return (
                   <View
-                      style={{
-                          flex: 1,
-                          borderRadius: 20,
-                          justifyContent: 'center',
-                          backgroundColor: '#FFF8E3', //test color
-                      }}
+                    style={{
+                        flex: 1,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                        backgroundColor: '#FFF8E3', //test color
+                        // backgroundColor:'red'
+                    }}
                   >
-                      <Text style={{ textAlign: 'center', fontSize: 30 }}>
-                          {index}
-                      </Text>
-                  </View>
-              )}
+                    <Image source={{uri: item}} style={{width: width, height: width / 2}} />
+                </View>
+                )
+              }}
           />
       </View>
   );
