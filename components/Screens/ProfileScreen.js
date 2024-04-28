@@ -416,15 +416,28 @@ const LikeScreen = ({ route }) => {
   
   const fetchData = async () => {
     try {
-      const userID = await AsyncStorage.getItem('UID')
-      const reviewsData = await getfavReview(userID);
-      const postsData = await getfavPost(userID);
-      setreview(reviewsData);
-      setpost(postsData);
+      const userID = await AsyncStorage.getItem('UID');
+      getfavReview(userID).then((reviews) => {
+        console.log(reviews)
+        setreview(reviews);
+      }).catch((error)=>{
+        console.log("cannot fetch favReview: ", error)
+        setreview([]);
+      });
+
+      getfavPost(userID).then((postsData) => {
+        console.log(postsData)
+        setpost(postsData);
+      }).catch((error)=>{
+        console.log("cannot fetch favPost: ", error)
+        setpost([]);
+      });
+      
     } catch (error) {
-      console.error("Error fetching forums:", error);
+      console.log("Error fetching data:", error);
     }
   };
+
   //console.log(reviewData)
   useEffect(() => {
     
@@ -441,6 +454,10 @@ const LikeScreen = ({ route }) => {
       contentContainerStyle={{paddingBottom:100}}
       data={postsData}
       renderItem={({ item }) => {
+        if (!item || !item.field) {
+          return null;
+        }
+
         //console.log(item)
           return(
             <View style={styles.postbox} >
@@ -485,6 +502,9 @@ const LikeScreen = ({ route }) => {
       contentContainerStyle={{paddingBottom:100}}
       data={reviewData}
       renderItem={({ item }) => {
+        if (!item || !item.field) {
+          return null;
+        }
 
         return( 
             <View style={styles.postbox} >
