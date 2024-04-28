@@ -50,10 +50,21 @@ const delPost= async (IDPost) => {
   try {
 
     const forumDocRef = doc(firestore, 'forums', IDPost);
+    const querySnapshot = await getDocs(collection(firestore, 'users'));
+
+    querySnapshot.forEach(async (userDoc) => {
+      const favouritePostRef = doc(userDoc.ref, 'favouritePost',IDPost);
+      const favouritePostDoc = await getDoc(favouritePostRef);
     
+      if (favouritePostDoc.exists) {
+        await deleteDoc(favouritePostRef);
+      } 
+    });
+
     if (!forumDocRef.empty) {
   
-      deleteDoc(forumDocRef)
+      await deleteDoc(forumDocRef)
+
     } 
 
   } catch (e) {
