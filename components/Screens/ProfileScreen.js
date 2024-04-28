@@ -20,6 +20,7 @@ import {
 import {
   getMyReviews,
   getfavReview,
+  getfavReviewFromUID,
 } from "../../firebase/firestoreCourseDetail.js";
 
 
@@ -417,8 +418,8 @@ const LikeScreen = ({ route }) => {
   const fetchData = async () => {
     try {
       const userID = await AsyncStorage.getItem('UID');
-      getfavReview(userID).then((reviews) => {
-        console.log(reviews)
+      getfavReviewFromUID(userID).then((reviews) => {
+        // console.log(reviews)
         setreview(reviews);
       }).catch((error)=>{
         console.log("cannot fetch favReview: ", error)
@@ -426,7 +427,7 @@ const LikeScreen = ({ route }) => {
       });
 
       getfavPost(userID).then((postsData) => {
-        console.log(postsData)
+        // console.log(postsData)
         setpost(postsData);
       }).catch((error)=>{
         console.log("cannot fetch favPost: ", error)
@@ -502,7 +503,7 @@ const LikeScreen = ({ route }) => {
       contentContainerStyle={{paddingBottom:100}}
       data={reviewData}
       renderItem={({ item }) => {
-        if (!item || !item.field) {
+        if (!item) {
           return null;
         }
 
@@ -524,19 +525,19 @@ const LikeScreen = ({ route }) => {
                   <View style={{flexDirection:'row'}}>
                     <View style={{width:'80%',flexDirection:'row'}}>
                     <Image source={require("../../assets/icons/profileBlue.png")}/>
-                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.data.Author}</Text>
+                    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.Author}</Text>
                     </View>
-                    <View style={{width:'20%'}}><Text style={{textAlign:'center',color:'#FC6736',padding:10,backgroundColor:'#0C2D57',borderRadius:10}}>{item.data.CourseID}</Text></View>
+                    <View style={{width:'20%'}}><Text style={{textAlign:'center',color:'#FC6736',padding:10,backgroundColor:'#0C2D57',borderRadius:10}}>{item.CourseID}</Text></View>
                   </View>
-                  <Text style={styles.label}>{item.data.Description}</Text>
+                  <Text style={styles.label}>{item.Description}</Text>
                   <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
                     <View style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
                       <Image source={require("../../assets/icons/minilike.png")}/>
-                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.data.likeCount} Likes</Text>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.likeCount} Likes</Text>
                     </View>
                     <View style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',borderLeftWidth:1,marginTop:5}}>
                       <Image source={require("../../assets/icons/minicomment.png")}/>
-                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.data.commentcounts} Comments</Text>
+                      <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{item.commentcounts} Comments</Text>
                     </View>
                   </View>  
                 </TouchableOpacity>

@@ -374,6 +374,48 @@ const getfavReview = async (uid)=>{
   }
 };
 
+const getfavReviewFromUID = async(uid) =>{
+  let ref = collection(firestore,"users",uid,"favouriteReview")
+  const coursesDoc = await getDocs(ref);
+
+  const coursesArray = coursesDoc.docs.map((doc)=>(doc.id))
+
+
+  // get [{courseID:"cn202, postID:id"}]
+  const favouriteReviewObjects = []
+  for(course of coursesArray){
+    // console.log(course)
+    ref = collection(firestore,"users",uid,"favouriteReview", course, "IDPost")
+    const postDocInCourse = await getDocs(ref)
+    postDocInCourse.docs.forEach(
+      (doc)=>{
+        const obj = {
+          postID:doc.id,
+          courseID: course
+        }
+        favouriteReviewObjects.push(obj)
+      }
+    )
+  }
+  
+  // get reviews
+  const reviews = []
+  
+  for(favObj of favouriteReviewObjects){
+    const courseID = favObj.courseID
+    const postID = favObj.postID
+
+    ref = doc(firestore, "courses", courseID, "reviews", postID)
+    const reviewDoc = await getDoc(ref);
+    reviews.push(reviewDoc.data())
+  }
+  // console.log("reviews: ", reviews)
+
+
+  return reviews;
+
+}
+
 // const getfavReview = async (uid)=>{
 //   try {
 //     // console.log(uid)
@@ -610,7 +652,7 @@ const downloadExam = async (filename) => {
 
 /* -------------------------  exams -------------------------- */
 
-export { getAllReviews, getMyReviews, createReviews, 
+export { getAllReviews, getMyReviews, createReviews, getfavReviewFromUID,
   Createcomment, uploadsheet, getAllSheets, getAllExams, 
   uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, 
   downloadExam, favReview, getfavReview, unfavReview, getfavReviewByCourseIDAndUID, getReview, delReview};
