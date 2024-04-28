@@ -35,6 +35,7 @@ const Reviews = ({ course,reviews}) => {
               Description: review.data.Description,
               likeCount: review.data.likeCount,
               commentcounts: review.data.commentcounts,
+              userID: review.data.userID,
               isLiked: null
             }));
 

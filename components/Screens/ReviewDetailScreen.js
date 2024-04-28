@@ -12,6 +12,7 @@ import {
   getAllComment,
   favReview,
   unfavReview,
+  delReview,
 } from "../../firebase/firestoreCourseDetail.js";
 
 const fetchComments = async (CourseID, reviewID) => {
@@ -30,6 +31,7 @@ const ReviewDetailScreen = ({ route }) => {
     const [comobject, setcomobject] = useState([]);
     const isFocused = useIsFocused();
     const navigation = useNavigation();
+    const [id, setid] = useState("");
 
     const [isLiked, setIsLiked] = useState(item.isLiked)
     const [likeCount, setLikeCount] = useState(item.likeCount)
@@ -37,6 +39,8 @@ const ReviewDetailScreen = ({ route }) => {
     useEffect(() => {
       const fetchAndUpdateState = async () => {
         const commentdata = await fetchComments(item.CourseID, item.reviewID);
+        const userID = await AsyncStorage.getItem('UID')
+        setid(userID);
         setcomobject(commentdata);
       };
       if (isFocused) {
@@ -77,13 +81,18 @@ const ReviewDetailScreen = ({ route }) => {
         setLikeCount(temp);
       }
     } 
-    
-
+    console.log(id)
+    console.log(route.params)
     return(
       <View style={styles.container}>
         <View style={styles.postbox}>
           <View style={{flexDirection:'column'}}>
             <View style={{height:'80%'}}>
+              {id === item.userID ? (
+                <TouchableOpacity onPress={() => { delReview(item.CourseID, item.reviewID); navigation.goBack(); }}>
+                  <Text>del</Text>
+                </TouchableOpacity>
+              ) : null}
               <View style={{flexDirection:'row'}}>
                 <Image source={require("../../assets/icons/profileBlue.png")} />
                 <Text style={{fontSize: 18,fontWeight:'bold',marginTop: 5,marginLeft:10, color: '#0C2D57',}}>{item.Author}</Text>

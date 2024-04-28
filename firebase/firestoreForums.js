@@ -46,6 +46,21 @@ const getForum = async (IDPost) => {
   }
 };
 
+const delPost= async (IDPost) => {
+  try {
+
+    const forumDocRef = doc(firestore, 'forums', IDPost);
+    
+    if (!forumDocRef.empty) {
+  
+      deleteDoc(forumDocRef)
+    } 
+
+  } catch (e) {
+    console.error("Error getting all reviews: ", e);
+    return [];
+  }
+};
 
 
 
@@ -258,4 +273,4 @@ const getAllCommentForum = async (IDPost) => {
   }
 };
 
-export { getFavPostIdListByUserUID, getAllForums, createPost, getAllCommentForum,Createcomment, getMyForums, favPost, unfavPost, getfavPost, getForum};
+export { getFavPostIdListByUserUID, getAllForums, createPost, getAllCommentForum,Createcomment, getMyForums, favPost, unfavPost, getfavPost, getForum, delPost};
