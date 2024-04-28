@@ -144,7 +144,7 @@ const ProfileMain = ({ route, setLoggedOut }) => {
           Welcome to the UniConnect Application!
         </Text>
 
-        <View style={{ flexDirection: "row", marginTop: 10 }}>
+        {/* <View style={{ flexDirection: "row", marginTop: 10 }}>
           <Image source={require("../../assets/icons/FBicon.png")} />
           <Text
             style={{
@@ -184,7 +184,7 @@ const ProfileMain = ({ route, setLoggedOut }) => {
           >
             xxxxxx xxxxxx
           </Text>
-        </View>
+        </View> */}
       </View>
 
       <View style={{ marginTop: -90 }}>
