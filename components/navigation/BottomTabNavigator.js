@@ -17,6 +17,7 @@ export const BottomTabNavigator = () => {
 
   return (
     <BottomTab.Navigator 
+      initialRouteName="Home"
       screenOptions={{ 
         headerShown: false, 
         tabBarStyle:{height:"10%", backgroundColor:"#FFB0B0"}, // Adjust the height here

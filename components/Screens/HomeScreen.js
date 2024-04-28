@@ -29,7 +29,7 @@ function CarouselNews(){
               data={paths}
               scrollAnimationDuration={1000}
               renderItem={({item}) => {
-                console.log(item)
+                // console.log(item)
                 // var image = require(item)
                 return (
                   <View
