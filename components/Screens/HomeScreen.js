@@ -57,6 +57,7 @@ function Feeds({feeds}){
     author: feed.field.author,
     Description: feed.field.Description,
     likeCount: feed.field.likeCount,
+    commentcounts:feed.field.commentcounts,
   }));
   const navigation = useNavigation();
 
@@ -74,8 +75,9 @@ function Feeds({feeds}){
               <View style={{flexDirection:"column", flex:1, backgroundColor:'#FFF8E3', marginLeft:"0.1%", padding:10, borderRadius: 15, width:"80%",borderWidth:1}} >
                 <Text style={{fontSize:18,color:'#0C2D57',fontWeight:'bold'}}>{item.author}</Text>
                 <Text style={{fontSize:18,color:'#0C2D57'}}>{item.Description}</Text>
-                <Text style={{fontSize:12, color:'#FC6736'}}>{item.likeCount} Likes 0 Comments</Text>
-              </View>
+                <Text></Text>
+                <Text style={{fontSize:12, color:'#FC6736'}}>     {item.likeCount} Likes                              {item.commentcounts} Comments</Text>
+              </View> 
               <Text style={{backgroundColor:"#EFECEC"}}></Text>
 {/* 
               <Text style={{backgroundColor:'#FFF8E3', marginLeft:"0.1%", padding:10, borderRadius: 15, width:"80%"}} >

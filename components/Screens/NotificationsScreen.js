@@ -1,16 +1,18 @@
-import { View, Text, TouchableOpacity,FlatList, Image } from "react-native";
+import { View, Text, TouchableOpacity,FlatList, Image, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native'
-import AsyncStorage from '@react-native-async-storage/async-storage';;
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   getnotify
 } from "../../firebase/firebasenotify.js";
 import {
   getReview,
+  Reviewnotempty,
 } from "../../firebase/firestoreCourseDetail.js";
 import {
   getForum, 
+  forumnotempty,
 } from "../../firebase/firestoreForums.js";
 
 export default function NotificationsScreen() {
@@ -54,44 +56,56 @@ export default function NotificationsScreen() {
 
 const Notification = ({item}) => {
   const [link, setLink] = useState([]);
+  const [notemptyreview, setreview] = useState(true);
+  const [notemptypost, setpost] = useState(true);
   const navigation = useNavigation();
 
   useEffect(() => {
     if (item.type === "review") {
       const fetchReview = async () => {
-        const reviewLink = await getReview(item.courseID, item.reviewID);
-        item ={ 
-          Author:reviewLink.Author,
-          CourseID:reviewLink.CourseID,
-          Description:reviewLink.Description,
-          commentcounts:reviewLink.commentcounts,
-          likeCount:reviewLink.likeCount,
-          userID:reviewLink.userID,
-          reviewID: item.reviewID
-        }
+        const check =  await Reviewnotempty(item.courseID, item.reviewID);
+        setreview(check);
+        if (check){
+          const reviewLink = await getReview(item.courseID, item.reviewID);
+          item ={ 
+            Author:reviewLink.Author,
+            CourseID:reviewLink.CourseID,
+            Description:reviewLink.Description,
+            commentcounts:reviewLink.commentcounts,
+            likeCount:reviewLink.likeCount,
+            userID:reviewLink.userID,
+            reviewID: item.reviewID
+          }
         
-        setLink(item);
+          setLink(item);
+        }
       };
+    
       fetchReview();
+      
     } else if (item.type === "post"){
        const fetchPost = async () => {
-          const postLink = await getForum(item.IDPost);
-          
-          post ={ 
-            field:{
-              author:postLink.author,
-              Description:postLink.Description,
-              commentcounts:postLink.commentcounts,
-              likeCount:postLink.likeCount,
-              userID:postLink.userID,
-              
-            },
-            id:item.IDPost 
-          }
-          
-          setLink(post);
+          const check =  await forumnotempty(item.IDPost);
+          setpost(check);
+          if (check){
+            const postLink = await getForum(item.IDPost);
+            post ={ 
+              field:{
+                author:postLink.author,
+                Description:postLink.Description,
+                commentcounts:postLink.commentcounts,
+                likeCount:postLink.likeCount,
+                userID:postLink.userID,
+
+              },
+              id:item.IDPost 
+            }
+            setLink(post);
+          }  
        };
-       fetchPost();
+
+      fetchPost();
+
     }
   }, [item]);
 
@@ -101,10 +115,22 @@ const Notification = ({item}) => {
       <TouchableOpacity
         
         onPress={() => { 
+           
           if (item.type === "review"){
-              navigation.navigate('ReviewDetail',{ item:link  })
+              
+              if(notemptyreview){
+                navigation.navigate('ReviewDetail',{ item:link  })
+                
+              }else{
+                Alert.alert('The review has been deleted.');
+              }
           }else if (item.type === "post"){
-            navigation.navigate('PostDetail',{ post:link  })
+            if(notemptypost){
+              navigation.navigate('PostDetail',{ post:link  })
+            }else{
+              
+              Alert.alert('The post has been deleted.');
+            }
           }
            ;}}
         style={{

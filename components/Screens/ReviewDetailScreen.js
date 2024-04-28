@@ -134,7 +134,7 @@ const ReviewDetailScreen = ({ route }) => {
       
         {/* comment post */}
         <FlatList 
-          
+          contentContainerStyle={{ paddingBottom: 100 }}
           data={comobject}
           numColumns={1}
           renderItem={({item})=>{ 

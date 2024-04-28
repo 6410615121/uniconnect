@@ -118,7 +118,7 @@ const PostDetailScreen = ({ route }) => {
               </ScrollView>
             </View>
             <View style={{height:'20%'}}>
-              <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{likeCount} Likes {post_data.commentcounts} Comments</Text>
+              <Text style={{fontSize:12, color:'#FC6736',textAlign:'right',marginRight:30}}>{likeCount} Likes     {post_data.commentcounts} Comments</Text>
             </View>
           </View>
         </View>
@@ -145,7 +145,7 @@ const PostDetailScreen = ({ route }) => {
       
         {/* comment post */}
         <FlatList 
-          
+          contentContainerStyle={{ paddingBottom: 100 }}
           data={comobject}
           numColumns={1}
           renderItem={({item})=>{ 
