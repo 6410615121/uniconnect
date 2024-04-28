@@ -502,9 +502,11 @@ const LikeScreen = ({ route }) => {
                   });}} 
                 style={{width:'100%'}}>
                   <View style={{flexDirection:'row'}}>
+                    <View style={{width:'80%',flexDirection:'row'}}>
                     <Image source={require("../../assets/icons/profileBlue.png")}/>
                     <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.data.Author}</Text>
-                    <Text style={{textAlign:'center',color:'#FC6736',padding:10,backgroundColor:'#0C2D57',borderRadius:10,marginLeft:5}}>{item.data.CourseID}</Text>
+                    </View>
+                    <View style={{width:'20%'}}><Text style={{textAlign:'center',color:'#FC6736',padding:10,backgroundColor:'#0C2D57',borderRadius:10}}>{item.data.CourseID}</Text></View>
                   </View>
                   <Text style={styles.label}>{item.data.Description}</Text>
                   <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  
@@ -652,9 +654,13 @@ const PostScreen = ({ route }) => {
              });}} 
             style={{width:'100%'}}>
               <View style={{flexDirection:'row'}}>
+              <View style={{width:'80%',flexDirection:'row'}}>
                 <Image source={require("../../assets/icons/profileBlue.png")}/>
                 <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8,marginRight:10}}>{item.data.Author}</Text>
+              </View>
+              <View style={{width:'20%'}}>
                 <Text style={{textAlign:'center',color:'#FC6736',padding:10,backgroundColor:'#0C2D57',borderRadius:10}}>{item.data.CourseID}</Text>
+              </View>
               </View>
               <Text style={styles.label}>{item.data.Description}</Text>
               <View style={{alignSelf:'center',flexDirection:'row',borderTopWidth:1}}>  

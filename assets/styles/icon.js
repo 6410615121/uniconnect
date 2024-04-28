@@ -19,10 +19,7 @@ const icons = StyleSheet.create({
         height:30,
         width:35,
     },
-    download_icon: { 
-        marginTop:-30
-    },
-
+    
 });
 
 
