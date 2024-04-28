@@ -492,7 +492,7 @@ const LikeScreen = ({ route }) => {
                  onPress={() => { navigation.navigate("ReviewDetail", {
                    item:{
                     Author: item.data.Author,
-                    comment: item.data.Description,
+                    Description: item.data.Description,
                     likeCount: item.data.likeCount,
                     commentcounts: item.data.commentcounts,
                     CourseID:item.data.CourseID,
@@ -642,7 +642,7 @@ const PostScreen = ({ route }) => {
             onPress={() => { navigation.navigate("ReviewDetail", {
               item:{
                Author: item.data.Author,
-               comment: item.data.Description,
+               Description: item.data.Description,
                likeCount: item.data.likeCount,
                commentcounts: item.data.commentcounts,
                CourseID:item.data.CourseID,
