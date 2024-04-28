@@ -571,10 +571,18 @@ const PostScreen = ({ route }) => {
   const fetchData = async () => {
     try {
       const userID = await AsyncStorage.getItem('UID')
-      const forumsData = await getMyForums(userID);
-      const reviewsData = await getMyReviews(userID);
-      setPost(forumsData);
-      setReview(reviewsData);
+      getMyForums(userID).then(
+        (forums)=>{
+        console.log("fetched forumdData");
+        setPost(forums);
+        }
+      )
+      getMyReviews(userID).then(
+        (reviews)=>{
+          console.log("fetched reviews");
+          setReview(reviews);
+        }
+      );
     } catch (error) {
       console.error("Error fetching forums:", error);
     }
