@@ -68,7 +68,7 @@ const ReviewDetailScreen = ({ route }) => {
               </ScrollView>
             </View>
             <View style={{height:'20%'}}>
-              <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{item.likeCount} Likes</Text>
+              <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{item.likeCount} Likes {item.commentcounts} Comments</Text>
             </View>
           </View>
         </View>
