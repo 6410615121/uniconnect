@@ -3,6 +3,10 @@ import { ref, uploadBytes, getDownloadURL, connectStorageEmulator, } from "fireb
 import { collection, query, where, getDocs,getDoc, addDoc, updateDoc, runTransaction, doc, setDoc, deleteDoc } from "firebase/firestore";
 //import * as FileSystem from 'expo-file-system';
 import * as Linking from 'expo-linking';
+import {
+  notifyReview
+} from "./firebasenotify.js";
+
 
 /* -------------------------  Reviews -------------------------- */
 const getAllReviews = async (IDCourse) => {
@@ -251,6 +255,7 @@ const favReview = async (uid, IDCourse, IDPost)=>{
       [IDPost]: IDPost
     });
     await likeReview(IDCourse, IDPost)
+    await notifyReview(IDCourse, IDPost,"Like your review",uid)
     
   }catch(error){
     console.error("error fav1: ", error)
