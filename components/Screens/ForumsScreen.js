@@ -15,38 +15,35 @@ import {
 } from "../../firebase/firestoreForums.js";
 
 
-function Forum( {post,} ){
+function Forum( {post} ){
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [likeCount, setLikeCount] = useState(post.field.likeCount);
   
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
 
-  const like= async (postID) => {
-    const userID = await AsyncStorage.getItem('UID')
-    await favPost(userID, postID)
-    console.log("like called on: ", postID)
+  useEffect(()=>{
+    setIsLiked(post.isLiked)
+    setLikeCount(post.field.likeCount)
+  },[isFocused])
 
-    post.isLiked = true;
+  const like = async (postID) => {
+    const userID = await AsyncStorage.getItem('UID');
+    await favPost(userID, postID);
+    console.log("like called on: ", postID);
+  
     setIsLiked(true);
-
-    const like = likeCount + 1;
-    post.field.likeCount = like;
-    setLikeCount(like);
+    setLikeCount(prevCount => prevCount + 1);
   }; 
-
+  
   const unlike = async (postID) => {
-    const userID = await AsyncStorage.getItem('UID')
-    await unfavPost(userID, postID)
-    
-    console.log("unlike called on: ", postID)
-
-    post.isLiked = false;
+    const userID = await AsyncStorage.getItem('UID');
+    await unfavPost(userID, postID);
+    console.log("unlike called on: ", postID);
+  
     setIsLiked(false);
-
-    const like = likeCount - 1;
-    post.field.likeCount = like;
-    setLikeCount(like);
-  }; 
+    setLikeCount(prevCount => prevCount - 1);
+  };
 
   const handleLikeButtonPress = async (postID) => {
     if(!isLiked){
@@ -87,8 +84,8 @@ function Forum( {post,} ){
 export default function Forums() {
   const isFocused = useIsFocused();
   const [data, setData] = useState([]);
+  const [isRefresh, setIsRefresh] = useState(false);
   const navigation = useNavigation();
-  // const [isRefresh, setIsRefresh] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -97,29 +94,27 @@ export default function Forums() {
       const userUID = await AsyncStorage.getItem("UID");
       const favPostIDList = await getFavPostIdListByUserUID(userUID);
   
-      // Create a new array with updated isLiked property
-      const updatedForumsData = forumsData.map(forum => {
-        return {
-          ...forum,
-          isLiked: favPostIDList.includes(forum.id)
-        };
-      });
-  
-      setData(updatedForumsData);
+      const newData = forumsData.map((forum) =>({
+        ...forum,
+        isLiked: favPostIDList.includes(forum.id),
+      }))
+
+      setData([...newData])
     } catch (error) {
       console.error("Error fetching forums:", error);
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchData();
-  },[])
+  }, []);
 
   useEffect(() => {
-    if (isFocused) {
+    if (isRefresh || isFocused) {
       fetchData();
+      setIsRefresh(false);
     }
-  }, [isFocused]);
+  }, [isRefresh, isFocused]);
 
 
   const handleTextInputPress = () => {
