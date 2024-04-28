@@ -63,7 +63,7 @@ function Forum( {post} ){
           onPress={() => { handleLikeButtonPress(post.id)}}
           style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
 
-          {isLiked ? <Image source={require("../../assets/icons/minilike.png")} /> : <Text>ยังไม่กด</Text>}
+          {isLiked ? <Image source={require("../../assets/icons/minilike.png")} /> : <Image source={require("../../assets/icons/unlike.png")} />}
           
           <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{likeCount} Likes</Text>
         </TouchableOpacity>
