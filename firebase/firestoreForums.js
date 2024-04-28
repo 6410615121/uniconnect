@@ -23,6 +23,32 @@ const getAllForums = async () => {
   }
 };
 
+const getForum = async (IDPost) => {
+  try {
+
+    const forumDocRef = doc(firestore, 'forums', IDPost);
+    const forumDocSnapshot = await getDoc(forumDocRef);
+
+
+    // Array to store reviews
+    let Post = [];
+
+    if (!forumDocSnapshot.empty) {
+  
+      Post = forumDocSnapshot.data();
+    } 
+
+    return Post;
+
+  } catch (e) {
+    console.error("Error getting all reviews: ", e);
+    return [];
+  }
+};
+
+
+
+
 const getMyForums = async (userID) => {
   try {
  
@@ -229,4 +255,4 @@ const getAllCommentForum = async (IDPost) => {
   }
 };
 
-export { getFavPostIdListByUserUID, getAllForums, createPost, getAllCommentForum,Createcomment, getMyForums, favPost, unfavPost, getfavPost};
+export { getFavPostIdListByUserUID, getAllForums, createPost, getAllCommentForum,Createcomment, getMyForums, favPost, unfavPost, getfavPost, getForum};

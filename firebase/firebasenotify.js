@@ -30,7 +30,9 @@ const notifyPost = async (IDPost,context,from )=>{
           Description:context,
           hasBeenClicked:false, 
           category:"reply",
-          date: datetime 
+          type:"post",
+          date: datetime ,
+          IDPost:IDPost,
         })
       }
     }catch(error){
@@ -69,7 +71,10 @@ const notifyReview = async (courseID,reviewID,context,from )=>{
         Description:context,
         hasBeenClicked:false, 
         category:"reply",
-        date: datetime 
+        type:"review",
+        date: datetime,
+        courseID:courseID,
+        reviewID:reviewID
       })
     }
   }catch(error){

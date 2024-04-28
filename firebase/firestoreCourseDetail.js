@@ -38,6 +38,34 @@ const getAllReviews = async (IDCourse) => {
   }
 };
 
+const getReview = async (IDCourse,reviewID) => {
+  try {
+
+    // Query all course documents
+    const filteredCourses = query(collection(firestore, "courses"), where("courseID", '==', IDCourse));
+    const courseQuerySnapshot = await getDocs(filteredCourses);
+
+    // Array to store reviews
+    let Reviews = [];
+
+    if (!courseQuerySnapshot.empty) {
+      const courseDoc = courseQuerySnapshot.docs[0];
+      const reviewDocRef = doc(courseDoc.ref, "reviews", reviewID);
+      
+      const reviewsQuerySnapshot = await getDoc(reviewDocRef);
+
+      Reviews = reviewsQuerySnapshot.data();
+      
+    } 
+
+    return Reviews;
+
+  } catch (e) {
+    console.error("Error getting all reviews: ", e);
+    return [];
+  }
+};
+
 const getMyReviews = async (userID) => {
   try {
     // Query all course documents
@@ -555,4 +583,4 @@ const downloadExam = async (filename) => {
 export { getAllReviews, getMyReviews, createReviews, 
   Createcomment, uploadsheet, getAllSheets, getAllExams, 
   uploadexam, getAllComment,uploadExamToStorage, uploadSheetToStorage, 
-  downloadExam, favReview, getfavReview, unfavReview, getfavReviewByCourseIDAndUID};
+  downloadExam, favReview, getfavReview, unfavReview, getfavReviewByCourseIDAndUID, getReview};

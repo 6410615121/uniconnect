@@ -121,7 +121,7 @@ const Reviews = ({ course,reviews}) => {
         numColumns={1}
         contentContainerStyle={{ paddingBottom: 100 }}
         renderItem={({item})=>{ 
-
+          //console.log(item)
           return(
             <View style={styles.postbox} >
                 <TouchableOpacity onPress={() => { navigation.navigate('ReviewDetail',{item});}} style={{width:'100%'}}>
