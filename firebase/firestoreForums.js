@@ -46,6 +46,20 @@ const getForum = async (IDPost) => {
   }
 };
 
+const forumnotempty = async (IDPost) => {
+  try {
+
+    const forumDocRef = doc(firestore, 'forums', IDPost);
+    const forumDocSnapshot = await getDoc(forumDocRef);
+    
+    return forumDocSnapshot.exists();
+
+  } catch (e) {
+    console.error("Error getting all  forums: ", e);
+    return [];
+  }
+};
+
 const delPost= async (IDPost) => {
   try {
 
@@ -284,4 +298,4 @@ const getAllCommentForum = async (IDPost) => {
   }
 };
 
-export { getFavPostIdListByUserUID, getAllForums, createPost, getAllCommentForum,Createcomment, getMyForums, favPost, unfavPost, getfavPost, getForum, delPost};
+export { getFavPostIdListByUserUID, getAllForums, createPost, getAllCommentForum,Createcomment, getMyForums, favPost, unfavPost, getfavPost, getForum, delPost, forumnotempty};
