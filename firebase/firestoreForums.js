@@ -1,7 +1,7 @@
 import { firestore } from "./firebaseConfig";
 import { addDoc, collection, getDoc, getDocs, doc, query, where, runTransaction, setDoc, deleteDoc } from "firebase/firestore";
 import {
-  notify
+  notifyPost
 } from "./firebasenotify.js";
 
 
@@ -120,7 +120,7 @@ const favPost = async (uid, IDPost)=>{
 
     await setDoc(docRef, {})
     await likePost(IDPost)
-    await notify(IDPost,"Like you Post",uid)
+    await notifyPost(IDPost,"Like your post",uid)
   }catch(error){
     console.error("error : ", error)
   }
