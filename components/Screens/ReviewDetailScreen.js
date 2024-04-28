@@ -88,14 +88,19 @@ const ReviewDetailScreen = ({ route }) => {
         <View style={styles.postbox}>
           <View style={{flexDirection:'column'}}>
             <View style={{height:'80%'}}>
-              {id === item.userID ? (
-                <TouchableOpacity onPress={() => { delReview(item.CourseID, item.reviewID); navigation.goBack(); }}>
-                  <Text>del</Text>
-                </TouchableOpacity>
-              ) : null}
+              
               <View style={{flexDirection:'row'}}>
-                <Image source={require("../../assets/icons/profileBlue.png")} />
-                <Text style={{fontSize: 18,fontWeight:'bold',marginTop: 5,marginLeft:10, color: '#0C2D57',}}>{item.Author}</Text>
+                <View style={{flexDirection:'row' ,width:'80%'}}>
+                  <Image source={require("../../assets/icons/profileBlue.png")} />
+                  <Text style={{fontSize: 18,fontWeight:'bold',marginTop: 5,marginLeft:10, color: '#0C2D57',}}>{item.Author}</Text>
+                </View>
+                <View style={{width:'20%'}}>
+                    {id === item.userID ? (
+                    <TouchableOpacity onPress={() => { delReview(item.CourseID, item.reviewID); navigation.goBack(); }}>
+                      <Text style={{textAlign:'center',color:'white',padding:5,backgroundColor:'red'}}>DELECT</Text>
+                    </TouchableOpacity>
+                  ) : null}
+                </View>
               </View>
               <ScrollView style={{height:'40%'}}>
                 <View><Text style={{fontSize:15, color:'#0C2D57',marginLeft:50,marginRight:50}}>{item.Description}</Text></View>

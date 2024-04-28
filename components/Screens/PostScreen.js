@@ -88,18 +88,30 @@ const PostDetailScreen = ({ route }) => {
   }
 
   return(
+    // <View style={{flexDirection:'row'}}>
+    //   <View style={{width:'80%',flexDirection:'row'}}>
+    //    <Image source={require("../../assets/icons/profileBlue.png")}/>
+    //    <Text style={{color:'#0C2D57',fontSize:18,fontWeight:'bold',marginLeft:10,marginTop:8}}>{item.data.Author}</Text>
+    //   </View>
+    //   <View style={{width:'20%'}}><Text style={{textAlign:'center',color:'#FC6736',padding:10,backgroundColor:'#0C2D57',borderRadius:10}}>{item.data.CourseID}</Text></View>
+    //   /View>
+
     <View style={styles.container}>
         <View style={styles.postbox}>
           <View style={{flexDirection:'column'}}>
             <View style={{height:'80%'}}>
               <View style={{flexDirection:'row'}}>
-                <Image source={require("../../assets/icons/profileBlue.png")} />
-                <Text style={{fontSize: 18,fontWeight:'bold',marginTop: 5,marginLeft:10, color: '#0C2D57',}}>{post_data.author}</Text>
-                {id === post_data.userID ? (
-                <TouchableOpacity onPress={() => { delPost(post.id); navigation.goBack(); }}>
-                  <Text>del</Text>
-                </TouchableOpacity>
-              ) : null}
+                <View style={{flexDirection:'row',width:'80%'}}>
+                  <Image source={require("../../assets/icons/profileBlue.png")} />
+                  <Text style={{fontSize: 18,fontWeight:'bold',marginTop: 5,marginLeft:10, color: '#0C2D57',}}>{post_data.author}</Text>
+                </View>
+                <View style={{width:'20%'}}>
+                  {id === post_data.userID ? (
+                  <TouchableOpacity onPress={() => { delPost(post.id); navigation.goBack(); }}>
+                    <Text style={{textAlign:'center',color:'white',padding:5,backgroundColor:'red'}}>DELECT</Text>
+                  </TouchableOpacity>
+                ) : null}
+                </View>
               </View>
               <ScrollView style={{height:'40%'}}>
                 <View><Text style={{fontSize:15, color:'#0C2D57',marginLeft:50,marginRight:50}}>{post_data.Description}</Text></View>

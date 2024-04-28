@@ -72,6 +72,17 @@ const delReview = async (IDCourse,reviewID) => {
     const filteredCourses = query(collection(firestore, "courses"), where("courseID", '==', IDCourse));
     const courseQuerySnapshot = await getDocs(filteredCourses);
 
+    const querySnapshot = await getDocs(collection(firestore, 'users'));
+
+    querySnapshot.forEach(async (userDoc) => {
+      const favouritePostRef = doc(userDoc.ref, 'favouriteReview',IDCourse,"IDPost",reviewID);
+      const favouritePostDoc = await getDoc(favouritePostRef);
+    
+      if (favouritePostDoc.exists) {
+        await deleteDoc(favouritePostRef);
+      } 
+    });
+
     if (!courseQuerySnapshot.empty) {
       const courseDoc = courseQuerySnapshot.docs[0];
       const reviewDocRef = doc(courseDoc.ref, "reviews", reviewID);
