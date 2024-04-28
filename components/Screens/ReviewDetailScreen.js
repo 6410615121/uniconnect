@@ -11,6 +11,7 @@ import {
   Createcomment,
   getAllComment,
   favReview,
+  unfavReview,
 } from "../../firebase/firestoreCourseDetail.js";
 
 const fetchComments = async (CourseID, reviewID) => {
@@ -29,6 +30,10 @@ const ReviewDetailScreen = ({ route }) => {
     const [comobject, setcomobject] = useState([]);
     const isFocused = useIsFocused();
     const navigation = useNavigation();
+
+    const [isLiked, setIsLiked] = useState(item.isLiked)
+    const [likeCount, setLikeCount] = useState(item.likeCount)
+
     useEffect(() => {
       const fetchAndUpdateState = async () => {
         const commentdata = await fetchComments(item.CourseID, item.reviewID);
@@ -46,12 +51,32 @@ const ReviewDetailScreen = ({ route }) => {
       
     }; 
 
+    const unlike= async (CourseID, postID) => {
+      const userID = await AsyncStorage.getItem('UID')
+      await unfavReview(userID, CourseID, postID)
+      
+    }; 
+
 
     const handleTextInputPress = () => {
-      
       navigation.navigate('CommentReview',{item});
-      
     };
+
+    const handleLikeButtonPress = async (CourseID, postID) =>{
+      if(isLiked){
+        await unlike(CourseID, postID)
+        setIsLiked(false);
+
+        const temp = likeCount - 1;
+        setLikeCount(temp);
+      }else{
+        await like(CourseID, postID)
+        setIsLiked(true);
+
+        const temp = likeCount + 1;
+        setLikeCount(temp);
+      }
+    } 
     
 
     return(
@@ -68,15 +93,16 @@ const ReviewDetailScreen = ({ route }) => {
               </ScrollView>
             </View>
             <View style={{height:'20%'}}>
-            <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{item.likeCount} Likes {item.commentcounts} Comments</Text>
+            <Text style={{fontSize:10, color:'#FC6736',textAlign:'right',marginRight:30}}>{likeCount} Likes {item.commentcounts} Comments</Text>
             </View>
           </View>
         </View>
 
         {/* creating comment */}
         <View style={{ flexDirection: 'row'}}>
-          <TouchableOpacity onPress={() => { like(item.CourseID, item.reviewID)}}  >   
-            <Image source={require('../../assets/icons/like.png')} style={{height:30,width:30,marginRight:10}}/>
+          {/* TODO: */}
+          <TouchableOpacity onPress={() => handleLikeButtonPress(item.CourseID, item.reviewID)}  >   
+          {isLiked ? <Image source={require('../../assets/icons/like.png')} style={{height:30,width:30,marginRight:10}}/>: <Text>ยังไม่กด</Text>}
           </TouchableOpacity>
           <TextInput
             style={{paddingLeft:10, backgroundColor: "#FFF8E3", padding: 5, width:200,borderBottomLeftRadius:15,borderTopLeftRadius:15,borderWidth:1}}
