@@ -11,6 +11,7 @@ import {
   favPost,
   unfavPost,
   getfavPost,
+  getFavPostIdListByUserUID,
 } from "../../firebase/firestoreForums.js";
 
 
@@ -62,7 +63,6 @@ function Forum( {post} ){
           onPress={() => { handleLikeButtonPress(post.id)}}
           style={{width:'50%',flexDirection:'row',justifyContent:'space-evenly',marginTop:5}}>
 
-          {/* // TODO: LIKE UNLIKE BUTTON */}
           {isLiked ? <Image source={require("../../assets/icons/minilike.png")} /> : <Text>ยังไม่กด</Text>}
           
           <Text style={{fontSize:12, color:'#FC6736',marginRight:30}}>{likeCount} Likes</Text>
@@ -83,10 +83,9 @@ export default function Forums() {
 
   const fetchData = async () => {
     try {
-      // TODO:
       const forumsData = await getAllForums();
       const userUID = await AsyncStorage.getItem("UID") 
-      const favPostIDList = await getfavPost(userUID)
+      const favPostIDList = await getFavPostIdListByUserUID(userUID)
       // console.log(favPostIDList)
 
       // Mark each forum isLiked?
