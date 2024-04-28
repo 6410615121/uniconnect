@@ -22,7 +22,6 @@ const Reviews = ({ course,reviews}) => {
   const [extractedReviews ,setExtractedReviews] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
   const navigation = useNavigation();
-  const isFocused = useIsFocused();
 
 
     const fetchData = async () => {
@@ -45,7 +44,7 @@ const Reviews = ({ course,reviews}) => {
               review.isLiked = FavReviewList.includes(review.reviewID)
             })
 
-            setExtractedReviews([...exReviews]);
+            setExtractedReviews(exReviews);
         } catch (error) {
             console.log("Error fetching favorite reviews: ", error);
         }
@@ -59,10 +58,8 @@ const Reviews = ({ course,reviews}) => {
       if (isRefresh) {
         fetchData();
         setIsRefresh(false);
-      }else if(isFocused){
-        fetchData();
       }
-    }, [isRefresh,isFocused]);
+    }, [isRefresh]);
   
 
 
@@ -314,9 +311,9 @@ const CourseDetailScreen = ({ route }) => {
       const reviewsData = await fetchReviews(course.courseID);
       const sheetsData = await fetchSheets(course.courseID);
       const examsData = await fetchExams(course.courseID);
-      setreviews([...reviewsData]);
-      setsheets([...sheetsData]);
-      setexams([...examsData]);
+      setreviews(reviewsData);
+      setsheets(sheetsData);
+      setexams(examsData);
     };
     if (isFocused) {
       fetchAndUpdateState();
