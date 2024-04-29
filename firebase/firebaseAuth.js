@@ -4,10 +4,10 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-//const auth = getAuth(firebaseApp);
- const auth = initializeAuth(firebaseApp, {
-   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
- }); 
+const auth = getAuth(firebaseApp);
+//  const auth = initializeAuth(firebaseApp, {
+//    persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+//  }); 
 
 
 const register = async (name, email, password) => {
