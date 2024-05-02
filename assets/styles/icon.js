@@ -2,11 +2,15 @@ import { StyleSheet } from 'react-native';
 
 const icons = StyleSheet.create({
     profile_icon: { 
-        marginLeft: 5,
+        marginLeft: 30,
+        width:42,
+        height:42
     },
 
     bell_icon: { 
-        marginRight:25,
+        marginRight:30,
+        width:27,
+        height:31
     },
 
     setting_icon: { 
@@ -15,13 +19,7 @@ const icons = StyleSheet.create({
         height:30,
         width:35,
     },
-    download_icon: { 
-        marginLeft: "auto",
-        marginBottom: 15,
-        height:23,
-        width:23,
-    },
-
+    
 });
 
 

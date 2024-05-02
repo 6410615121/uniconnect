@@ -3,6 +3,9 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
       padding: 20,
+      backgroundColor: '#f5f5f5', // Light gray background color
+      width:'100%',
+      height:'100%'
     },
     title: {
       fontSize: 24,
@@ -14,22 +17,34 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       marginBottom: 10,
     },
+    postbox:{
+      marginTop: 20,
+      borderRadius: 15,
+      padding: 10,
+      width:'90%',
+      height:'auto',
+      backgroundColor:'#FFF8E3',
+      alignSelf:'center',
+      borderWidth:1   
+
+    },
     filebox: {
       marginTop: 20,
-      borderWidth: 2,
-      borderColor: '#ccc',
-      borderRadius: 20,
+      borderRadius: 15,
       padding: 10,
-      width:"auto",
-      height:"auto",
-      backgroundColor:'#FFF',
+      width:'90%',
+      height:80,
+      backgroundColor:'#FFF8E3',
+      alignSelf:'center',
+      borderWidth:1
     },
     label: {
-      fontWeight: 'bold',
-      fontSize: 17,
-      marginTop: 15,
-      marginRight: 5,
-      color: '#666', // Medium gray text color
+      paddingBottom:5,
+      fontSize: 18,
+      marginTop: 5,
+      marginLeft:50,
+      marginRight: 50,
+      color: '#0C2D57', // Medium gray text color
     },
     value: {
       flex: 1,
